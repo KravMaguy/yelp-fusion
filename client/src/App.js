@@ -1,23 +1,32 @@
-import React from "react";
+import React, { useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 import logo from "./logo.svg";
 import "./App.css";
 import axios from "axios";
 function App() {
-  const [data, setData] = React.useState(null);
-
+  const location = useLocation();
+  const { pathname } = location;
+  const [data, setData] = useState([]);
   React.useEffect(() => {
-    console.log("uese");
-    axios.get("/api").then((data) => {
-      console.log(data);
-      setData(data.message);
+    axios.get("/api").then(({ data }) => {
+      setData(data.businesses);
     });
   }, []);
 
   return (
     <div className='App'>
       <header className='App-header'>
-        <img src={logo} className='App-logo' alt='logo' />
-        <p>{!data ? "Loading here..." : data}</p>
+        {data.length < 1 ? (
+          <img src={logo} className='App-logo' alt='logo' />
+        ) : (
+          data.map(function (item, i) {
+            return (
+              <Link key={item.id} to={item.name.trim().replace(/\s/g, "%20")}>
+                {item.name}
+              </Link>
+            );
+          })
+        )}
       </header>
     </div>
   );

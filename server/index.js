@@ -2,6 +2,7 @@ const express = require("express");
 const axios = require("axios");
 const PORT = process.env.PORT || 3001;
 const app = express();
+
 app.get("/api", (req, res) => {
   axios
     .get(
@@ -12,7 +13,7 @@ app.get("/api", (req, res) => {
         },
       }
     )
-    .then((res) => res.json(res.data))
+    .then((response) => res.json(response.data))
     .catch((err) => console.log("the error is: ", err.message));
 });
 
