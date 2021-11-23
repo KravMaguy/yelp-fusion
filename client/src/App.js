@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import logo from "./logo.svg";
 import "./App.css";
 import axios from "axios";
+import Buisness from "./Buisness";
 function App() {
   const location = useLocation();
   const { pathname } = location;
@@ -16,17 +17,24 @@ function App() {
   return (
     <div className='App'>
       <header className='App-header'>
-        {data.length < 1 ? (
-          <img src={logo} className='App-logo' alt='logo' />
-        ) : (
-          data.map(function (item, i) {
-            return (
-              <Link key={item.id} to={item.name.trim().replace(/\s/g, "%20")}>
-                {item.name}
-              </Link>
-            );
-          })
+        {pathname !== "/" && (
+          <Buisness name={pathname.slice(1).replace(/%20/g, " ")} data={data} />
         )}
+        {pathname === "/" &&
+          (data.length < 1 ? (
+            <img src={logo} className='App-logo' alt='logo' />
+          ) : (
+            data.map((buisness) => {
+              return (
+                <Link
+                  key={buisness.id}
+                  to={buisness.name.trim().replace(/\s/g, "%20")}
+                >
+                  {buisness.name}
+                </Link>
+              );
+            })
+          ))}
       </header>
     </div>
   );

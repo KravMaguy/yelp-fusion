@@ -1,7 +1,9 @@
 const express = require("express");
 const axios = require("axios");
+require("dotenv").config();
 const PORT = process.env.PORT || 3001;
 const app = express();
+const token = process.env.TOKEN;
 
 app.get("/api", (req, res) => {
   axios
