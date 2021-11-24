@@ -23,7 +23,6 @@ function App() {
       setLoading(false);
       setData(data.businesses);
     } catch (error) {
-      console.log("err message", error);
       setLoading(false);
       setError(error.message);
     }
@@ -39,7 +38,11 @@ function App() {
             type='text'
             name='name'
           />
-          <input type='submit' value='Submit' disabled={loading} />
+          <input
+            type='submit'
+            value='Submit'
+            disabled={loading || term.length < 1}
+          />
         </form>
       )}
 
