@@ -11,57 +11,63 @@ function App() {
 
   const [term, setTerm] = useState("");
   const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("handlesubmit with your input: ", term);
+    setLoading(true);
     try {
       const terms = { term };
       const { data } = await axios.post("/api/", terms);
-      console.log("recieved from backend: ", data);
+      setLoading(false);
       setData(data.businesses);
     } catch (error) {
-      // setIsError(true)
-      // setError(error.response.data.message)
-      console.log(error, "the error");
+      console.log("err message", error);
+      setLoading(false);
+      setError(error.message);
     }
   };
 
   return (
     <div className='App'>
-      <header className='App-header'>
-        {pathname === "/" && (
-          <form onSubmit={(e) => handleSubmit(e)}>
-            <input
-              onChange={(e) => setTerm(e.target.value)}
-              placeholder='Search in Naperville'
-              type='text'
-              name='name'
-            />
-            <input type='submit' value='Submit' />
-          </form>
-        )}
+      {pathname === "/" && (
+        <form onSubmit={(e) => handleSubmit(e)}>
+          <input
+            onChange={(e) => setTerm(e.target.value)}
+            placeholder='Search in Naperville'
+            type='text'
+            name='name'
+          />
+          <input type='submit' value='Submit' disabled={loading} />
+        </form>
+      )}
 
-        {pathname !== "/" && (
-          <Buisness name={pathname.slice(1).replace(/%20/g, " ")} data={data} />
-        )}
+      {pathname !== "/" && (
+        <Buisness name={pathname.slice(1).replace(/%20/g, " ")} data={data} />
+      )}
 
-        {pathname === "/" &&
-          (data.length < 1 ? (
-            <img src={logo} className='App-logo' alt='logo' />
-          ) : (
-            data.map((buisness) => {
-              return (
-                <Link
-                  key={buisness.id}
-                  to={buisness.name.trim().replace(/\s/g, "%20")}
-                >
-                  {buisness.name}
-                </Link>
-              );
-            })
-          ))}
-      </header>
+      {error === "" ? (
+        pathname === "/" &&
+        (loading ? (
+          <img src={logo} className='App-logo' alt='logo' />
+        ) : data.length > 0 ? (
+          data.map((buisness) => {
+            return (
+              <Link
+                key={buisness.id}
+                to={buisness.name.trim().replace(/\s/g, "%20")}
+              >
+                {buisness.name}
+              </Link>
+            );
+          })
+        ) : (
+          <p>no buisnesses match this search term please try again</p>
+        ))
+      ) : (
+        <p style={{ color: "red" }}>{error}</p>
+      )}
     </div>
   );
 }

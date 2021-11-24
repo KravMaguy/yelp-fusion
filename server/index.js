@@ -26,7 +26,7 @@ app.use("/api/", async (req, res, next) => {
       }
     )
     .then((response) => res.json(response.data))
-    .catch((err) => console.log("the error is: ", err.message));
+    .catch((err) => res.error(err.message));
 });
 
 app.listen(port, () => console.log(`App is running on port ${port}`));
