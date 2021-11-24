@@ -37,6 +37,7 @@ function App() {
             placeholder='Search in Naperville'
             type='text'
             name='name'
+            value={term}
           />
           <input
             type='submit'
