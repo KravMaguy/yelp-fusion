@@ -10,7 +10,6 @@ const port = process.env.PORT || 3001;
 app.use(cors());
 app.use(express.json());
 const token = process.env.TOKEN;
-
 app.use("/api/", async (req, res, next) => {
   const body = req.body;
   const { term } = body;
@@ -26,7 +25,7 @@ app.use("/api/", async (req, res, next) => {
       }
     )
     .then((response) => res.json(response.data))
-    .catch((err) => res.error(err.message));
+    .catch((err) => res.status(err.response.status).send(err.message));
 });
 
 app.listen(port, () => console.log(`App is running on port ${port}`));
