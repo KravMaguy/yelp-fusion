@@ -1,14 +1,24 @@
+const dotenv = require("dotenv");
+dotenv.config();
 const express = require("express");
+const cors = require("cors");
 const axios = require("axios");
-require("dotenv").config();
-const PORT = process.env.PORT || 3001;
 const app = express();
+
+const port = process.env.PORT || 3001;
+
+app.use(cors());
+app.use(express.json());
 const token = process.env.TOKEN;
 
-app.get("/api", (req, res) => {
+app.use("/api/", async (req, res, next) => {
+  const body = req.body;
+  const { term } = body;
   axios
     .get(
-      "https://api.yelp.com/v3/businesses/search?term=delis&latitude=37.786882&longitude=-122.399972",
+      "https://api.yelp.com/v3/businesses/search?term=" +
+        term +
+        "&location=Naperville",
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -19,6 +29,4 @@ app.get("/api", (req, res) => {
     .catch((err) => console.log("the error is: ", err.message));
 });
 
-app.listen(PORT, () => {
-  console.log(`Server listening on ${PORT}`);
-});
+app.listen(port, () => console.log(`App is running on port ${port}`));
