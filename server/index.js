@@ -26,4 +26,16 @@ app.use("/api/", async (req, res, next) => {
     .catch((err) => res.status(err.response.status).send(err.message));
 });
 
+app.use("/buisnesses/:id", async (req, res, next) => {
+  const { id } = req.params;
+  axios
+    .get(`https://api.yelp.com/v3/businesses/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    .then((response) => res.json(response.data))
+    .catch((err) => res.status(err.response.status).send(err.message));
+});
+
 app.listen(port, () => console.log(`App is running on port ${port}`));

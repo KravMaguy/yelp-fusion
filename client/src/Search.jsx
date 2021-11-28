@@ -43,17 +43,13 @@ const Search = ({ data, setData }) => {
         ) : data.length > 0 ? (
           data.map((buisness) => {
             return (
-              <Link
-                key={buisness.id}
-                // to={buisness.name.trim().replace(/\s/g, "%20")}
-                to={`buisness/${buisness.id}`}
-              >
+              <Link key={buisness.id} to={`buisness/${buisness.id}`}>
                 {buisness.name}
               </Link>
             );
           })
         ) : (
-          <p>no buisnesses match this search term please try again</p>
+          <p>please enter a keyword to search</p>
         )
       ) : (
         <p style={{ color: "red" }}>{error}</p>

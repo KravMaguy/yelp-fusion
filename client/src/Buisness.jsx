@@ -1,19 +1,56 @@
-// name={pathname.slice(1).replace(/%20/g, " ")}
 import { useParams } from "react-router";
-const Buisness = ({ data, name }) => {
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+
+const Buisness = ({ data }) => {
+  let navigate = useNavigate();
+  const [buisnessData, setBuisnessData] = useState();
+  const [loading, setLoading] = useState(true);
   const { id } = useParams();
-  const buisness = data.find((buisness) => buisness.id === id);
-  console.log(buisness);
-  // const { phone, rating, image_url } = buisness || "";
+  const buisness = data.find((Buisness) => Buisness.id === id);
+
+  useEffect(() => {
+    const source = axios.CancelToken.source();
+    if (data.length < 1) {
+      source.cancel();
+      return navigate("/");
+    }
+    const fetchBuisness = async () => {
+      const { data } = await axios.get(`/buisnesses/${id}`);
+      setBuisnessData(data);
+      setLoading(false);
+    };
+    fetchBuisness();
+  }, [id, data.length, navigate]);
+
   return (
     <div>
-      {/* <img src={image_url} alt={name} style={{ width: "300px" }} />
-      <ul style={{ listStyleType: "none" }}>
-        <li>{rating}⭐</li>
-        <li>{name}</li>
-        <li>{phone}</li>
-      </ul> */}
-      I will be the buisness component
+      {loading ? (
+        `fetching info ${buisness?.name} `
+      ) : (
+        <>
+          <h1>{buisness.name}</h1>
+          <ul style={{ listStyleType: "none" }}>
+            {buisnessData?.rating && <li>{buisnessData.rating}⭐</li>}
+            {<li>closed now: {buisnessData.is_closed.toString()}</li>}
+            {buisnessData?.phone && <li>{buisnessData.phone}</li>}
+            {buisnessData?.price && <li>{buisnessData.price}</li>}
+          </ul>
+          {buisnessData?.photos ? (
+            <div class='gallery'>
+              {buisnessData.photos.map((photo) => (
+                <img
+                  className='gallery__img'
+                  src={photo}
+                  alt={photo}
+                  width='300px'
+                />
+              ))}
+            </div>
+          ) : null}
+        </>
+      )}
     </div>
   );
 };
