@@ -2,6 +2,7 @@ const dotenv = require("dotenv");
 dotenv.config();
 const express = require("express");
 const axios = require("axios");
+axios.defaults.headers.common["Authorization"] = `Bearer ${process.env.token}`;
 const app = express();
 
 const port = process.env.PORT || 3001;
@@ -15,12 +16,7 @@ app.use("/api/", async (req, res, next) => {
     .get(
       "https://api.yelp.com/v3/businesses/search?term=" +
         term +
-        "&location=Naperville",
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
+        "&location=Naperville"
     )
     .then((response) => res.json(response.data))
     .catch((err) => res.status(err.response.status).send(err.message));
@@ -29,11 +25,7 @@ app.use("/api/", async (req, res, next) => {
 app.use("/buisnesses/:id", async (req, res, next) => {
   const { id } = req.params;
   axios
-    .get(`https://api.yelp.com/v3/businesses/${id}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
+    .get(`https://api.yelp.com/v3/businesses/${id}`)
     .then((response) => res.json(response.data))
     .catch((err) => res.status(err.response.status).send(err.message));
 });
