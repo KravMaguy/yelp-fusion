@@ -11,7 +11,7 @@ const port = process.env.PORT || 3001;
 
 app.use(express.json());
 const token = process.env.TOKEN;
-app.use("/api/", async (req, res, next) => {
+app.post("/api/", async (req, res) => {
   const body = req.body;
   const { term } = body;
   axios
@@ -20,7 +20,7 @@ app.use("/api/", async (req, res, next) => {
     .catch((err) => res.status(err.response.status).send(err.message));
 });
 
-app.use("/buisnesses/:id", async (req, res, next) => {
+app.get("/buisnesses/:id", async (req, res) => {
   const { id } = req.params;
   axios
     .get(`/${id}`)
