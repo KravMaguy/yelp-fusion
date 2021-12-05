@@ -1,18 +1,19 @@
 import { useParams } from "react-router";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 
-const Buisness = ({ data }) => {
+const Buisness = ({ initialRequest }) => {
   let navigate = useNavigate();
+  const location = useLocation();
+  const businessName = location.state.businessName;
+
   const [buisnessData, setBuisnessData] = useState();
   const [loading, setLoading] = useState(true);
   const { id } = useParams();
-  const buisness = data.find((Buisness) => Buisness.id === id);
-
   useEffect(() => {
     const source = axios.CancelToken.source();
-    if (data.length < 1) {
+    if (!initialRequest) {
       source.cancel();
       return navigate("/");
     }
@@ -22,15 +23,15 @@ const Buisness = ({ data }) => {
       setLoading(false);
     };
     fetchBuisness();
-  }, [id, data.length, navigate]);
+  }, [id, initialRequest, navigate]);
 
   return (
     <div>
       {loading ? (
-        `fetching info ${buisness?.name} `
+        businessName
       ) : (
         <>
-          <h1>{buisness.name}</h1>
+          <h1>{buisnessData.name}</h1>
           <ul style={{ listStyleType: "none" }}>
             {buisnessData?.rating && <li>{buisnessData.rating}⭐</li>}
             {<li>closed now: {buisnessData.is_closed.toString()}</li>}

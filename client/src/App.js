@@ -11,8 +11,7 @@ import Buisness from "./Buisness";
 import Search from "./Search";
 
 function App() {
-  const [data, setData] = useState([]);
-
+  const [initialReq, setInitialReq] = useState(false);
   return (
     <div className='App'>
       <Router>
@@ -20,9 +19,12 @@ function App() {
           <Route
             path='/'
             exact
-            element={<Search data={data} setData={setData} />}
+            element={<Search setInitialReq={setInitialReq} />}
           />
-          <Route path='/buisness/:id' element={<Buisness data={data} />} />
+          <Route
+            path='/buisness/:id'
+            element={<Buisness initialRequest={initialReq} />}
+          />
           <Route path='*' element={<Navigate to='/' />} />
         </Routes>
       </Router>

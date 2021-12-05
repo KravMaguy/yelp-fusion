@@ -3,10 +3,12 @@ import axios from "axios";
 import logo from "./logo.svg";
 import { Link } from "react-router-dom";
 
-const Search = ({ data, setData }) => {
+const Search = ({ setInitialReq }) => {
+  const [data, setData] = useState([]);
   const [term, setTerm] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -15,6 +17,7 @@ const Search = ({ data, setData }) => {
       const { data } = await axios.post("/api/", terms);
       setLoading(false);
       setData(data.businesses);
+      setInitialReq(true);
     } catch (error) {
       setLoading(false);
       setError(error.message);
@@ -43,7 +46,11 @@ const Search = ({ data, setData }) => {
         ) : data.length > 0 ? (
           data.map((buisness) => {
             return (
-              <Link key={buisness.id} to={`buisness/${buisness.id}`}>
+              <Link
+                key={buisness.id}
+                state={{ businessesName: buisness.name }}
+                to={`buisness/${buisness.id}`}
+              >
                 {buisness.name}
               </Link>
             );
