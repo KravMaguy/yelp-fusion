@@ -6,15 +6,13 @@ import axios from "axios";
 const Buisness = ({ initialRequest }) => {
   let navigate = useNavigate();
   const location = useLocation();
-  const businessName = location.state.businessName;
-
+  const businessName = location.state.businessesName;
   const [buisnessData, setBuisnessData] = useState();
   const [loading, setLoading] = useState(true);
   const { id } = useParams();
+
   useEffect(() => {
-    const source = axios.CancelToken.source();
     if (!initialRequest) {
-      source.cancel();
       return navigate("/");
     }
     const fetchBuisness = async () => {
@@ -25,33 +23,34 @@ const Buisness = ({ initialRequest }) => {
     fetchBuisness();
   }, [id, initialRequest, navigate]);
 
+  const { name, rating, is_closed, phone, price, photos } = buisnessData || {};
+
   return (
     <div>
-      {loading ? (
-        businessName
-      ) : (
-        <>
-          <h1>{buisnessData.name}</h1>
-          <ul style={{ listStyleType: "none" }}>
-            {buisnessData?.rating && <li>{buisnessData.rating}⭐</li>}
-            {<li>closed now: {buisnessData.is_closed.toString()}</li>}
-            {buisnessData?.phone && <li>{buisnessData.phone}</li>}
-            {buisnessData?.price && <li>{buisnessData.price}</li>}
-          </ul>
-          {buisnessData?.photos ? (
-            <div class='gallery'>
-              {buisnessData.photos.map((photo) => (
-                <img
-                  className='gallery__img'
-                  src={photo}
-                  alt={photo}
-                  width='300px'
-                />
-              ))}
-            </div>
-          ) : null}
-        </>
-      )}
+      {loading
+        ? `loading ${businessName}`
+        : buisnessData && (
+            <>
+              <h1>{name}</h1>
+              <ul style={{ listStyleType: "none" }}>
+                {<li>{rating}⭐</li>}
+                {<li>closed now: {is_closed.toString()}</li>}
+                {<li>{phone}</li>}
+                {<li>{price}</li>}
+                <div className='gallery'>
+                  {photos.map((photo) => (
+                    <img
+                      key={photo}
+                      className='gallery__img'
+                      src={photo}
+                      alt={photo}
+                      width='300px'
+                    />
+                  ))}
+                </div>
+              </ul>
+            </>
+          )}
     </div>
   );
 };
