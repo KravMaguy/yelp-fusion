@@ -2,8 +2,10 @@ import { useState } from "react";
 import axios from "axios";
 import logo from "./logo.svg";
 import { Link } from "react-router-dom";
+import Register from "./Register.jsx";
 
 const Search = ({ setInitialReq }) => {
+  const [register, setRegister] = useState(false);
   const [data, setData] = useState([]);
   const [term, setTerm] = useState("");
   const [loading, setLoading] = useState(false);
@@ -25,6 +27,10 @@ const Search = ({ setInitialReq }) => {
   };
   return (
     <>
+      <button onClick={() => setRegister(!register)}>
+        {register ? "X" : "Claim Buisness"}
+      </button>
+      {register && <Register />}
       <form onSubmit={(e) => handleSubmit(e)}>
         <input
           onChange={(e) => setTerm(e.target.value)}
