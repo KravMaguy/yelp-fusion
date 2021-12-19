@@ -10,15 +10,19 @@ const Search = ({ setInitialReq }) => {
   const [term, setTerm] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [place, setPlace] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     try {
-      const terms = { term };
+      console.log(term, "term");
+      const terms = { term, place };
+      console.log(terms, "terms");
       const { data } = await axios.post("/api/", terms);
       setLoading(false);
       setData(data.businesses);
+      console.log("buisnesses: ", data.businesses);
       setInitialReq(true);
     } catch (error) {
       setLoading(false);
@@ -33,8 +37,15 @@ const Search = ({ setInitialReq }) => {
       {register && <Register />}
       <form onSubmit={(e) => handleSubmit(e)}>
         <input
+          onChange={(e) => setPlace(e.target.value)}
+          placeholder='Enter place to search'
+          type='text'
+          name='place'
+          value={place}
+        />
+        <input
           onChange={(e) => setTerm(e.target.value)}
-          placeholder='Search in Naperville'
+          placeholder={`Search in ${place}`}
           type='text'
           name='name'
           value={term}
@@ -50,17 +61,25 @@ const Search = ({ setInitialReq }) => {
         loading ? (
           <img src={logo} className='App-logo' alt='logo' />
         ) : data.length > 0 ? (
-          data.map((buisness) => {
-            return (
-              <Link
-                key={buisness.id}
-                state={{ businessesName: buisness.name }}
-                to={`buisness/${buisness.id}`}
-              >
-                {buisness.name}
-              </Link>
-            );
-          })
+          <ul
+            style={{
+              listStyleType: "none",
+            }}
+          >
+            {data.map((buisness) => {
+              return (
+                <li>
+                  <Link
+                    key={buisness.id}
+                    state={{ businessesName: buisness.name }}
+                    to={`buisness/${buisness.id}`}
+                  >
+                    {buisness.name}
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
         ) : (
           <p>please enter a keyword to search</p>
         )

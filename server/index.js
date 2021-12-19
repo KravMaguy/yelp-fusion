@@ -13,9 +13,9 @@ app.use(express.json());
 const token = process.env.TOKEN;
 app.post("/api/", async (req, res) => {
   const body = req.body;
-  const { term } = body;
+  const { term, place } = body;
   axios
-    .get("/search?term=" + term + "&location=Naperville")
+    .get("/search?term=" + term + "&location=" + place)
     .then((response) => res.json(response.data))
     .catch((err) => res.status(err.response.status).send(err.message));
 });
