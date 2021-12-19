@@ -12,6 +12,7 @@ const center = {
 };
 
 export default function Map(props) {
+  console.log("key: ", process.env.REACT_APP_GOOGLE_MAP_API_KEY);
   return (
     <LoadScript googleMapsApiKey={process.env.REACT_APP_GOOGLE_MAP_API_KEY}>
       <GoogleMap
@@ -25,5 +26,3 @@ export default function Map(props) {
     </LoadScript>
   );
 }
-
-// export default React.memo(Map);

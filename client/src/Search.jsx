@@ -17,13 +17,10 @@ const Search = ({ setInitialReq }) => {
     e.preventDefault();
     setLoading(true);
     try {
-      console.log(term, "term");
       const terms = { term, place };
-      console.log(terms, "terms");
       const { data } = await axios.post("/api/", terms);
       setLoading(false);
       setData(data.businesses);
-      console.log("buisnesses: ", data.businesses);
       setInitialReq(true);
     } catch (error) {
       setLoading(false);
@@ -32,7 +29,9 @@ const Search = ({ setInitialReq }) => {
   };
   return (
     <>
-      <Map options={{ disableDefaultUI: true }} />
+      <div style={{ height: "200px", width: "500px" }}>
+        <Map options={{ disableDefaultUI: true }} />
+      </div>
       <button onClick={() => setRegister(!register)}>
         {register ? "X" : "Claim Buisness"}
       </button>
