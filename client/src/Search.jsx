@@ -12,6 +12,10 @@ const Search = ({ setInitialReq }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [place, setPlace] = useState("");
+  const [center, setCenter] = useState({
+    lat: 41.8789,
+    lng: -87.6359,
+  });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -20,17 +24,22 @@ const Search = ({ setInitialReq }) => {
       const terms = { term, place };
       const { data } = await axios.post("/api/", terms);
       setLoading(false);
-      setData(data.businesses);
+      const { businesses, region } = data;
+      const { center } = region;
+      const { longitude, latitude } = center;
+      setCenter({ lat: latitude, lng: longitude });
+      setData(businesses);
       setInitialReq(true);
     } catch (error) {
       setLoading(false);
       setError(error.message);
     }
   };
+
   return (
     <>
-      <div style={{ height: "200px", width: "500px" }}>
-        <Map options={{ disableDefaultUI: true }} />
+      <div style={{ height: "35vh", width: "100vw" }}>
+        <Map center={center} />
       </div>
       <button onClick={() => setRegister(!register)}>
         {register ? "X" : "Claim Buisness"}

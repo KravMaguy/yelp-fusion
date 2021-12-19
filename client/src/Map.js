@@ -6,21 +6,11 @@ const containerStyle = {
   height: "100%",
 };
 
-const center = {
-  lat: 42.02793,
-  lng: -87.71965,
-};
-
 export default function Map(props) {
-  console.log("key: ", process.env.REACT_APP_GOOGLE_MAP_API_KEY);
+  const { center } = props;
   return (
     <LoadScript googleMapsApiKey={process.env.REACT_APP_GOOGLE_MAP_API_KEY}>
-      <GoogleMap
-        mapContainerStyle={containerStyle}
-        center={center}
-        zoom={14}
-        {...props}
-      >
+      <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={14}>
         <>{props.children}</>
       </GoogleMap>
     </LoadScript>
