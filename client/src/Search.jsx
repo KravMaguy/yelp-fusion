@@ -3,6 +3,7 @@ import axios from "axios";
 import logo from "./logo.svg";
 import { Link } from "react-router-dom";
 import Register from "./Register.jsx";
+import Map from "./Map";
 
 const Search = ({ setInitialReq }) => {
   const [register, setRegister] = useState(false);
@@ -31,6 +32,7 @@ const Search = ({ setInitialReq }) => {
   };
   return (
     <>
+      <Map options={{ disableDefaultUI: true }} />
       <button onClick={() => setRegister(!register)}>
         {register ? "X" : "Claim Buisness"}
       </button>
