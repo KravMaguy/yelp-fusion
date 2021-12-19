@@ -38,34 +38,79 @@ const Search = ({ setInitialReq }) => {
 
   return (
     <>
-      <div style={{ height: "35vh", width: "100vw" }}>
+      {error === "" && !loading && data.length === 0 && (
+        <p>search a location</p>
+      )}
+      <div
+        style={{
+          margin: "auto",
+          marginTop: "20px",
+          width: "70vw",
+          padding: "20px",
+          boxShadow:
+            "inset 0 -3em 3em rgba(0,0,0,0.1),\n            0 0  0 2px rgb(255,255,255),\n             0.3em 0.3em 1em rgba(0,0,0,0.3)",
+        }}
+      >
+        <form onSubmit={(e) => handleSubmit(e)}>
+          <div
+            className='search-inputs'
+            style={{
+              margin: "auto",
+              padding: "6px",
+              boxShadow:
+                "inset 0 -3em 3em rgba(0,0,0,0.1),\n            0 0  0 2px rgb(255,255,255),\n             0.3em 0.3em 1em rgba(0,0,0,0.3)",
+            }}
+          >
+            <input
+              onChange={(e) => setPlace(e.target.value)}
+              placeholder='Enter place to search'
+              type='text'
+              name='place'
+              value={place}
+            />
+            <input
+              onChange={(e) => setTerm(e.target.value)}
+              placeholder={`Search in ${place}`}
+              type='text'
+              name='name'
+              value={term}
+            />
+          </div>
+          <div
+            className='submit-container'
+            style={{
+              margin: "auto",
+              marginTop: "10px",
+            }}
+          >
+            <input
+              style={{ width: "100%", color: "green" }}
+              type='submit'
+              value='Submit'
+              disabled={loading || term.length < 1}
+            />
+          </div>
+        </form>
+      </div>
+
+      <div
+        style={{
+          margin: "auto",
+          marginTop: "20px",
+
+          height: "35vh",
+          width: "70vw",
+          padding: "20px",
+          boxShadow:
+            "inset 0 -3em 3em rgba(0,0,0,0.1),\n            0 0  0 2px rgb(255,255,255),\n             0.3em 0.3em 1em rgba(0,0,0,0.3)",
+        }}
+      >
         <Map center={center} />
       </div>
-      <button onClick={() => setRegister(!register)}>
+      {/* <button onClick={() => setRegister(!register)}>
         {register ? "X" : "Claim Buisness"}
       </button>
-      {register && <Register />}
-      <form onSubmit={(e) => handleSubmit(e)}>
-        <input
-          onChange={(e) => setPlace(e.target.value)}
-          placeholder='Enter place to search'
-          type='text'
-          name='place'
-          value={place}
-        />
-        <input
-          onChange={(e) => setTerm(e.target.value)}
-          placeholder={`Search in ${place}`}
-          type='text'
-          name='name'
-          value={term}
-        />
-        <input
-          type='submit'
-          value='Submit'
-          disabled={loading || term.length < 1}
-        />
-      </form>
+      {register && <Register />} */}
 
       {error === "" ? (
         loading ? (
@@ -90,9 +135,7 @@ const Search = ({ setInitialReq }) => {
               );
             })}
           </ul>
-        ) : (
-          <p>please enter a keyword to search</p>
-        )
+        ) : null
       ) : (
         <p style={{ color: "red" }}>{error}</p>
       )}
