@@ -12,6 +12,7 @@ const Search = ({ setInitialReq }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [place, setPlace] = useState("");
+  const [isModalShowing, setisModalShowing] = useState(false);
   const [center, setCenter] = useState({
     lat: 41.8789,
     lng: -87.6359,
@@ -29,11 +30,16 @@ const Search = ({ setInitialReq }) => {
       const { longitude, latitude } = center;
       setCenter({ lat: latitude, lng: longitude });
       setData(businesses);
+      setisModalShowing(true);
       setInitialReq(true);
     } catch (error) {
       setLoading(false);
       setError(error.message);
     }
+  };
+  const handleModalOpen = (e) => {
+    e.preventDefault();
+    setisModalShowing(true);
   };
 
   return (
@@ -90,6 +96,24 @@ const Search = ({ setInitialReq }) => {
               disabled={loading || term.length < 1}
             />
           </div>
+          {data.length > 0 && (
+            <div
+              className='open-container'
+              style={{
+                margin: "auto",
+                marginTop: "10px",
+              }}
+            >
+              <button
+                style={{ width: "100%", color: "green" }}
+                value='Open'
+                disabled={loading || term.length < 1}
+                onClick={(e) => handleModalOpen(e)}
+              >
+                Open Modal
+              </button>
+            </div>
+          )}
         </form>
       </div>
 
@@ -115,26 +139,56 @@ const Search = ({ setInitialReq }) => {
       {error === "" ? (
         loading ? (
           <img src={logo} className='App-logo' alt='logo' />
-        ) : data.length > 0 ? (
-          <ul
+        ) : data.length > 0 && isModalShowing ? (
+          <div
+            class='modal'
             style={{
-              listStyleType: "none",
+              position: "fixed",
+              zIndex: "1",
+              paddingTop: "5vh",
+              left: "0",
+              top: "0",
+              width: "100%",
+              height: "100%",
+              overflow: "auto",
+              backgroundColor: "rgba(0,0,0,0.4)",
             }}
           >
-            {data.map((buisness) => {
-              return (
-                <li>
-                  <Link
-                    key={buisness.id}
-                    state={{ businessesName: buisness.name }}
-                    to={`buisness/${buisness.id}`}
-                  >
-                    {buisness.name}
-                  </Link>
-                </li>
-              );
-            })}
-          </ul>
+            <div
+              class='modal-content'
+              style={{
+                backgroundColor: "#fefefe",
+                margin: "auto",
+                padding: "20px",
+                border: "1px solid #888",
+                width: "80%",
+              }}
+            >
+              <span class='close' onClick={() => setisModalShowing(false)}>
+                &times;
+              </span>
+              <p>Some text in the Modal..</p>
+              <ul
+                style={{
+                  listStyleType: "none",
+                }}
+              >
+                {data.map((buisness) => {
+                  return (
+                    <li>
+                      <Link
+                        key={buisness.id}
+                        state={{ businessesName: buisness.name }}
+                        to={`buisness/${buisness.id}`}
+                      >
+                        {buisness.name}
+                      </Link>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+          </div>
         ) : null
       ) : (
         <p style={{ color: "red" }}>{error}</p>
