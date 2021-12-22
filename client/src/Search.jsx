@@ -5,9 +5,9 @@ import { Link } from "react-router-dom";
 import Register from "./Register.jsx";
 import Map from "./Map";
 
-const Search = ({ setInitialReq }) => {
+const Search = ({ setInitialReq, data, setData }) => {
   const [register, setRegister] = useState(false);
-  const [data, setData] = useState([]);
+  // const [data, setData] = useState([]);
   const [term, setTerm] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -17,7 +17,7 @@ const Search = ({ setInitialReq }) => {
     lat: 41.8789,
     lng: -87.6359,
   });
-
+  console.log("data: ", data);
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -48,23 +48,20 @@ const Search = ({ setInitialReq }) => {
         <p>search a location</p>
       )}
       <div
+        className='shadow'
         style={{
           margin: "auto",
           marginTop: "20px",
           width: "70vw",
           padding: "20px",
-          boxShadow:
-            "inset 0 -3em 3em rgba(0,0,0,0.1),\n            0 0  0 2px rgb(255,255,255),\n             0.3em 0.3em 1em rgba(0,0,0,0.3)",
         }}
       >
         <form onSubmit={(e) => handleSubmit(e)}>
           <div
-            className='search-inputs'
+            className='search-inputs shadow'
             style={{
               margin: "auto",
               padding: "6px",
-              boxShadow:
-                "inset 0 -3em 3em rgba(0,0,0,0.1),\n            0 0  0 2px rgb(255,255,255),\n             0.3em 0.3em 1em rgba(0,0,0,0.3)",
             }}
           >
             <input
@@ -107,7 +104,7 @@ const Search = ({ setInitialReq }) => {
               <button
                 style={{ width: "100%", color: "green" }}
                 value='Open'
-                disabled={loading || term.length < 1}
+                disabled={loading}
                 onClick={(e) => handleModalOpen(e)}
               >
                 Open Modal
@@ -118,6 +115,7 @@ const Search = ({ setInitialReq }) => {
       </div>
 
       <div
+        className='shadow'
         style={{
           margin: "auto",
           marginTop: "20px",
@@ -125,8 +123,6 @@ const Search = ({ setInitialReq }) => {
           height: "35vh",
           width: "70vw",
           padding: "20px",
-          boxShadow:
-            "inset 0 -3em 3em rgba(0,0,0,0.1),\n            0 0  0 2px rgb(255,255,255),\n             0.3em 0.3em 1em rgba(0,0,0,0.3)",
         }}
       >
         <Map center={center} />

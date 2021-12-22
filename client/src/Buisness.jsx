@@ -1,6 +1,6 @@
 import { useParams } from "react-router";
 import { useEffect, useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, Link } from "react-router-dom";
 import axios from "axios";
 
 const Buisness = ({ initialRequest }) => {
@@ -27,6 +27,7 @@ const Buisness = ({ initialRequest }) => {
 
   return (
     <div>
+      <Link to={`/`}>Home</Link>
       {loading
         ? `loading ${businessName}`
         : buisnessData && (
