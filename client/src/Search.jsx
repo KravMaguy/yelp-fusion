@@ -5,19 +5,74 @@ import { Link } from "react-router-dom";
 import Register from "./Register.jsx";
 import Map from "./Map";
 
-const Search = ({ setInitialReq, data, setData }) => {
-  const [register, setRegister] = useState(false);
-  // const [data, setData] = useState([]);
+const SearchPage = ({ setInitialReq, data, setData }) => {
+  const [place, setPlace] = useState("");
   const [term, setTerm] = useState("");
+  const [register, setRegister] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [place, setPlace] = useState("");
   const [isModalShowing, setisModalShowing] = useState(false);
   const [center, setCenter] = useState({
     lat: 41.8789,
     lng: -87.6359,
   });
-  console.log("data: ", data);
+
+  return (
+    <>
+      {error === "" && !loading && data.length === 0 && (
+        <p>search a location</p>
+      )}
+      <SearchForm
+        setLoading={setLoading}
+        setCenter={setCenter}
+        setData={setData}
+        setisModalShowing={setisModalShowing}
+        setInitialReq={setInitialReq}
+        setError={setError}
+        loading={loading}
+        data={data}
+        place={place}
+        setPlace={setPlace}
+        term={term}
+        setTerm={setTerm}
+      />
+      <WrappedMap className='center shadow mt-20 p-20 w-70 vh-35'>
+        <Map center={center} />
+      </WrappedMap>
+      {/* <button onClick={() => setRegister(!register)}>
+        {register ? "X" : "Claim Buisness"}
+      </button>
+      {register && <Register />} */}
+
+      {error === "" ? (
+        loading ? (
+          <img src={logo} className='App-logo' alt='logo' />
+        ) : data.length > 0 && isModalShowing ? (
+          <Modal setisModalShowing={setisModalShowing} data={data}>
+            Results for {term} in {place}
+          </Modal>
+        ) : null
+      ) : (
+        <p style={{ color: "red" }}>{error}</p>
+      )}
+    </>
+  );
+};
+
+const SearchForm = ({
+  setLoading,
+  setCenter,
+  setData,
+  setisModalShowing,
+  setInitialReq,
+  setError,
+  loading,
+  data,
+  place,
+  setPlace,
+  term,
+  setTerm,
+}) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -37,160 +92,90 @@ const Search = ({ setInitialReq, data, setData }) => {
       setError(error.message);
     }
   };
+
   const handleModalOpen = (e) => {
     e.preventDefault();
     setisModalShowing(true);
   };
 
   return (
-    <>
-      {error === "" && !loading && data.length === 0 && (
-        <p>search a location</p>
-      )}
-      <div
-        className='shadow'
-        style={{
-          margin: "auto",
-          marginTop: "20px",
-          width: "70vw",
-          padding: "20px",
-        }}
-      >
-        <form onSubmit={(e) => handleSubmit(e)}>
-          <div
-            className='search-inputs shadow'
-            style={{
-              margin: "auto",
-              padding: "6px",
-            }}
-          >
-            <input
-              onChange={(e) => setPlace(e.target.value)}
-              placeholder='Enter place to search'
-              type='text'
-              name='place'
-              value={place}
-            />
-            <input
-              onChange={(e) => setTerm(e.target.value)}
-              placeholder={`Search in ${place}`}
-              type='text'
-              name='name'
-              value={term}
-            />
-          </div>
-          <div
-            className='submit-container'
-            style={{
-              margin: "auto",
-              marginTop: "10px",
-            }}
-          >
-            <input
-              style={{ width: "100%", color: "green" }}
-              type='submit'
-              value='Submit'
-              disabled={loading || term.length < 1}
-            />
-          </div>
-          {data.length > 0 && (
-            <div
-              className='open-container'
-              style={{
-                margin: "auto",
-                marginTop: "10px",
-              }}
+    <div className='shadow center mt-20 p-20 w-70'>
+      <form onSubmit={(e) => handleSubmit(e)}>
+        <div className='search-inputs shadow center p-6'>
+          <input
+            onChange={(e) => setPlace(e.target.value)}
+            placeholder='Enter place to search'
+            type='text'
+            name='place'
+            value={place}
+          />
+          <input
+            onChange={(e) => setTerm(e.target.value)}
+            placeholder={`Search in ${place}`}
+            type='text'
+            name='name'
+            value={term}
+          />
+        </div>
+        <div className='submit-container center mt-10'>
+          <input
+            className='btn-wide'
+            type='submit'
+            value='Submit'
+            disabled={loading || term.length < 1}
+          />
+        </div>
+        {data.length > 0 && (
+          <div className='open-container center mt-10'>
+            <button
+              className='btn-wide'
+              value='Open'
+              disabled={loading}
+              onClick={(e) => handleModalOpen(e)}
             >
-              <button
-                style={{ width: "100%", color: "green" }}
-                value='Open'
-                disabled={loading}
-                onClick={(e) => handleModalOpen(e)}
-              >
-                Open Modal
-              </button>
-            </div>
-          )}
-        </form>
-      </div>
-
-      <div
-        className='shadow'
-        style={{
-          margin: "auto",
-          marginTop: "20px",
-
-          height: "35vh",
-          width: "70vw",
-          padding: "20px",
-        }}
-      >
-        <Map center={center} />
-      </div>
-      {/* <button onClick={() => setRegister(!register)}>
-        {register ? "X" : "Claim Buisness"}
-      </button>
-      {register && <Register />} */}
-
-      {error === "" ? (
-        loading ? (
-          <img src={logo} className='App-logo' alt='logo' />
-        ) : data.length > 0 && isModalShowing ? (
-          <div
-            class='modal'
-            style={{
-              position: "fixed",
-              zIndex: "1",
-              paddingTop: "5vh",
-              left: "0",
-              top: "0",
-              width: "100%",
-              height: "100%",
-              overflow: "auto",
-              backgroundColor: "rgba(0,0,0,0.4)",
-            }}
-          >
-            <div
-              class='modal-content'
-              style={{
-                backgroundColor: "#fefefe",
-                margin: "auto",
-                padding: "20px",
-                border: "1px solid #888",
-                width: "80%",
-              }}
-            >
-              <span class='close' onClick={() => setisModalShowing(false)}>
-                &times;
-              </span>
-              <p>Some text in the Modal..</p>
-              <ul
-                style={{
-                  listStyleType: "none",
-                }}
-              >
-                {data.map((buisness) => {
-                  return (
-                    <li>
-                      <Link
-                        key={buisness.id}
-                        state={{ businessesName: buisness.name }}
-                        to={`buisness/${buisness.id}`}
-                      >
-                        {buisness.name}
-                      </Link>
-                    </li>
-                  );
-                })}
-              </ul>
-            </div>
+              Open Modal
+            </button>
           </div>
-        ) : null
-      ) : (
-        <p style={{ color: "red" }}>{error}</p>
-      )}
-    </>
+        )}
+      </form>
+    </div>
   );
 };
 
-export default Search;
+const Modal = ({ setisModalShowing, data, children }) => {
+  return (
+    <div className='modal'>
+      <div className='modal-content center p-20 w-80'>
+        <span className='close' onClick={() => setisModalShowing(false)}>
+          &times;
+        </span>
+        <p>{children}</p>
+        <ul
+          style={{
+            listStyleType: "none",
+          }}
+        >
+          {data.map((buisness) => {
+            return (
+              <li key={buisness.id}>
+                <Link
+                  key={buisness.id}
+                  state={{ businessesName: buisness.name }}
+                  to={`buisness/${buisness.id}`}
+                >
+                  {buisness.name}
+                </Link>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+    </div>
+  );
+};
+
+const WrappedMap = ({ children, className }) => {
+  return <div className={className}>{children}</div>;
+};
+
+export default SearchPage;

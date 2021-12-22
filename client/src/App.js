@@ -8,7 +8,7 @@ import {
 
 import "./App.css";
 import Buisness from "./Buisness";
-import Search from "./Search";
+import SearchPage from "./Search";
 
 function App() {
   const [initialReq, setInitialReq] = useState(false);
@@ -21,7 +21,7 @@ function App() {
             path='/'
             exact
             element={
-              <Search
+              <SearchPage
                 setInitialReq={setInitialReq}
                 data={data}
                 setData={setData}
