@@ -10,7 +10,7 @@ const Buisness = ({ initialRequest }) => {
   const [buisnessData, setBuisnessData] = useState();
   const [loading, setLoading] = useState(true);
   const { id } = useParams();
-
+  console.log(buisnessData, "buisness data");
   useEffect(() => {
     if (!initialRequest) {
       return navigate("/");
@@ -23,17 +23,28 @@ const Buisness = ({ initialRequest }) => {
     fetchBuisness();
   }, [id, initialRequest, navigate]);
 
-  const { name, rating, is_closed, phone, price, photos } = buisnessData || {};
-
+  const { name, rating, is_closed, phone, price, photos, coordinates } =
+    buisnessData || {};
+  const { latitude, longitude } = coordinates || {};
   return (
     <div>
       <Link to={`/`}>Home</Link>
       {loading
         ? `loading ${businessName}`
         : buisnessData && (
-            <>
-              <h1>{name}</h1>
+            <div>
+              <h1>
+                <a
+                  rel='noreferrer'
+                  target='_blank'
+                  href={`https://www.google.com/maps/dir/?api=1&destination=${latitude},${longitude}`}
+                >
+                  Directions to {businessName}
+                </a>
+              </h1>
+
               <ul style={{ listStyleType: "none" }}>
+                {<li>{name}</li>}
                 {<li>{rating}⭐</li>}
                 {<li>closed now: {is_closed.toString()}</li>}
                 {<li>{phone}</li>}
@@ -50,7 +61,7 @@ const Buisness = ({ initialRequest }) => {
                   ))}
                 </div>
               </ul>
-            </>
+            </div>
           )}
     </div>
   );
