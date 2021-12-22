@@ -12,7 +12,8 @@ body {
 }
 
 .App-logo {
-  height: 40vmin;
+  margin-top: 10vh;
+  height: 50vmin;
   pointer-events: none;
 }
 
@@ -118,4 +119,45 @@ body {
 .modal-content {
   background-color: #fefefe;
   border: 1px solid #888;
+}
+
+#loading-screen {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  background: rgb(51 51 51 / 80%);
+}
+
+.pulsate {
+  animation: pulsate 1.5s ease-out;
+  -webkit-animation: pulsate 1.5s ease-out;
+  animation-iteration-count: infinite;
+  -webkit-animation-iteration-count: infinite;
+  opacity: 0.3;
+  color: white;
+}
+
+@keyframes pulsate {
+  0% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.3;
+  }
+}
+
+@-webkit-keyframes pulsate {
+  0% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.5;
+  }
 }

@@ -2,13 +2,11 @@ import { useState } from "react";
 import axios from "axios";
 import logo from "./logo.svg";
 import { Link } from "react-router-dom";
-import Register from "./Register.jsx";
 import Map from "./Map";
 
 const SearchPage = ({ setInitialReq, data, setData }) => {
   const [place, setPlace] = useState("");
   const [term, setTerm] = useState("");
-  const [register, setRegister] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [isModalShowing, setisModalShowing] = useState(false);
@@ -39,14 +37,9 @@ const SearchPage = ({ setInitialReq, data, setData }) => {
       <WrappedMap className='center shadow mt-20 p-20 w-70 vh-35'>
         <Map center={center} />
       </WrappedMap>
-      {/* <button onClick={() => setRegister(!register)}>
-        {register ? "X" : "Claim Buisness"}
-      </button>
-      {register && <Register />} */}
-
       {error === "" ? (
         loading ? (
-          <img src={logo} className='App-logo' alt='logo' />
+          LoadingScreen(term, place)
         ) : data.length > 0 && isModalShowing ? (
           <Modal setisModalShowing={setisModalShowing} data={data}>
             Results for {term} in {place}
@@ -92,7 +85,6 @@ const SearchForm = ({
       setError(error.message);
     }
   };
-
   const handleModalOpen = (e) => {
     e.preventDefault();
     setisModalShowing(true);
@@ -133,7 +125,7 @@ const SearchForm = ({
               disabled={loading}
               onClick={(e) => handleModalOpen(e)}
             >
-              Open Modal
+              Show results for {term} in {place}
             </button>
           </div>
         )}
@@ -176,6 +168,17 @@ const Modal = ({ setisModalShowing, data, children }) => {
 
 const WrappedMap = ({ children, className }) => {
   return <div className={className}>{children}</div>;
+};
+
+const LoadingScreen = (term, place) => {
+  return (
+    <div id='loading-screen'>
+      <img src={logo} className='App-logo' alt='logo' />
+      <p className='pulsate'>
+        Loading results for {term} in {place}
+      </p>
+    </div>
+  );
 };
 
 export default SearchPage;
