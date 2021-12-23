@@ -5,22 +5,38 @@ import { Link } from "react-router-dom";
 import Map from "./Map";
 
 const SearchPage = ({ setInitialReq, data, setData }) => {
+  // const lat = 41.8925085;
+  // const lng = -87.6161696;
+  // let latlng = lat + "," + lng;
+  // const ticketUrl = `https://app.ticketmaster.com/discovery/v2/events.json?&apikey=${}&latlong=`;
+  // const myUrl = ticketUrl + latlng;
   const [place, setPlace] = useState("");
   const [term, setTerm] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [isModalShowing, setisModalShowing] = useState(false);
+  const [createDisplayPlan, setCreateDisplayPlan] = useState(false);
+
+  const [userLocation, setUserLocation] = useState([]);
   const [center, setCenter] = useState({
     lat: 41.8789,
     lng: -87.6359,
   });
+  const runGetLocation = () => {
+    navigator.geolocation.getCurrentPosition((position) => {
+      const { latitude, longitude } = position.coords;
+      console.log(latitude, longitude, "lat long");
+    });
+  };
 
   return (
     <>
+      <button onClick={runGetLocation}>Use my Location</button>
       {error === "" && !loading && data.length === 0 && (
         <p>search a location</p>
       )}
       <SearchForm
+        setCreateDisplayPlan={setCreateDisplayPlan}
         setLoading={setLoading}
         setCenter={setCenter}
         setData={setData}
@@ -40,9 +56,41 @@ const SearchPage = ({ setInitialReq, data, setData }) => {
       {error === "" ? (
         loading ? (
           LoadingScreen(term, place)
-        ) : data.length > 0 && isModalShowing ? (
-          <Modal setisModalShowing={setisModalShowing} data={data}>
-            Results for {term} in {place}
+        ) : data.length > 0 && (isModalShowing || createDisplayPlan) ? (
+          <Modal
+            createDisplayPlan={createDisplayPlan}
+            setisModalShowing={setisModalShowing}
+            setCreateDisplayPlan={setCreateDisplayPlan}
+            data={data}
+          >
+            {createDisplayPlan ? (
+              `Plan for ${term} in ${place}`
+            ) : (
+              <>
+                <p>
+                  Results for {term} in {place}
+                </p>
+                <ul
+                  style={{
+                    listStyleType: "none",
+                  }}
+                >
+                  {data.map((buisness) => {
+                    return (
+                      <li key={buisness.id}>
+                        <Link
+                          key={buisness.id}
+                          state={{ businessesName: buisness.name }}
+                          to={`buisness/${buisness.id}`}
+                        >
+                          {buisness.name}
+                        </Link>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </>
+            )}
           </Modal>
         ) : null
       ) : (
@@ -65,6 +113,7 @@ const SearchForm = ({
   setPlace,
   term,
   setTerm,
+  setCreateDisplayPlan,
 }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -90,10 +139,19 @@ const SearchForm = ({
     setisModalShowing(true);
   };
 
+  const handleCreateDisplayPlan = (e) => {
+    e.preventDefault();
+    setCreateDisplayPlan(true);
+  };
+
   return (
     <div className='shadow center mt-20 p-20 w-70'>
       <form onSubmit={(e) => handleSubmit(e)}>
         <div className='search-inputs shadow center p-6'>
+          <div className='left-inner-addon input-container'>
+            <i className='fa fa-lock'></i>
+            <input type='password' className='form-control' />
+          </div>
           <input
             onChange={(e) => setPlace(e.target.value)}
             placeholder='Enter place to search'
@@ -118,49 +176,56 @@ const SearchForm = ({
           />
         </div>
         {data.length > 0 && (
-          <div className='open-container center mt-10'>
-            <button
-              className='btn-wide'
-              value='Open'
-              disabled={loading}
-              onClick={(e) => handleModalOpen(e)}
-            >
-              Show results for {term} in {place}
-            </button>
-          </div>
+          <>
+            <div className='open-container center mt-10'>
+              <button
+                className='btn-wide'
+                value='Open'
+                disabled={loading}
+                onClick={(e) => handleModalOpen(e)}
+              >
+                Show results for {term} in {place}
+              </button>
+            </div>
+            <div className='open-container center mt-10'>
+              <button
+                className='btn-wide'
+                value='Open'
+                disabled={loading}
+                onClick={(e) => {
+                  handleCreateDisplayPlan(e);
+                }}
+              >
+                Create a plan for {term} in {place}
+              </button>
+            </div>
+          </>
         )}
       </form>
     </div>
   );
 };
 
-const Modal = ({ setisModalShowing, data, children }) => {
+const Modal = ({
+  createDisplayPlan,
+  setisModalShowing,
+  children,
+  setCreateDisplayPlan,
+}) => {
   return (
     <div className='modal'>
       <div className='modal-content center p-20 w-80'>
-        <span className='close' onClick={() => setisModalShowing(false)}>
-          &times;
-        </span>
-        <p>{children}</p>
-        <ul
-          style={{
-            listStyleType: "none",
+        <span
+          className='close'
+          onClick={() => {
+            createDisplayPlan
+              ? setCreateDisplayPlan(false)
+              : setisModalShowing(false);
           }}
         >
-          {data.map((buisness) => {
-            return (
-              <li key={buisness.id}>
-                <Link
-                  key={buisness.id}
-                  state={{ businessesName: buisness.name }}
-                  to={`buisness/${buisness.id}`}
-                >
-                  {buisness.name}
-                </Link>
-              </li>
-            );
-          })}
-        </ul>
+          &times;
+        </span>
+        {children}
       </div>
     </div>
   );

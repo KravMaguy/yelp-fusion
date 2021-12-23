@@ -33,15 +33,13 @@ const Buisness = ({ initialRequest }) => {
         ? `loading ${businessName}`
         : buisnessData && (
             <div>
-              <h1>
-                <a
-                  rel='noreferrer'
-                  target='_blank'
-                  href={`https://www.google.com/maps/dir/?api=1&destination=${latitude},${longitude}`}
-                >
-                  Directions to {businessName}
-                </a>
-              </h1>
+              <a
+                rel='noreferrer'
+                target='_blank'
+                href={`https://www.google.com/maps/dir/?api=1&destination=${latitude},${longitude}`}
+              >
+                Directions to {businessName}
+              </a>
 
               <ul style={{ listStyleType: "none" }}>
                 {<li>{name}</li>}
