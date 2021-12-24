@@ -107,16 +107,6 @@ const fetchBuisnessData = async (id) => {
   return data;
 };
 
-// const object = {a:2, b:4, c:6, d:8};
-
-// for (const [index, [, value]] of Object.entries(Object.entries(object))) {
-//   console.log(`${index}: ${value}`);
-// }
-
-// Object.entries(object).forEach(([, value], index) => {
-//   console.log(`${index}: ${value}`);
-// });
-
 const Plan = (buisnesses) => {
   const [hours, setHours] = useState([]);
   useEffect(() => {
@@ -133,25 +123,27 @@ const Plan = (buisnesses) => {
   }, [buisnesses.data]);
 
   return (
-    <ul>
-      {hours.map((buisness) => {
-        return (
+    <div>
+      {hours.length ? (
+        hours.map((buisness) => (
           <>
             <h2 key={buisness.id}>{buisness.name}</h2>
             <ul>
-              {buisness.hours[0].open.map((hour, idx) => {
-                console.log(hour, "idx");
-                return (
-                  <li key={idx}>
-                    {hour.start}-{hour.end}
-                  </li>
-                );
-              })}
+              {buisness.hours[0].open.map((hour, idx) => (
+                <li key={idx}>
+                  {hour.start}-{hour.end}
+                </li>
+              ))}
             </ul>
           </>
-        );
-      })}
-    </ul>
+        ))
+      ) : (
+        <div>
+          <img src={logo} className='App-logo' alt='logo' />
+          <p>Loading hours for plan</p>
+        </div>
+      )}
+    </div>
   );
 };
 
