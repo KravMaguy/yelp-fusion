@@ -5,8 +5,13 @@ import { Link } from "react-router-dom";
 import Map from "./Map";
 import { MdLocationOff, MdLocationOn } from "react-icons/md";
 import Geocode from "react-geocode";
-import Autocomplete from "react-google-autocomplete";
-Geocode.setApiKey(process.env.REACT_APP_GOOGLE_MAP_API_KEY);
+import { LoadScript } from "@react-google-maps/api";
+
+import GooglePlacesAutocomplete from "react-google-places-autocomplete";
+
+// import Autocomplete from "react-google-autocomplete";
+
+// Geocode.setApiKey(process.env.REACT_APP_GOOGLE_MAP_API_KEY);
 Geocode.enableDebug();
 
 const SearchPage = ({ setInitialReq, data, setData }) => {
@@ -34,27 +39,29 @@ const SearchPage = ({ setInitialReq, data, setData }) => {
       {error === "" && !loading && data.length === 0 && (
         <p>search a location</p>
       )}
-      <SearchForm
-        // setUserAddress={setUserAddress}
-        userCoordinates={userCoordinates}
-        setuserCoordinates={setuserCoordinates}
-        setCreateDisplayPlan={setCreateDisplayPlan}
-        setLoading={setLoading}
-        setCenter={setCenter}
-        setData={setData}
-        setisModalShowing={setisModalShowing}
-        setInitialReq={setInitialReq}
-        setError={setError}
-        loading={loading}
-        data={data}
-        place={place}
-        setPlace={setPlace}
-        term={term}
-        setTerm={setTerm}
-      />
-      <WrappedMap className='center shadow mt-20 p-20 w-70 vh-35'>
-        <Map center={center} />
-      </WrappedMap>
+      <LoadScript googleMapsApiKey={process.env.REACT_APP_GOOGLE_MAP_API_KEY}>
+        <SearchForm
+          // setUserAddress={setUserAddress}
+          userCoordinates={userCoordinates}
+          setuserCoordinates={setuserCoordinates}
+          setCreateDisplayPlan={setCreateDisplayPlan}
+          setLoading={setLoading}
+          setCenter={setCenter}
+          setData={setData}
+          setisModalShowing={setisModalShowing}
+          setInitialReq={setInitialReq}
+          setError={setError}
+          loading={loading}
+          data={data}
+          place={place}
+          setPlace={setPlace}
+          term={term}
+          setTerm={setTerm}
+        />
+        <WrappedMap className='center shadow mt-20 p-20 w-70 vh-35'>
+          <Map center={center} />
+        </WrappedMap>
+      </LoadScript>
       {error === "" ? (
         loading ? (
           LoadingScreen(term, place)
@@ -221,24 +228,46 @@ const SearchForm = ({
   };
 
   console.log(userCoordinates, "farthest out- the user location");
+  const [value, setValue] = useState(null);
 
   return (
     <div className='shadow center mt-20 p-20 w-70'>
       <form onSubmit={(e) => handleSubmit(e)}>
         <div className='search-inputs shadow center p-6'>
-          <Autocomplete
+          {/* <Autocomplete
+            onPlaceSelected={(place) => {
+              console.log(place);
+            }}
+          /> */}
+
+          {/* <GooglePlacesAutocomplete
             apiKey={process.env.REACT_APP_GOOGLE_MAP_API_KEY}
-            types={["(regions)"]}
-          />
+          /> */}
+
           <div className='lg-input mt-b-2'>
-            <input
+            {/* <input
               type='text'
               className='form-control'
               onChange={(e) => setPlace(e.target.value)}
               placeholder='Enter place to search'
               name='place'
               value={place}
+            /> */}
+            <GooglePlacesAutocomplete
+              // type='text'
+              // className='form-control'
+              // onChange={(e) => setPlace(e.target.value)}
+              // placeholder='Enter place to search'
+              // name='place'
+              // value={place}
+              selectProps={{
+                value,
+                onChange: setValue,
+              }}
+              apiOptions={{ language: "en", region: "us" }}
+              apiKey={process.env.REACT_APP_GOOGLE_MAP_API_KEY}
             />
+
             <div onClick={runGetLocation} className='icon'>
               <span>
                 {!userCoordinates ? (

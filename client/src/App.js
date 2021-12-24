@@ -9,6 +9,7 @@ import {
 import "./App.css";
 import Buisness from "./Buisness";
 import SearchPage from "./Search";
+// import AutoSearch from "./AutoSearch";
 
 function App() {
   const [initialReq, setInitialReq] = useState(false);
@@ -17,6 +18,7 @@ function App() {
     <div className='App'>
       <Router>
         <Routes>
+          {/* <Route path='/auto' exact element={<AutoSearch />} /> */}
           <Route
             path='/'
             exact
