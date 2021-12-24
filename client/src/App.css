@@ -189,7 +189,7 @@ input {
   justify-content: center;
   align-items: center;
   box-sizing: border-box;
-  color: steelblue;
+  color: rgb(51 51 51 / 60%);
 }
 
 .lg-input .form-control {

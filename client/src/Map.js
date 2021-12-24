@@ -8,6 +8,7 @@ const containerStyle = {
 
 export default function Map(props) {
   const { center } = props;
+  console.log(center);
   return (
     <LoadScript googleMapsApiKey={process.env.REACT_APP_GOOGLE_MAP_API_KEY}>
       <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={14}>

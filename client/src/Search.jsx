@@ -3,10 +3,11 @@ import axios from "axios";
 import logo from "./logo.svg";
 import { Link } from "react-router-dom";
 import Map from "./Map";
-import {
-  // MdNavigation
-  BiCurrentLocation,
-} from "react-icons/bi";
+import { MdLocationOff, MdLocationOn } from "react-icons/md";
+import Geocode from "react-geocode";
+Geocode.setApiKey(process.env.REACT_APP_GOOGLE_MAP_API_KEY);
+Geocode.enableDebug();
+
 const SearchPage = ({ setInitialReq, data, setData }) => {
   // const lat = 41.8925085;
   // const lng = -87.6161696;
@@ -20,7 +21,8 @@ const SearchPage = ({ setInitialReq, data, setData }) => {
   const [isModalShowing, setisModalShowing] = useState(false);
   const [createDisplayPlan, setCreateDisplayPlan] = useState(false);
 
-  const [userLocation, setUserLocation] = useState([]);
+  const [userCoordinates, setuserCoordinates] = useState(null);
+  // const [userAddress, setUserAddress] = useState("");
   const [center, setCenter] = useState({
     lat: 41.8789,
     lng: -87.6359,
@@ -32,6 +34,9 @@ const SearchPage = ({ setInitialReq, data, setData }) => {
         <p>search a location</p>
       )}
       <SearchForm
+        // setUserAddress={setUserAddress}
+        userCoordinates={userCoordinates}
+        setuserCoordinates={setuserCoordinates}
         setCreateDisplayPlan={setCreateDisplayPlan}
         setLoading={setLoading}
         setCenter={setCenter}
@@ -144,6 +149,7 @@ const Plan = (buisnesses) => {
 };
 
 const SearchForm = ({
+  // setUserAddress,
   setLoading,
   setCenter,
   setData,
@@ -157,6 +163,8 @@ const SearchForm = ({
   term,
   setTerm,
   setCreateDisplayPlan,
+  setuserCoordinates,
+  userCoordinates,
 }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -188,28 +196,55 @@ const SearchForm = ({
   };
 
   const runGetLocation = () => {
-    navigator.geolocation.getCurrentPosition((position) => {
-      const { latitude, longitude } = position.coords;
-      console.log(latitude, longitude, "lat long");
-    });
+    try {
+      navigator.geolocation.getCurrentPosition((position) => {
+        const { latitude, longitude } = position.coords;
+        console.log(latitude, longitude, "lat long");
+        setuserCoordinates({ latitude, longitude });
+        setCenter({ lat: latitude, lng: longitude });
+        Geocode.fromLatLng(latitude, longitude).then(
+          (response) => {
+            const address = response.results[0].formatted_address;
+            if (address) {
+              setPlace(address);
+            }
+          },
+          (error) => {
+            console.error(error);
+          }
+        );
+      });
+    } catch (error) {
+      console.error(error);
+    }
   };
+
+  console.log(userCoordinates, "farthest out- the user location");
 
   return (
     <div className='shadow center mt-20 p-20 w-70'>
       <form onSubmit={(e) => handleSubmit(e)}>
         <div className='search-inputs shadow center p-6'>
-          <div class='lg-input mt-b-2'>
+          <div className='lg-input mt-b-2'>
             <input
               type='text'
-              class='form-control'
+              className='form-control'
               onChange={(e) => setPlace(e.target.value)}
               placeholder='Enter place to search'
               name='place'
               value={place}
             />
-            <div onClick={runGetLocation} class='icon'>
+            <div onClick={runGetLocation} className='icon'>
               <span>
-                <BiCurrentLocation size={18} className='location-icon' />
+                {!userCoordinates ? (
+                  <MdLocationOff size={18} className='location-icon' />
+                ) : (
+                  <MdLocationOn
+                    size={18}
+                    className='location-icon'
+                    color={"green"}
+                  />
+                )}
               </span>
             </div>
           </div>
