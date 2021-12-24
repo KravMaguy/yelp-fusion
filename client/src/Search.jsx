@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import logo from "./logo.svg";
 import { Link } from "react-router-dom";
@@ -61,10 +61,12 @@ const SearchPage = ({ setInitialReq, data, setData }) => {
             createDisplayPlan={createDisplayPlan}
             setisModalShowing={setisModalShowing}
             setCreateDisplayPlan={setCreateDisplayPlan}
-            data={data}
           >
             {createDisplayPlan ? (
-              `Plan for ${term} in ${place}`
+              <>
+                Plan for {term} in {place}
+                <Plan data={data} />
+              </>
             ) : (
               <>
                 <p>
@@ -97,6 +99,39 @@ const SearchPage = ({ setInitialReq, data, setData }) => {
         <p style={{ color: "red" }}>{error}</p>
       )}
     </>
+  );
+};
+
+const fetchBuisnessData = async (id) => {
+  const { data } = await axios.get(`/buisnesses/${id}`);
+  return data;
+};
+
+const Plan = (buisnesses) => {
+  const [hours, setHours] = useState([]);
+  useEffect(() => {
+    const Locations = buisnesses.data.map((location) =>
+      fetchBuisnessData(location.id)
+    );
+    Promise.all(Locations)
+      .then((hours) => {
+        setHours(hours);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [buisnesses.data]);
+
+  return (
+    <ul>
+      {hours.map((buisness) => {
+        return (
+          <li key={buisness.id}>
+            {buisness.name} : {JSON.stringify(buisness.hours)}
+          </li>
+        );
+      })}
+    </ul>
   );
 };
 
@@ -148,10 +183,6 @@ const SearchForm = ({
     <div className='shadow center mt-20 p-20 w-70'>
       <form onSubmit={(e) => handleSubmit(e)}>
         <div className='search-inputs shadow center p-6'>
-          <div className='left-inner-addon input-container'>
-            <i className='fa fa-lock'></i>
-            <input type='password' className='form-control' />
-          </div>
           <input
             onChange={(e) => setPlace(e.target.value)}
             placeholder='Enter place to search'

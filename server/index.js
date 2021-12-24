@@ -15,7 +15,9 @@ app.post("/api/", async (req, res) => {
   const body = req.body;
   const { term, place } = body;
   axios
-    .get("/search?term=" + term + "&location=" + place)
+    .get(
+      "/search?term=" + term + "&location=" + place + "&limit=3&sortby=distance"
+    )
     .then((response) => res.json(response.data))
     .catch((err) => res.status(err.response.status).send(err.message));
 });
