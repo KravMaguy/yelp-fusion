@@ -162,24 +162,26 @@ body {
   }
 }
 
-.input-container {
-  padding-bottom: 1em;
-}
 .left-inner-addon {
   position: relative;
+  display: flex;
+  align-items: center;
 }
 .left-inner-addon input {
   padding-left: 35px !important;
 }
-.left-inner-addon i {
+.left-inner-addon .location-icon {
   position: absolute;
   padding: 12px 12px;
   pointer-events: none;
+  color: rgb(68, 82, 94);
+  cursor: pointer;
+  z-index: 10;
 }
 
 input {
   width: 100%;
   padding: 1em !important;
-  margin: 0em !important;
+  margin: 1px !important;
   box-sizing: border-box;
 }

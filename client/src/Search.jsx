@@ -3,7 +3,10 @@ import axios from "axios";
 import logo from "./logo.svg";
 import { Link } from "react-router-dom";
 import Map from "./Map";
-
+import {
+  // MdNavigation
+  BiCurrentLocation,
+} from "react-icons/bi";
 const SearchPage = ({ setInitialReq, data, setData }) => {
   // const lat = 41.8925085;
   // const lng = -87.6161696;
@@ -22,16 +25,9 @@ const SearchPage = ({ setInitialReq, data, setData }) => {
     lat: 41.8789,
     lng: -87.6359,
   });
-  const runGetLocation = () => {
-    navigator.geolocation.getCurrentPosition((position) => {
-      const { latitude, longitude } = position.coords;
-      console.log(latitude, longitude, "lat long");
-    });
-  };
 
   return (
     <>
-      <button onClick={runGetLocation}>Use my Location</button>
       {error === "" && !loading && data.length === 0 && (
         <p>search a location</p>
       )}
@@ -191,18 +187,33 @@ const SearchForm = ({
     setCreateDisplayPlan(true);
   };
 
+  const runGetLocation = () => {
+    navigator.geolocation.getCurrentPosition((position) => {
+      const { latitude, longitude } = position.coords;
+      console.log(latitude, longitude, "lat long");
+    });
+  };
   return (
     <div className='shadow center mt-20 p-20 w-70'>
       <form onSubmit={(e) => handleSubmit(e)}>
         <div className='search-inputs shadow center p-6'>
+          <div className='left-inner-addon'>
+            <BiCurrentLocation
+              onClick={runGetLocation}
+              size={20}
+              className='location-icon'
+            />
+            <input
+              className='input-main'
+              onChange={(e) => setPlace(e.target.value)}
+              placeholder='Enter place to search'
+              type='text'
+              name='place'
+              value={place}
+            />
+          </div>
           <input
-            onChange={(e) => setPlace(e.target.value)}
-            placeholder='Enter place to search'
-            type='text'
-            name='place'
-            value={place}
-          />
-          <input
+            className='input-main'
             onChange={(e) => setTerm(e.target.value)}
             placeholder={`Search in ${place}`}
             type='text'
