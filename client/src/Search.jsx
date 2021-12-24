@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import Map from "./Map";
 import { MdLocationOff, MdLocationOn } from "react-icons/md";
 import Geocode from "react-geocode";
+import Autocomplete from "react-google-autocomplete";
 Geocode.setApiKey(process.env.REACT_APP_GOOGLE_MAP_API_KEY);
 Geocode.enableDebug();
 
@@ -225,6 +226,10 @@ const SearchForm = ({
     <div className='shadow center mt-20 p-20 w-70'>
       <form onSubmit={(e) => handleSubmit(e)}>
         <div className='search-inputs shadow center p-6'>
+          <Autocomplete
+            apiKey={process.env.REACT_APP_GOOGLE_MAP_API_KEY}
+            types={["(regions)"]}
+          />
           <div className='lg-input mt-b-2'>
             <input
               type='text'
