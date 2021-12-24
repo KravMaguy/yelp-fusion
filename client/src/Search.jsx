@@ -4,9 +4,10 @@ import logo from "./logo.svg";
 import { Link } from "react-router-dom";
 import Map from "./Map";
 import { MdLocationOff, MdLocationOn } from "react-icons/md";
+// import PlacesAutocomplete from "react-places-autocomplete";
 import Geocode from "react-geocode";
-import AutoSearch from "./AutoSearch";
-Geocode.setApiKey(process.env.REACT_APP_GOOGLE_MAP_API_KEY);
+import LocationSearchInput from "./PlacesAutocomplete";
+// Geocode.setApiKey(process.env.REACT_APP_GOOGLE_MAP_API_KEY);
 Geocode.enableDebug();
 
 const SearchPage = ({ setInitialReq, data, setData }) => {
@@ -220,17 +221,23 @@ const SearchForm = ({
     }
   };
 
+  console.log(userCoordinates, "farthest out- the user location");
+
   return (
     <div className='shadow center mt-20 p-20 w-70'>
       <form onSubmit={(e) => handleSubmit(e)}>
         <div className='search-inputs shadow center p-6'>
+          <LocationSearchInput />
           <div className='lg-input mt-b-2'>
-            <AutoSearch
+            <input
+              type='text'
               className='form-control'
+              onChange={(e) => setPlace(e.target.value)}
+              placeholder='Enter place to search'
               name='place'
               value={place}
-              setPlace={setPlace}
             />
+
             <div onClick={runGetLocation} className='icon'>
               <span>
                 {!userCoordinates ? (

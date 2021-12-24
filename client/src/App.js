@@ -9,7 +9,6 @@ import {
 import "./App.css";
 import Buisness from "./Buisness";
 import SearchPage from "./Search";
-
 function App() {
   const [initialReq, setInitialReq] = useState(false);
   const [data, setData] = useState([]);
