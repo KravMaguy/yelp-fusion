@@ -193,27 +193,28 @@ const SearchForm = ({
       console.log(latitude, longitude, "lat long");
     });
   };
+
   return (
     <div className='shadow center mt-20 p-20 w-70'>
       <form onSubmit={(e) => handleSubmit(e)}>
         <div className='search-inputs shadow center p-6'>
-          <div className='left-inner-addon'>
-            <BiCurrentLocation
-              onClick={runGetLocation}
-              size={20}
-              className='location-icon'
-            />
+          <div class='lg-input mt-b-2'>
             <input
-              className='input-main'
+              type='text'
+              class='form-control'
               onChange={(e) => setPlace(e.target.value)}
               placeholder='Enter place to search'
-              type='text'
               name='place'
               value={place}
             />
+            <div onClick={runGetLocation} class='icon'>
+              <span>
+                <BiCurrentLocation size={18} className='location-icon' />
+              </span>
+            </div>
           </div>
           <input
-            className='input-main'
+            className='lg-input mt-b-2'
             onChange={(e) => setTerm(e.target.value)}
             placeholder={`Search in ${place}`}
             type='text'

@@ -47,7 +47,6 @@ body {
   }
 }
 
-/* The Close Button */
 .close {
   color: #aaaaaa;
   float: right;
@@ -69,6 +68,11 @@ body {
 
 .center {
   margin: auto;
+}
+
+.mt-b-2 {
+  margin-top: 2px;
+  margin-bottom: 2px;
 }
 
 .mt-20 {
@@ -162,26 +166,32 @@ body {
   }
 }
 
-.left-inner-addon {
+.lg-input {
   position: relative;
-  display: flex;
-  align-items: center;
-}
-.left-inner-addon input {
-  padding-left: 35px !important;
-}
-.left-inner-addon .location-icon {
-  position: absolute;
-  padding: 12px 12px;
-  pointer-events: none;
-  color: rgb(68, 82, 94);
-  cursor: pointer;
-  z-index: 10;
+  height: 3.2rem;
+  box-sizing: border-box;
 }
 
 input {
+  height: 100%;
   width: 100%;
-  padding: 1em !important;
-  margin: 1px !important;
+  padding-right: 3.65rem;
   box-sizing: border-box;
+}
+
+.lg-input .icon {
+  position: absolute;
+  left: 0rem;
+  top: 0.3rem;
+  width: 2.6rem;
+  height: 2.6rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  color: steelblue;
+}
+
+.lg-input .form-control {
+  padding-left: 35px;
 }
