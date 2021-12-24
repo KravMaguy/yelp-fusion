@@ -220,8 +220,6 @@ const SearchForm = ({
     }
   };
 
-  console.log(userCoordinates, "farthest out- the user location");
-
   return (
     <div className='shadow center mt-20 p-20 w-70'>
       <form onSubmit={(e) => handleSubmit(e)}>
