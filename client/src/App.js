@@ -9,6 +9,7 @@ import {
 import "./App.css";
 import Buisness from "./Buisness";
 import SearchPage from "./Search";
+import Categories from "./Categories";
 function App() {
   const [initialReq, setInitialReq] = useState(false);
   const [data, setData] = useState([]);
@@ -27,6 +28,7 @@ function App() {
               />
             }
           />
+          <Route path='/categories' exact element={<Categories />} />
           <Route
             path='/buisness/:id'
             element={<Buisness initialRequest={initialReq} />}

@@ -25,6 +25,7 @@ app.post("/api/", async (req, res) => {
     .then((response) => res.json(response.data))
     .catch((err) => res.status(err.response.status).send(err.message));
 });
+
 app.get("/categories", async (req, res) => {
   axios
     .get("/categories")
@@ -35,6 +36,15 @@ app.get("/buisnesses/:id", async (req, res) => {
   const { id } = req.params;
   axios
     .get(`/${id}`)
+    .then((response) => res.json(response.data))
+    .catch((err) => res.status(err.response.status).send(err.message));
+});
+
+app.get("/autocomplete/:text", async (req, res) => {
+  console.log(req.params, "the params");
+  const { text } = req.params;
+  axios
+    .get(`/autocomplete?text=${text}`)
     .then((response) => res.json(response.data))
     .catch((err) => res.status(err.response.status).send(err.message));
 });
