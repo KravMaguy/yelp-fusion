@@ -100,8 +100,12 @@ body {
 }
 
 .btn-wide {
+  height: 45px;
+  font-weight: bold;
+  /* background: rgb(210, 220, 230); */
   width: 100%;
-  color: green;
+  background: #d6c2c240;
+  border: 1px solid white;
 }
 
 .vh-35 {
@@ -194,4 +198,8 @@ input {
 
 .lg-input .form-control {
   padding-left: 35px;
+}
+
+div {
+  border-radius: 1px;
 }

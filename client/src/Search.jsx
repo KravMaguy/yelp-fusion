@@ -4,27 +4,19 @@ import logo from "./logo.svg";
 import { Link } from "react-router-dom";
 import Map from "./Map";
 import { MdLocationOff, MdLocationOn } from "react-icons/md";
-// import PlacesAutocomplete from "react-places-autocomplete";
 import Geocode from "react-geocode";
 import LocationSearchInput from "./PlacesAutocomplete";
-// Geocode.setApiKey(process.env.REACT_APP_GOOGLE_MAP_API_KEY);
+Geocode.setApiKey(process.env.REACT_APP_GOOGLE_MAP_API_KEY);
 Geocode.enableDebug();
 
 const SearchPage = ({ setInitialReq, data, setData }) => {
-  // const lat = 41.8925085;
-  // const lng = -87.6161696;
-  // let latlng = lat + "," + lng;
-  // const ticketUrl = `https://app.ticketmaster.com/discovery/v2/events.json?&apikey=${}&latlong=`;
-  // const myUrl = ticketUrl + latlng;
   const [place, setPlace] = useState("");
   const [term, setTerm] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [isModalShowing, setisModalShowing] = useState(false);
   const [createDisplayPlan, setCreateDisplayPlan] = useState(false);
-
   const [userCoordinates, setuserCoordinates] = useState(null);
-  // const [userAddress, setUserAddress] = useState("");
   const [center, setCenter] = useState({
     lat: 41.8789,
     lng: -87.6359,
@@ -33,10 +25,12 @@ const SearchPage = ({ setInitialReq, data, setData }) => {
   return (
     <>
       {error === "" && !loading && data.length === 0 && (
-        <p>search a location</p>
+        <>
+          <p>search a location</p>
+          <button onClick={getCategories}>Get Cat</button>
+        </>
       )}
       <SearchForm
-        // setUserAddress={setUserAddress}
         userCoordinates={userCoordinates}
         setuserCoordinates={setuserCoordinates}
         setCreateDisplayPlan={setCreateDisplayPlan}
@@ -105,6 +99,11 @@ const SearchPage = ({ setInitialReq, data, setData }) => {
   );
 };
 
+const getCategories = async () => {
+  const { data } = await axios.get(`/categories`);
+  return data;
+};
+
 const fetchBuisnessData = async (id) => {
   const { data } = await axios.get(`/buisnesses/${id}`);
   return data;
@@ -151,7 +150,6 @@ const Plan = (buisnesses) => {
 };
 
 const SearchForm = ({
-  // setUserAddress,
   setLoading,
   setCenter,
   setData,
@@ -221,21 +219,24 @@ const SearchForm = ({
     }
   };
 
-  console.log(userCoordinates, "farthest out- the user location");
-
   return (
     <div className='shadow center mt-20 p-20 w-70'>
       <form onSubmit={(e) => handleSubmit(e)}>
         <div className='search-inputs shadow center p-6'>
-          <LocationSearchInput />
+          <input
+            className='lg-input mt-b-2'
+            onChange={(e) => setTerm(e.target.value)}
+            placeholder={`Search in ${place}`}
+            type='text'
+            name='name'
+            value={term}
+          />
           <div className='lg-input mt-b-2'>
-            <input
-              type='text'
+            <LocationSearchInput
               className='form-control'
-              onChange={(e) => setPlace(e.target.value)}
-              placeholder='Enter place to search'
-              name='place'
-              value={place}
+              setPlace={setPlace}
+              place={place}
+              setCenter={setCenter}
             />
 
             <div onClick={runGetLocation} className='icon'>
@@ -252,49 +253,43 @@ const SearchForm = ({
               </span>
             </div>
           </div>
-          <input
-            className='lg-input mt-b-2'
-            onChange={(e) => setTerm(e.target.value)}
-            placeholder={`Search in ${place}`}
-            type='text'
-            name='name'
-            value={term}
-          />
         </div>
-        <div className='submit-container center mt-10'>
-          <input
-            className='btn-wide'
-            type='submit'
-            value='Submit'
-            disabled={loading || term.length < 1}
-          />
+        <div className='search-inputs shadow center p-6 mt-20'>
+          <div className='center mt-10'>
+            <input
+              className='btn-wide'
+              type='submit'
+              value='Submit'
+              disabled={loading || term.length < 1}
+            />
+          </div>
+          {data.length > 0 && (
+            <>
+              <div className='center mt-10'>
+                <button
+                  className='btn-wide'
+                  value='Open'
+                  disabled={loading}
+                  onClick={(e) => handleModalOpen(e)}
+                >
+                  Show results for {term} in {place}
+                </button>
+              </div>
+              <div className='open-container center mt-10'>
+                <button
+                  className='btn-wide'
+                  value='Open'
+                  disabled={loading}
+                  onClick={(e) => {
+                    handleCreateDisplayPlan(e);
+                  }}
+                >
+                  Create a plan for {term} in {place}
+                </button>
+              </div>
+            </>
+          )}
         </div>
-        {data.length > 0 && (
-          <>
-            <div className='open-container center mt-10'>
-              <button
-                className='btn-wide'
-                value='Open'
-                disabled={loading}
-                onClick={(e) => handleModalOpen(e)}
-              >
-                Show results for {term} in {place}
-              </button>
-            </div>
-            <div className='open-container center mt-10'>
-              <button
-                className='btn-wide'
-                value='Open'
-                disabled={loading}
-                onClick={(e) => {
-                  handleCreateDisplayPlan(e);
-                }}
-              >
-                Create a plan for {term} in {place}
-              </button>
-            </div>
-          </>
-        )}
       </form>
     </div>
   );
