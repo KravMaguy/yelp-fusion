@@ -4,7 +4,6 @@ const express = require("express");
 const axios = require("axios");
 axios.defaults.headers.common["Authorization"] = `Bearer ${process.env.token}`;
 axios.defaults.baseURL = "https://api.yelp.com/v3/";
-// https://api.yelp.com/v3/businesses/api/search?term=mma&location=chicago
 const app = express();
 
 const port = process.env.PORT || 3001;
@@ -34,8 +33,9 @@ app.get("/categories", async (req, res) => {
 });
 app.get("/buisnesses/:id", async (req, res) => {
   const { id } = req.params;
+  console.log(id, ": the id");
   axios
-    .get(`/${id}`)
+    .get(`businesses/${id}`)
     .then((response) => res.json(response.data))
     .catch((err) => res.status(err.response.status).send(err.message));
 });
