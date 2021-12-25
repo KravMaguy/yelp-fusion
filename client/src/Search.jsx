@@ -222,9 +222,9 @@ const SearchForm = ({
   return (
     <div className='shadow center mt-20 p-20 w-70'>
       <form onSubmit={(e) => handleSubmit(e)}>
-        <div className='search-inputs shadow center p-6'>
+        <div className='search-inputs shadow center p-10'>
           <input
-            className='lg-input mt-b-2'
+            className='lg-input left-pad-15 mt-b-2'
             onChange={(e) => setTerm(e.target.value)}
             placeholder={`Search in ${place}`}
             type='text'
@@ -254,8 +254,8 @@ const SearchForm = ({
             </div>
           </div>
         </div>
-        <div className='search-inputs shadow center p-6 mt-20'>
-          <div className='center mt-10'>
+        <div className='search-inputs shadow center p-10 mt-20'>
+          <div className='center'>
             <input
               className='btn-wide'
               type='submit'

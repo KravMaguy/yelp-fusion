@@ -83,8 +83,8 @@ body {
   margin-top: 10px;
 }
 
-.p-6 {
-  padding: 6px;
+.p-10 {
+  padding: 10px;
 }
 
 .p-20 {
@@ -102,10 +102,9 @@ body {
 .btn-wide {
   height: 45px;
   font-weight: bold;
-  /* background: rgb(210, 220, 230); */
+  background: rgb(186 212 238 / 68%);
   width: 100%;
-  background: #d6c2c240;
-  border: 1px solid white;
+  border: 1px solid #aaaaaa8a;
 }
 
 .vh-35 {
@@ -174,6 +173,10 @@ body {
   position: relative;
   height: 3.2rem;
   box-sizing: border-box;
+}
+
+.left-pad-15 {
+  padding-left: 15px;
 }
 
 input {
