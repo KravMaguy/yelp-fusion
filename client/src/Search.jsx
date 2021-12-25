@@ -6,6 +6,7 @@ import Map from "./Map";
 import { MdLocationOff, MdLocationOn } from "react-icons/md";
 import Geocode from "react-geocode";
 import LocationSearchInput from "./PlacesAutocomplete";
+import Plan from "./Plan";
 Geocode.setApiKey(process.env.REACT_APP_GOOGLE_MAP_API_KEY);
 Geocode.enableDebug();
 
@@ -104,51 +105,6 @@ const getCategories = async () => {
   return data;
 };
 
-const fetchBuisnessData = async (id) => {
-  const { data } = await axios.get(`/buisnesses/${id}`);
-  return data;
-};
-
-const Plan = (buisnesses) => {
-  const [hours, setHours] = useState([]);
-  useEffect(() => {
-    const Locations = buisnesses.data.map((location) =>
-      fetchBuisnessData(location.id)
-    );
-    Promise.all(Locations)
-      .then((hours) => {
-        setHours(hours);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, [buisnesses.data]);
-
-  return (
-    <div>
-      {hours.length ? (
-        hours.map((buisness) => (
-          <>
-            <h2 key={buisness.id}>{buisness.name}</h2>
-            <ul>
-              {buisness.hours[0].open.map((hour, idx) => (
-                <li key={idx}>
-                  {hour.start}-{hour.end}
-                </li>
-              ))}
-            </ul>
-          </>
-        ))
-      ) : (
-        <div>
-          <img src={logo} className='App-logo' alt='logo' />
-          <p>Loading hours for plan</p>
-        </div>
-      )}
-    </div>
-  );
-};
-
 const SearchForm = ({
   setLoading,
   setCenter,
@@ -199,7 +155,6 @@ const SearchForm = ({
     try {
       navigator.geolocation.getCurrentPosition((position) => {
         const { latitude, longitude } = position.coords;
-        console.log(latitude, longitude, "lat long");
         setuserCoordinates({ latitude, longitude });
         setCenter({ lat: latitude, lng: longitude });
         Geocode.fromLatLng(latitude, longitude).then(
