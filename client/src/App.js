@@ -10,6 +10,7 @@ import Buisness from "./Buisness";
 import SearchPage from "./Search";
 import Categories from "./Categories";
 import MultiSelect from "./MultiSelect";
+import Cal from "./Cal";
 function App() {
   const [initialReq, setInitialReq] = useState(false);
   const [data, setData] = useState([]);
@@ -28,6 +29,7 @@ function App() {
               />
             }
           />
+          <Route path='/cal' exact element={<Cal />} />
           <Route path='/multiselect' exact element={<MultiSelect />} />
           <Route path='/categories' exact element={<Categories />} />
           <Route

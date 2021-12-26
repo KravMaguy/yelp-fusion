@@ -1,22 +1,31 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import logo from "./logo.svg";
+import Cal from "./Cal";
 
 const fetchBuisnessData = async (id) => {
   const { data } = await axios.get(`/buisnesses/${id}`);
   return data;
 };
 
+function getDayName(dateStr, locale) {
+  var date = new Date(dateStr);
+  return date.toLocaleDateString(locale, { weekday: "long" });
+}
+
+const dateStr = "05/23/2014";
+const day = getDayName(dateStr, "en-US");
+
 const Plan = (buisnesses) => {
   const [hours, setHours] = useState([]);
   const days = [
-    { day: "monday", start_times: [], end_times: [] },
-    { day: "tuesday", start_times: [], end_times: [] },
-    { day: "wednesday", start_times: [], end_times: [] },
-    { day: "thursday", start_times: [], end_times: [] },
-    { day: "friday", start_times: [], end_times: [] },
-    { day: "saturday", start_times: [], end_times: [] },
-    { day: "sunday", start_times: [], end_times: [] },
+    { day: "Monday", start_times: [], end_times: [] },
+    { day: "Tuesday", start_times: [], end_times: [] },
+    { day: "Wednesday", start_times: [], end_times: [] },
+    { day: "Thursday", start_times: [], end_times: [] },
+    { day: "Friday", start_times: [], end_times: [] },
+    { day: "Saturday", start_times: [], end_times: [] },
+    { day: "Sunday", start_times: [], end_times: [] },
   ];
 
   useEffect(() => {
@@ -42,6 +51,7 @@ const Plan = (buisnesses) => {
           return (
             <>
               <h2 key={buisness.id}>{buisness.name}</h2>
+              <Cal />
               <ul>
                 {buisness.hours[0].open.map((hour, idx) => (
                   <li key={idx}>
