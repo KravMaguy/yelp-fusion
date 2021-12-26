@@ -25,27 +25,38 @@ function Cal({ hours }) {
       <p>{selectedDay.toLocaleDateString()}</p>
       {hours.length ? (
         hours.map((buisness) => {
-          return (
-            <>
-              {buisness.hours[0].open.length > 0 ? <></> : null}
-              <p key={buisness.id}>{buisness.name}</p>
-              <ul style={{ listStyleType: "none" }}>
-                {buisness.hours[0].open.map((hour, idx) => {
-                  if (
-                    weekDays[hour.day] ===
-                    selectedDay.toLocaleDateString("en-US", { weekday: "long" })
-                  ) {
-                    return (
-                      <li key={idx}>
-                        {hour.start}-{hour.end}
-                      </li>
-                    );
-                  }
-                  return null;
-                })}
-              </ul>
-            </>
-          );
+          const openHours = buisness.hours[0].open;
+          if (
+            openHours.find(
+              (shift) =>
+                weekDays[shift.day] ===
+                selectedDay.toLocaleDateString("en-US", { weekday: "long" })
+            )
+          ) {
+            return (
+              <>
+                <p key={buisness.id}>{buisness.name}</p>
+                <ul style={{ listStyleType: "none" }}>
+                  {buisness.hours[0].open.map((hour, idx) => {
+                    if (
+                      weekDays[hour.day] ===
+                      selectedDay.toLocaleDateString("en-US", {
+                        weekday: "long",
+                      })
+                    ) {
+                      return (
+                        <li key={idx}>
+                          {hour.start}-{hour.end}
+                        </li>
+                      );
+                    }
+                    return null;
+                  })}
+                </ul>
+              </>
+            );
+          }
+          return null;
         })
       ) : (
         <div>
