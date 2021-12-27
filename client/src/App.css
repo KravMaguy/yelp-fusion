@@ -206,3 +206,28 @@ input {
 div {
   border-radius: 1px;
 }
+
+.plan-container {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.left {
+  text-align: left;
+}
+
+.sub-header {
+  text-align: left;
+  font-size: 1.5rem;
+  margin: 16px;
+}
+
+.DayPicker-Day {
+  border-radius: 1px !important;
+}
+
+.date-title {
+  font-size: 1.2em;
+  font-weight: 500;
+  color: #a2acac;
+}

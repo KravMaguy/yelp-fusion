@@ -62,8 +62,7 @@ const SearchPage = ({ setInitialReq, data, setData }) => {
           >
             {createDisplayPlan ? (
               <>
-                Plan for {term} in {place}
-                <Plan data={data} />
+                <Plan data={data} term={term} place={place} />
               </>
             ) : (
               <>

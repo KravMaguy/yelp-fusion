@@ -7,13 +7,11 @@ const fetchBuisnessData = async (id) => {
   return data;
 };
 
-const Plan = (buisnesses) => {
+const Plan = ({ data, term, place }) => {
   const [hours, setHours] = useState([]);
 
   useEffect(() => {
-    const Locations = buisnesses.data.map((location) =>
-      fetchBuisnessData(location.id)
-    );
+    const Locations = data.map((location) => fetchBuisnessData(location.id));
     Promise.all(Locations)
       .then((hours) => {
         setHours(hours);
@@ -21,9 +19,16 @@ const Plan = (buisnesses) => {
       .catch((error) => {
         console.log(error);
       });
-  }, [buisnesses.data]);
+  }, [data]);
 
-  return <Cal hours={hours} />;
+  return (
+    <>
+      <h1 className='sub-header'>
+        {term} plan in {place}
+      </h1>
+      <Cal hours={hours} term={term} />
+    </>
+  );
 };
 
 export default Plan;
