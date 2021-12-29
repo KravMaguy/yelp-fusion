@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import axios from "axios";
+import React, { useState, useEffect } from "react";
 import DayPicker from "react-day-picker";
 import "react-day-picker/lib/style.css";
 
@@ -13,15 +14,34 @@ function Cal({ hours }) {
     "Sunday",
   ];
 
+  const [holidays, setHolidays] = useState([]);
+  holidays.map((holidayEntry) =>
+    console.log(holidayEntry.summary, holidayEntry.start, holidayEntry.end)
+  );
   const [selectedDay, setSelectedDay] = useState(new Date(Date.now()));
   const handleDayClick = (day, { selected }) => {
     setSelectedDay(day);
   };
+  useEffect(() => {
+    axios
+      .get(
+        `https://www.googleapis.com/calendar/v3/calendars/en.usa%23holiday%40group.v.calendar.google.com/events?key=${process.env.REACT_APP_GOOGLE_MAP_API_KEY}`
+      )
+      .then(({ data }) => setHolidays(data.items));
+  }, []);
 
   return (
     <div className='plan-container'>
       <div className='plan-wrapper'>
-        <DayPicker selectedDays={selectedDay} onDayClick={handleDayClick} />
+        <DayPicker
+          selectedDays={selectedDay}
+          onDayClick={handleDayClick}
+          disabledDays={[
+            {
+              before: new Date(Date.now()),
+            },
+          ]}
+        />
       </div>
       <div className='plan-wrapper left'>
         <h2 className='date-title'>{selectedDay.toLocaleDateString()}</h2>
