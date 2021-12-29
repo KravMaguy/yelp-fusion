@@ -41,14 +41,41 @@ function Cal({ hours }) {
                 myShift.splice(2, 0, ":");
                 return myShift.join("");
               };
+              const SpecialHours = ({ special_hours }) => {
+                const SelectedDay = selectedDay
+                  .toLocaleDateString()
+                  .replace(/\b\d\b/g, "0$&");
+
+                let string = "";
+                special_hours?.map((shift) => {
+                  const dateArr = shift.date.split("-");
+                  const first = dateArr.shift();
+                  dateArr.push(first);
+                  const myArr = dateArr.join("/");
+                  if (myArr === SelectedDay) {
+                    if (shift.is_closed) {
+                      string += "Closed for Special Hours";
+                    } else {
+                      string += `Special Hours ${formatShift(
+                        shift.start
+                      )}-${formatShift(shift.end)}`;
+                    }
+                  }
+                  return null;
+                });
+                return (
+                  <>
+                    <br />
+                    <span>{string}</span>
+                  </>
+                );
+              };
+
               return (
                 <>
                   <h4 key={buisness.id}>{buisness.name}</h4>
                   <div style={{ listStyleType: "none" }}>
                     {buisness.hours[0].open.map((hour, idx) => {
-                      // const shiftm = hour.start.split("");
-                      // shiftm.splice(2, 0, ":");
-                      // console.log(shiftm.join(""), "m shift");
                       if (
                         weekDays[hour.day] ===
                         selectedDay.toLocaleDateString("en-US", {
@@ -56,14 +83,19 @@ function Cal({ hours }) {
                         })
                       ) {
                         return (
-                          <span key={idx}>
-                            {selectedDay
-                              .toLocaleDateString("en-US", {
-                                weekday: "long",
-                              })
-                              .slice(0, 2)}{" "}
-                            {formatShift(hour.start)}-{formatShift(hour.end)}
-                          </span>
+                          <div>
+                            <span>
+                              {selectedDay
+                                .toLocaleDateString("en-US", {
+                                  weekday: "long",
+                                })
+                                .slice(0, 2)}{" "}
+                              {formatShift(hour.start)}-{formatShift(hour.end)}
+                            </span>
+                            <SpecialHours
+                              special_hours={buisness.special_hours}
+                            />
+                          </div>
                         );
                       }
                       return null;
