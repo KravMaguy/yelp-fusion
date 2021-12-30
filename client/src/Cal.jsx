@@ -16,7 +16,13 @@ function Cal({ hours }) {
 
   const [holidays, setHolidays] = useState([]);
   const [selectedDay, setSelectedDay] = useState(new Date(Date.now()));
+  // var today = new Date().getTime(); // 1501653935994
+  // var from = new Date("02/08/2017").getTime(); // gives 1486492200000
+  // var to = new Date("05/08/2017").getTime();
 
+  // if(today >= from && today <= to) {
+  //    // your code goes here
+  // }
   const selectedDayHoliday = holidays.find((holidayEntry) => {
     const SelectedDay = selectedDay
       .toLocaleDateString()
@@ -50,15 +56,26 @@ function Cal({ hours }) {
         <DayPicker
           selectedDays={selectedDay}
           onDayClick={handleDayClick}
+          onMonthChange={(month) => setSelectedDay(month)}
           disabledDays={[
             {
               before: new Date(Date.now()),
             },
           ]}
+          month={new Date()}
+          fromMonth={new Date()}
+          toMonth={
+            new Date(
+              new Date().getFullYear + 10,
+              new Date().getMonth(),
+              new Date().getDate()
+            )
+          }
         />
       </div>
       <div className='plan-wrapper left'>
         <h2 className='date-title'>{selectedDay.toLocaleDateString()}</h2>
+        {console.log(selectedDayHoliday)}
         {selectedDayHoliday ? (
           <span className='holiday-date-title'>
             {selectedDayHoliday.summary}
@@ -79,12 +96,13 @@ function Cal({ hours }) {
                 myShift.splice(2, 0, ":");
                 return myShift.join("");
               };
+
               const SpecialHours = ({ special_hours }) => {
                 const SelectedDay = selectedDay
                   .toLocaleDateString()
                   .replace(/\b\d\b/g, "0$&");
 
-                let string = "";
+                let specialHoursString = "";
                 special_hours?.map((shift) => {
                   const dateArr = shift.date.split("-");
                   const first = dateArr.shift();
@@ -92,13 +110,13 @@ function Cal({ hours }) {
                   const myArr = dateArr.join("/");
                   if (myArr === SelectedDay) {
                     if (shift.is_closed) {
-                      string += `Closed for ${
+                      specialHoursString += `Closed for ${
                         selectedDayHoliday
                           ? selectedDayHoliday.summary
                           : "special hours"
                       }`;
                     } else {
-                      string += `Open for ${
+                      specialHoursString += `Open for ${
                         selectedDayHoliday
                           ? selectedDayHoliday.summary
                           : "special hours"
@@ -107,11 +125,18 @@ function Cal({ hours }) {
                   }
                   return null;
                 });
+
                 return (
                   <>
                     <br />
-                    <span className={selectedDayHoliday ? "go" : "stop"}>
-                      {string}
+                    <span
+                      className={
+                        specialHoursString.slice(0, 4) === "Open"
+                          ? "go"
+                          : "stop"
+                      }
+                    >
+                      {specialHoursString}
                     </span>
                   </>
                 );
