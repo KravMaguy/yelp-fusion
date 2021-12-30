@@ -207,7 +207,7 @@ div {
   border-radius: 1px;
 }
 
-.plan-container {
+.plan-flex {
   display: flex;
   justify-content: space-evenly;
 }
@@ -243,4 +243,8 @@ div {
 
 .stop {
   color: red;
+}
+
+.p-16 {
+  padding: 16px;
 }

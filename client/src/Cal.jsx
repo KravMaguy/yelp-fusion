@@ -2,8 +2,11 @@ import axios from "axios";
 import React, { useState, useEffect } from "react";
 import DayPicker from "react-day-picker";
 import "react-day-picker/lib/style.css";
+import useMediaQuery from "./useMediaQuery";
 
 function Cal({ hours }) {
+  const isMobile = useMediaQuery("(max-width: 560px)");
+
   const weekDays = [
     "Monday",
     "Tuesday",
@@ -13,7 +16,7 @@ function Cal({ hours }) {
     "Saturday",
     "Sunday",
   ];
-
+  console.log(isMobile, "is mobile");
   const [holidays, setHolidays] = useState([]);
   const [selectedDay, setSelectedDay] = useState(new Date(Date.now()));
   // var today = new Date().getTime(); // 1501653935994
@@ -51,8 +54,8 @@ function Cal({ hours }) {
   }, []);
 
   return (
-    <div className='plan-container'>
-      <div className='plan-wrapper'>
+    <div className={!isMobile ? "plan-flex" : null}>
+      <div className={!isMobile ? "plan-wrapper" : "left"}>
         <DayPicker
           selectedDays={selectedDay}
           onDayClick={handleDayClick}
@@ -73,9 +76,8 @@ function Cal({ hours }) {
           }
         />
       </div>
-      <div className='plan-wrapper left'>
+      <div className={`plan-wrapper left ${isMobile && "p-16"}`}>
         <h2 className='date-title'>{selectedDay.toLocaleDateString()}</h2>
-        {console.log(selectedDayHoliday)}
         {selectedDayHoliday ? (
           <span className='holiday-date-title'>
             {selectedDayHoliday.summary}
@@ -141,10 +143,11 @@ function Cal({ hours }) {
                   </>
                 );
               };
-
+              console.log(selectedDay, "selectedDay");
               return (
                 <>
                   <h4 key={buisness.id}>{buisness.name}</h4>
+
                   <div style={{ listStyleType: "none" }}>
                     {buisness.hours[0].open.map((hour, idx) => {
                       if (
