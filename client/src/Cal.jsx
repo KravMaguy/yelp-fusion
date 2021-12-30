@@ -15,10 +15,24 @@ function Cal({ hours }) {
   ];
 
   const [holidays, setHolidays] = useState([]);
-  holidays.map((holidayEntry) =>
-    console.log(holidayEntry.summary, holidayEntry.start, holidayEntry.end)
-  );
   const [selectedDay, setSelectedDay] = useState(new Date(Date.now()));
+
+  const selectedDayHoliday = holidays.find((holidayEntry) => {
+    const SelectedDay = selectedDay
+      .toLocaleDateString()
+      .replace(/\b\d\b/g, "0$&");
+    const selectedArr = SelectedDay.split("/");
+    const end = selectedArr.pop();
+    selectedArr.unshift(end);
+    if (
+      selectedArr.join("-") === holidayEntry.start.date ||
+      selectedArr.join("-") === holidayEntry.end.date
+    ) {
+      return true;
+    }
+    return false;
+  });
+
   const handleDayClick = (day, { selected }) => {
     setSelectedDay(day);
   };
@@ -45,7 +59,11 @@ function Cal({ hours }) {
       </div>
       <div className='plan-wrapper left'>
         <h2 className='date-title'>{selectedDay.toLocaleDateString()}</h2>
-
+        {selectedDayHoliday ? (
+          <span className='holiday-date-title'>
+            {selectedDayHoliday.summary}
+          </span>
+        ) : null}
         {hours.length ? (
           hours.map((buisness) => {
             const openHours = buisness.hours[0].open;
@@ -74,11 +92,17 @@ function Cal({ hours }) {
                   const myArr = dateArr.join("/");
                   if (myArr === SelectedDay) {
                     if (shift.is_closed) {
-                      string += "Closed for Special Hours";
+                      string += `Closed for ${
+                        selectedDayHoliday
+                          ? selectedDayHoliday.summary
+                          : "special hours"
+                      }`;
                     } else {
-                      string += `Special Hours ${formatShift(
-                        shift.start
-                      )}-${formatShift(shift.end)}`;
+                      string += `Open for ${
+                        selectedDayHoliday
+                          ? selectedDayHoliday.summary
+                          : "special hours"
+                      } ${formatShift(shift.start)}-${formatShift(shift.end)}`;
                     }
                   }
                   return null;
@@ -86,7 +110,9 @@ function Cal({ hours }) {
                 return (
                   <>
                     <br />
-                    <span>{string}</span>
+                    <span className={selectedDayHoliday ? "go" : "stop"}>
+                      {string}
+                    </span>
                   </>
                 );
               };
