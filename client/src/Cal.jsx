@@ -146,7 +146,9 @@ function Cal({ hours }) {
               console.log(selectedDay, "selectedDay");
               return (
                 <>
-                  <h4 key={buisness.id}>{buisness.name}</h4>
+                  <h4 className='buisness-cal-title' key={buisness.id}>
+                    {buisness.name}
+                  </h4>
 
                   <div style={{ listStyleType: "none" }}>
                     {buisness.hours[0].open.map((hour, idx) => {

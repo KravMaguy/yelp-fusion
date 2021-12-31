@@ -1,39 +1,45 @@
-import { useState } from "react";
-import Select from "./Select";
-
-let filterOptions = [
-  { value: "marketing", label: "Marketing" },
-  { value: "design", label: "Design" },
-  { value: "seo", label: "SEO" },
-  { value: "php", label: "PHP" },
-  { value: "node js", label: "Node Js" },
-];
-
-const MultiSelect = () => {
-  const [selectError, setSelectError] = useState(false);
-  const [multiValue, setMultiValue] = useState([]);
-  const handleMultiChange = (option) => {
-    setMultiValue(option);
-    checkMulti();
-  };
-
-  const checkMulti = () => {
-    if (multiValue.length < 1) {
-      setSelectError();
-    } else {
-      setSelectError(false);
-    }
-  };
-  return (
-    <>
-      <Select
-        setSelectError={setSelectError}
-        handleMultiChange={handleMultiChange}
-        filterOptions={filterOptions}
-        multiValue={multiValue}
-      />
-    </>
+import React, { useState } from "react";
+import axios from "axios";
+import AsyncSelect from "react-select/async";
+import makeAnimated from "react-select/animated";
+const animatedComponents = makeAnimated();
+const loadOptions = async (inputValue, callback) => {
+  const options = [];
+  const { data } = await axios.get(`/autocomplete/${inputValue}`);
+  const myData = data.categories.map((category) =>
+    options.push({ value: category.alias, label: category.title })
+  );
+  const data2 = data.terms.map((term) =>
+    options.push({
+      value: term.text,
+      label: term.text,
+    })
+  );
+  return options.filter((i) =>
+    i.label.toLowerCase().includes(inputValue.toLowerCase())
   );
 };
 
-export default MultiSelect;
+export default function MultiSelectAsync() {
+  const [inputValue, setInputValue] = useState("");
+  const handleInputChange = (newValue) => {
+    const inputValue = newValue.replace(/\W/g, "");
+    setInputValue(newValue);
+    return inputValue;
+  };
+
+  return (
+    <div>
+      <pre>inputValue: "{inputValue}"</pre>
+      <AsyncSelect
+        cacheOptions
+        defaultOptions
+        isMulti
+        onInputChange={handleInputChange}
+        loadOptions={loadOptions}
+        components={animatedComponents}
+        // styles={customStyles}
+      />
+    </div>
+  );
+}

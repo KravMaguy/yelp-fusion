@@ -8,8 +8,7 @@ import {
 import "./App.css";
 import Buisness from "./Buisness";
 import SearchPage from "./Search";
-import Categories from "./Categories";
-import MultiSelect from "./MultiSelect";
+import MultiSelectAsync from "./MultiSelect";
 import Cal from "./Cal";
 function App() {
   const [initialReq, setInitialReq] = useState(false);
@@ -30,12 +29,11 @@ function App() {
             }
           />
           <Route path='/cal' exact element={<Cal />} />
-          <Route path='/multiselect' exact element={<MultiSelect />} />
-          <Route path='/categories' exact element={<Categories />} />
           <Route
             path='/buisness/:id'
             element={<Buisness initialRequest={initialReq} />}
           />
+          <Route path='/category' element={<MultiSelectAsync />} />
           <Route path='*' element={<Navigate to='/' />} />
         </Routes>
       </Router>
