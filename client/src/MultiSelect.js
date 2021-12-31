@@ -3,7 +3,20 @@ import axios from "axios";
 import AsyncSelect from "react-select/async";
 import makeAnimated from "react-select/animated";
 const animatedComponents = makeAnimated();
-const loadOptions = async (inputValue, callback) => {
+const customStyles = {
+  option: (provided, state) => ({
+    ...provided,
+    borderBottom: "1px dotted purple",
+    color: state.isSelected ? "red" : "blue",
+    padding: 20,
+  }),
+  singleValue: (provided, state) => {
+    const opacity = state.isDisabled ? 0.5 : 1;
+    const transition = "opacity 300ms";
+    return { ...provided, opacity, transition };
+  },
+};
+const loadOptions = async (inputValue) => {
   const options = [];
   const { data } = await axios.get(`/autocomplete/${inputValue}`);
   const myData = data.categories.map((category) =>
@@ -34,11 +47,11 @@ export default function MultiSelectAsync() {
       <AsyncSelect
         cacheOptions
         defaultOptions
-        isMulti
         onInputChange={handleInputChange}
         loadOptions={loadOptions}
         components={animatedComponents}
-        // styles={customStyles}
+        isMulti
+        styles={customStyles}
       />
     </div>
   );

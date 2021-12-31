@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import DayPicker from "react-day-picker";
 import "react-day-picker/lib/style.css";
 import useMediaQuery from "./useMediaQuery";
@@ -56,6 +57,9 @@ function Cal({ hours }) {
   return (
     <div className={!isMobile ? "plan-flex" : null}>
       <div className={!isMobile ? "plan-wrapper" : "left"}>
+        <div style={{ margin: "16px" }}>
+          <Link to={`/map`}>Link to map</Link>
+        </div>
         <DayPicker
           selectedDays={selectedDay}
           onDayClick={handleDayClick}

@@ -10,7 +10,7 @@ import Plan from "./Plan";
 Geocode.setApiKey(process.env.REACT_APP_GOOGLE_MAP_API_KEY);
 Geocode.enableDebug();
 
-const SearchPage = ({ setInitialReq, data, setData }) => {
+const SearchPage = ({ setInitialReq, data, setData, center, setCenter }) => {
   const [place, setPlace] = useState("");
   const [term, setTerm] = useState("");
   const [loading, setLoading] = useState(false);
@@ -18,17 +18,12 @@ const SearchPage = ({ setInitialReq, data, setData }) => {
   const [isModalShowing, setisModalShowing] = useState(false);
   const [createDisplayPlan, setCreateDisplayPlan] = useState(false);
   const [userCoordinates, setuserCoordinates] = useState(null);
-  const [center, setCenter] = useState({
-    lat: 41.8789,
-    lng: -87.6359,
-  });
 
   return (
     <>
       {error === "" && !loading && data.length === 0 && (
         <>
           <p>search a location</p>
-          <button onClick={getCategories}>Get Cat</button>
         </>
       )}
       <SearchForm
@@ -48,7 +43,7 @@ const SearchPage = ({ setInitialReq, data, setData }) => {
         term={term}
         setTerm={setTerm}
       />
-      <WrappedMap className='center shadow mt-20 p-20 w-70 vh-35'>
+      <WrappedMap className='center shadow mt-20 p-20 w-70 vh-35 mb-20'>
         <Map center={center} />
       </WrappedMap>
       {error === "" ? (
@@ -97,11 +92,6 @@ const SearchPage = ({ setInitialReq, data, setData }) => {
       )}
     </>
   );
-};
-
-const getCategories = async () => {
-  const { data } = await axios.get(`/categories`);
-  return data;
 };
 
 const SearchForm = ({
