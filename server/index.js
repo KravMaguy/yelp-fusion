@@ -19,7 +19,7 @@ app.post("/api/", async (req, res) => {
         term +
         "&location=" +
         place +
-        "&limit=5&sortby=distance"
+        "&limit=3&sortby=distance"
     )
     .then((response) => res.json(response.data))
     .catch((err) => res.status(err.response.status).send(err.message));
