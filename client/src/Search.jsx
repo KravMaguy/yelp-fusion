@@ -21,10 +21,12 @@ const SearchPage = ({ setInitialReq, data, setData, center, setCenter }) => {
 
   return (
     <>
-      {error === "" && !loading && data.length === 0 && (
+      {error === "" && !loading && data.length === 0 ? (
         <>
           <p>search a location</p>
         </>
+      ) : (
+        <Link to={`/directions`}>Directions</Link>
       )}
       <SearchForm
         userCoordinates={userCoordinates}

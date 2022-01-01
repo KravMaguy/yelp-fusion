@@ -11,6 +11,7 @@ import SearchPage from "./Search";
 import MultiSelectAsync from "./MultiSelect";
 import Cal from "./Cal";
 import NavMap from "./NavMap";
+import Directions from "./Directions";
 function App() {
   const [initialReq, setInitialReq] = useState(false);
   const [data, setData] = useState([]);
@@ -41,6 +42,10 @@ function App() {
           <Route
             path='/buisness/:id'
             element={<Buisness initialRequest={initialReq} />}
+          />
+          <Route
+            path='/directions'
+            element={<Directions data={data} center={center} />}
           />
           <Route path='/category' element={<MultiSelectAsync />} />
           <Route path='/map' element={<NavMap data={data} center={center} />} />
