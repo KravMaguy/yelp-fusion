@@ -11,14 +11,12 @@ import SearchPage from "./Search";
 import MultiSelectAsync from "./MultiSelect";
 import Cal from "./Cal";
 import NavMap from "./NavMap";
-import Directions from "./Directions";
+// import Directions from "./Directions";
+import ModifiedDirections from "./ModifiedDirections";
 function App() {
   const [initialReq, setInitialReq] = useState(false);
   const [data, setData] = useState([]);
-  const [center, setCenter] = useState({
-    lat: 41.8789,
-    lng: -87.6359,
-  });
+  const [center, setCenter] = useState({ lat: 42.009933, lng: -87.70515 });
 
   console.log(data, "data");
   return (
@@ -43,9 +41,21 @@ function App() {
             path='/buisness/:id'
             element={<Buisness initialRequest={initialReq} />}
           />
-          <Route
+          {/* <Route
             path='/directions'
-            element={<Directions data={data} center={center} />}
+            element={
+              <Directions data={data} center={center} setCenter={setCenter} />
+            }
+          /> */}
+          <Route
+            path='/modified'
+            element={
+              <ModifiedDirections
+                // data={data}
+                center={center}
+                setCenter={setCenter}
+              />
+            }
           />
           <Route path='/category' element={<MultiSelectAsync />} />
           <Route path='/map' element={<NavMap data={data} center={center} />} />
