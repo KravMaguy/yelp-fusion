@@ -132,20 +132,24 @@ const Direction = () => {
   const [zoom, setZoom] = useState(15);
   const [colorCodes, setColorCodes] = useState([]);
   const [currIdx, setIdx] = useState(initialDestination);
+  const [multiMode, setMultiMode] = useState(false);
 
   const genRgb = () => {
+    function getRandomIntInclusive(min, max) {
+      min = Math.ceil(min);
+      max = Math.floor(max);
+      return Math.floor(Math.random() * (max - min + 1) + min);
+    }
     const rgbsContainer = [];
     for (let i = 0; i < data.length; i++) {
       const rgbContainer = [];
       for (let j = 0; j < 3; j++) {
-        rgbContainer.push(Math.floor(Math.random() * 255));
+        rgbContainer.push(getRandomIntInclusive(0, 180));
       }
       rgbsContainer.push(rgbContainer);
     }
     setColorCodes(rgbsContainer);
   };
-
-  console.log(colorCodes);
 
   useEffect(() => {
     if (data.length > 0) {
@@ -159,9 +163,9 @@ const Direction = () => {
   }, []);
 
   const pathVisibilityDefaults = {
-    fillOpacity: 0.9,
+    fillOpacity: 1,
     strokeOpacity: 1,
-    strokeWeight: 6,
+    strokeWeight: 8,
   };
   const pathOptions = {
     strokeColor: "#FF0000",
@@ -174,17 +178,18 @@ const Direction = () => {
     zIndex: 1,
     ...pathVisibilityDefaults,
   };
-  // const getWayPoints = () => {
-  //   return data.slice(1, data.length - 1).map((destination) => {
-  //     return {
-  //       location: {
-  //         lat: destination.coordinates.latitude,
-  //         lng: destination.coordinates.longitude,
-  //       },
-  //       stopover: true,
-  //     };
-  //   });
-  // };
+
+  const getWayPoints = () => {
+    return data.slice(1, data.length - 1).map((destination) => {
+      return {
+        location: {
+          lat: destination.coordinates.latitude,
+          lng: destination.coordinates.longitude,
+        },
+        stopover: true,
+      };
+    });
+  };
 
   const nextDestination = () => {
     setOrigin(destination);
@@ -215,48 +220,65 @@ const Direction = () => {
     setIdx(prevIdx);
   };
 
+  const changeMode = () => {
+    setMultiMode(!multiMode);
+    setOrigin(center);
+    const finalDestination = {
+      lat: data[data.length - 1].coordinates.latitude,
+      lng: data[data.length - 1].coordinates.longitude,
+    };
+    setDestination(finalDestination);
+    setResponse(null);
+    setIdx(initialDestination);
+  };
+
   return (
     <div className={"map-container"}>
       <main className={"map-wrapper"}>
         <div className='map-card-controls'>
-          <button
-            className='map-controls'
-            style={
-              currIdx <= 0
-                ? {
-                    color: "dimgrey",
-                    background: "#6969695c",
-                  }
-                : null
-            }
-            disabled={currIdx <= 0 ? true : false}
-            onClick={() => prevDestination()}
-          >
-            Prev
+          <button className='map-controls' onClick={() => changeMode()}>
+            {multiMode ? "Multi" : "Single"}
           </button>
-          <button
-            style={
-              currIdx >= data.length - 1
-                ? {
-                    color: "dimgrey",
-                    background: "#6969695c",
-                  }
-                : null
-            }
-            className='map-controls'
-            disabled={currIdx >= data.length - 1 ? true : false}
-            onClick={() => nextDestination()}
-          >
-            Next
-          </button>
+          <div style={{ display: "flex" }}>
+            <button
+              className='map-controls'
+              style={
+                currIdx <= 0
+                  ? {
+                      color: "dimgrey",
+                      background: "#6969695c",
+                    }
+                  : null
+              }
+              disabled={currIdx <= 0 ? true : false}
+              onClick={() => prevDestination()}
+            >
+              Prev
+            </button>
+            <button
+              style={
+                currIdx >= data.length - 1
+                  ? {
+                      color: "dimgrey",
+                      background: "#6969695c",
+                    }
+                  : null
+              }
+              className='map-controls'
+              disabled={currIdx >= data.length - 1 ? true : false}
+              onClick={() => nextDestination()}
+            >
+              Next
+            </button>
+          </div>
         </div>
         <Map center={origin}>
           {!response && !path && destination && origin && (
             <DirectionsService
               options={{
-                destination: destination,
                 origin: origin,
-                // waypoints: getWayPoints(),
+                destination: destination,
+                waypoints: multiMode ? getWayPoints() : null,
                 travelMode: "DRIVING",
               }}
               callback={(response) => {
