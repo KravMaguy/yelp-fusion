@@ -130,11 +130,26 @@ const Direction = () => {
   const [response, setResponse] = useState(null);
   const [path, setPath] = useState(null);
   const [zoom, setZoom] = useState(15);
-  const [routeColor, setRouteColor] = useState("#ff2343");
+  const [colorCodes, setColorCodes] = useState([]);
   const [currIdx, setIdx] = useState(initialDestination);
+
+  const genRgb = () => {
+    const rgbsContainer = [];
+    for (let i = 0; i < data.length; i++) {
+      const rgbContainer = [];
+      for (let j = 0; j < 3; j++) {
+        rgbContainer.push(Math.floor(Math.random() * 255));
+      }
+      rgbsContainer.push(rgbContainer);
+    }
+    setColorCodes(rgbsContainer);
+  };
+
+  console.log(colorCodes);
 
   useEffect(() => {
     if (data.length > 0) {
+      genRgb();
       const nextDestination = {
         lat: data[initialDestination].coordinates.latitude,
         lng: data[initialDestination].coordinates.longitude,
@@ -143,18 +158,21 @@ const Direction = () => {
     }
   }, []);
 
+  const pathVisibilityDefaults = {
+    fillOpacity: 0.9,
+    strokeOpacity: 1,
+    strokeWeight: 6,
+  };
   const pathOptions = {
     strokeColor: "#FF0000",
-    strokeOpacity: 0.8,
-    strokeWeight: 2,
     fillColor: "#FF0000",
-    fillOpacity: 0.35,
     clickable: true,
     draggable: false,
     editable: false,
     visible: true,
     radius: 30000,
     zIndex: 1,
+    ...pathVisibilityDefaults,
   };
   // const getWayPoints = () => {
   //   return data.slice(1, data.length - 1).map((destination) => {
@@ -169,10 +187,6 @@ const Direction = () => {
   // };
 
   const nextDestination = () => {
-    // routeColor === "#ff2343"
-    //   ? setRouteColor("green")
-    //   : setRouteColor("#ff2343");
-
     setOrigin(destination);
     const nextIdx = currIdx + 1;
     const nextDestination = {
@@ -267,7 +281,10 @@ const Direction = () => {
             <DirectionsRenderer
               options={{
                 directions: response,
-                polylineOptions: { strokeColor: routeColor },
+                polylineOptions: {
+                  strokeColor: "rgb(" + colorCodes[currIdx].join(",") + ")",
+                  ...pathVisibilityDefaults,
+                },
               }}
             />
           )}
