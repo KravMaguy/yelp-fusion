@@ -120,16 +120,32 @@ const data = [
     distance: 4158.91942816934,
   },
 ];
+
+const pathVisibilityDefaults = {
+  fillOpacity: 1,
+  strokeOpacity: 1,
+  strokeWeight: 8,
+};
+const pathOptions = {
+  strokeColor: "#FF0000",
+  fillColor: "#FF0000",
+  clickable: true,
+  draggable: false,
+  editable: false,
+  visible: true,
+  radius: 30000,
+  zIndex: 1,
+  ...pathVisibilityDefaults,
+};
+
 data.map((x, idx) => console.log(idx, x.name, x.coordinates));
 const Direction = () => {
   const center = { lat: 42.0055069, lng: -87.7114431 };
-
   const initialDestination = 0;
   const [destination, setDestination] = useState(null);
   const [origin, setOrigin] = useState(center);
   const [response, setResponse] = useState(null);
   const [path, setPath] = useState(null);
-  const [zoom, setZoom] = useState(15);
   const [colorCodes, setColorCodes] = useState([]);
   const [currIdx, setIdx] = useState(initialDestination);
   const [multiMode, setMultiMode] = useState(false);
@@ -162,25 +178,8 @@ const Direction = () => {
     }
   }, []);
 
-  const pathVisibilityDefaults = {
-    fillOpacity: 1,
-    strokeOpacity: 1,
-    strokeWeight: 8,
-  };
-  const pathOptions = {
-    strokeColor: "#FF0000",
-    fillColor: "#FF0000",
-    clickable: true,
-    draggable: false,
-    editable: false,
-    visible: true,
-    radius: 30000,
-    zIndex: 1,
-    ...pathVisibilityDefaults,
-  };
-
   const getWayPoints = () => {
-    return data.slice(1, data.length - 1).map((destination) => {
+    return data.slice(0, data.length - 1).map((destination) => {
       return {
         location: {
           lat: destination.coordinates.latitude,
@@ -282,17 +281,11 @@ const Direction = () => {
                 travelMode: "DRIVING",
               }}
               callback={(response) => {
-                console.log(response);
                 if (response !== null) {
                   if (response.status === "OK") {
-                    console.log("response =", response);
                     setResponse(response);
                   } else {
-                    console.log("response: ", response);
-                    console.log(origin, "org");
-                    console.log(destination, "dest");
                     setPath([origin, destination]);
-                    setZoom(3);
                   }
                 }
               }}
