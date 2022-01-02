@@ -120,9 +120,9 @@ const data = [
     distance: 4158.91942816934,
   },
 ];
-// data.map((x, idx) => console.log(idx, x.name, x.coordinates));
+data.map((x, idx) => console.log(idx, x.name, x.coordinates));
 const Direction = () => {
-  const center = { lat: 42.0109067, lng: -87.7103563 };
+  const center = { lat: 42.0055069, lng: -87.7114431 };
 
   const initialDestination = 0;
   const [destination, setDestination] = useState(null);
@@ -185,15 +185,20 @@ const Direction = () => {
   };
 
   const prevDestination = () => {
-    // const prevIdx = currIdx - 1;
-    // const prevDestination = {
-    //   lat: data[prevIdx].coordinates.latitude,
-    //   lng: data[prevIdx].coordinates.longitude,
-    // };
-    // setDestination(prevDestination);
-    // setResponse(null);
-    // setIdx(prevIdx);
-    console.log(currIdx, "currIdx");
+    const prevIdx = currIdx - 1;
+    if (currIdx === 1) {
+      setOrigin(center);
+      setDestination(origin);
+    } else {
+      setDestination(origin);
+      const prevDestination = {
+        lat: data[prevIdx - 1].coordinates.latitude,
+        lng: data[prevIdx - 1].coordinates.longitude,
+      };
+      setOrigin(prevDestination);
+    }
+    setResponse(null);
+    setIdx(prevIdx);
   };
 
   return (
