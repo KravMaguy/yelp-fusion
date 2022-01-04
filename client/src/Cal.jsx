@@ -63,7 +63,12 @@ function Cal({ hours }) {
         <DayPicker
           selectedDays={selectedDay}
           onDayClick={handleDayClick}
-          onMonthChange={(month) => setSelectedDay(month)}
+          onMonthChange={(month) => {
+            const today = new Date(Date.now());
+            today.getMonth() !== month.getMonth()
+              ? setSelectedDay(month)
+              : setSelectedDay(today);
+          }}
           disabledDays={[
             {
               before: new Date(Date.now()),

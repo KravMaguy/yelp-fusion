@@ -224,41 +224,42 @@ const ModifiedDirections = ({ center, setCenter }) => {
 
   return (
     <div className={"map-container"}>
-      <main className={"map-wrapper"}>
-        <div className='map-card-controls'>
-          <div style={{ display: "flex" }}>
-            <button
-              className='map-controls'
-              style={
-                currIdx <= 0
-                  ? {
-                      color: "dimgrey",
-                      background: "#6969695c",
-                    }
-                  : null
-              }
-              disabled={currIdx <= 0 ? true : false}
-              onClick={() => prevDestination()}
-            >
-              {currIdx === startingSearchIndex + 1 ? "Full Plan" : "Previous"}
-            </button>
-            <button
-              style={
-                currIdx >= derivedData.length - 1
-                  ? {
-                      color: "dimgrey",
-                      background: "#6969695c",
-                    }
-                  : null
-              }
-              className='map-controls'
-              disabled={currIdx >= derivedData.length - 1 ? true : false}
-              onClick={() => nextDestination()}
-            >
-              {currIdx === startingSearchIndex ? "Start" : "Next"}
-            </button>
-          </div>
+      <div className='map-card-controls'>
+        <div style={{ display: "flex" }}>
+          <button
+            className='map-controls'
+            style={
+              currIdx <= 0
+                ? {
+                    color: "dimgrey",
+                    background: "#6969695c",
+                  }
+                : null
+            }
+            disabled={currIdx <= 0 ? true : false}
+            onClick={() => prevDestination()}
+          >
+            {currIdx === startingSearchIndex + 1 ? "Full Plan" : "Previous"}
+          </button>
+          <button
+            style={
+              currIdx >= derivedData.length - 1
+                ? {
+                    color: "dimgrey",
+                    background: "#6969695c",
+                  }
+                : null
+            }
+            className='map-controls'
+            disabled={currIdx >= derivedData.length - 1 ? true : false}
+            onClick={() => nextDestination()}
+          >
+            {currIdx === startingSearchIndex ? "Start" : "Next"}
+          </button>
         </div>
+      </div>
+
+      <main className={"map-wrapper"}>
         <Map center={center}>
           {!response && !path && destination && origin && (
             <DirectionsService
