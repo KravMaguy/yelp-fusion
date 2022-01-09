@@ -8,19 +8,10 @@ const app = express();
 const port = process.env.PORT || 3001;
 
 app.use(express.json());
-app.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", "http://localhost:3000");
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept"
-  );
-  next();
-});
+
 const token = process.env.TOKEN;
 
 const mongoose = require("mongoose");
-const passport = require("passport");
-const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const findOrCreate = require("mongoose-findorcreate");
 
 mongoose.connect(process.env.connection, { useNewUrlParser: true });
@@ -28,36 +19,30 @@ mongoose.connect(process.env.connection, { useNewUrlParser: true });
 const userSchema = new mongoose.Schema({
   email: String,
   googleId: String,
+  givenName: String,
+  familyName: String,
+  imageUrl: String,
 });
 
 userSchema.plugin(findOrCreate);
 const User = new mongoose.model("User", userSchema);
 
-passport.use(
-  new GoogleStrategy(
-    {
-      clientID: process.env.CLIENT_ID,
-      clientSecret: process.env.CLIENT_SECRET,
-      callbackURL: "http://localhost:3000/auth/",
-    },
-    function (accessToken, refreshToken, profile, cb) {
-      console.log(profile);
-
-      User.findOrCreate({ googleId: profile.id }, function (err, user) {
-        return cb(err, user);
-      });
+app.post("/createlogin/", async (req, res) => {
+  console.log("I will enter the user");
+  const body = req.body;
+  console.log("here is the body", body);
+  const { googleId, imageUrl, email, givenName, familyName } = body;
+  User.findOrCreate(
+    { googleId, imageUrl, email, givenName, familyName },
+    function (err, user) {
+      if (err) {
+        return console.log("err", err);
+      } else if (user) {
+        return res.json(res.data);
+      }
     }
-  )
-);
-
-app.get(
-  "/auth/google",
-  (req, res, next) => {
-    console.log("auth with google");
-    next();
-  },
-  passport.authenticate("google", { scope: ["profile"] })
-);
+  );
+});
 
 app.post("/api/", async (req, res) => {
   const body = req.body;
