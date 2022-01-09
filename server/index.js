@@ -28,9 +28,7 @@ userSchema.plugin(findOrCreate);
 const User = new mongoose.model("User", userSchema);
 
 app.post("/createlogin/", async (req, res) => {
-  console.log("I will enter the user");
   const body = req.body;
-  console.log("here is the body", body);
   const { googleId, imageUrl, email, givenName, familyName } = body;
   User.findOrCreate(
     { googleId, imageUrl, email, givenName, familyName },
