@@ -1,20 +1,18 @@
-import axios from "axios";
+import { GoogleLogin } from "react-google-login";
 const Login = () => {
-  const runit = () => {
-    axios("/auth/google", {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Cache: "no-cache",
-      },
-      mode: "no-cors",
-    });
+  const responseGoogle = (response) => {
+    console.log(response);
   };
-
+  console.log(process.env);
   return (
     <>
-      log in <button onClick={() => runit()}>Log In</button>
+      <GoogleLogin
+        clientId={process.env.client_id}
+        buttonText='Login'
+        onSuccess={responseGoogle}
+        onFailure={responseGoogle}
+        clientSecret={process.env.client_secret}
+      />
     </>
   );
 };
