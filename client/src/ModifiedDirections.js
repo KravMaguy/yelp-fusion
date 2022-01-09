@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { Marker } from "@react-google-maps/api";
+
 import {
   DirectionsService,
   DirectionsRenderer,
@@ -6,7 +8,7 @@ import {
 } from "@react-google-maps/api";
 import Map from "./Map";
 import Login from "./Login";
-var google = window.google;
+
 const data = [
   {
     id: "h98ZbeAb8QO2wZ-dPMO6iw",
@@ -178,10 +180,8 @@ const ModifiedDirections = ({ center, setCenter }) => {
           stopover: true,
         };
       });
-      console.log(thepoints, "the points");
       return thepoints;
     } else {
-      console.log("getWaypoints else block");
       return null;
     }
   };
@@ -224,41 +224,7 @@ const ModifiedDirections = ({ center, setCenter }) => {
     setResponse(null);
   };
 
-  var icons = {
-    start: new google.maps.MarkerImage(
-      // URL
-      "http://maps.google.com/mapfiles/ms/micons/blue.png",
-      // (width,height)
-      new google.maps.Size(44, 32),
-      // The origin point (x,y)
-      new google.maps.Point(0, 0),
-      // The anchor point (x,y)
-      new google.maps.Point(22, 32)
-    ),
-    end: new google.maps.MarkerImage(
-      // URL
-      "http://maps.google.com/mapfiles/ms/micons/green.png",
-      // (width,height)
-      new google.maps.Size(44, 32),
-      // The origin point (x,y)
-      new google.maps.Point(0, 0),
-      // The anchor point (x,y)
-      new google.maps.Point(22, 32)
-    ),
-  };
-  console.log(window.google, "the map");
-
-  const makeMarker = (position, icon, title) => {
-    console.log(position, "position");
-    const myMarker = new google.maps.Marker({
-      position: position,
-      map: window.google.map,
-      icon: icon,
-      title: title,
-    });
-    console.log(myMarker, "my marker");
-    return myMarker;
-  };
+  const wayPoints = [origin, destination];
 
   return (
     <>
@@ -316,8 +282,6 @@ const ModifiedDirections = ({ center, setCenter }) => {
                         setResponse(response);
                         const leg = response.routes[0].legs[0];
                         console.log(leg, "leg");
-                        makeMarker(leg.start_location, icons.start, "title");
-                        makeMarker(leg.end_location, icons.end, "title");
                       } else {
                         setPath([origin, destination]);
                       }
@@ -329,7 +293,7 @@ const ModifiedDirections = ({ center, setCenter }) => {
               {response !== null && (
                 <DirectionsRenderer
                   options={{
-                    suppressMarkers: true,
+                    suppressMarkers: !getWayPoints() ? true : false,
 
                     directions: response,
                     polylineOptions: {
@@ -348,6 +312,25 @@ const ModifiedDirections = ({ center, setCenter }) => {
                 />
               )}
 
+              {!getWayPoints() &&
+                wayPoints.map((waypoint, idx) => {
+                  const letter = String.fromCharCode(
+                    "A".charCodeAt(0) + currIdx + idx - 1
+                  );
+                  return (
+                    <Marker
+                      position={{
+                        lat: waypoint.lat,
+                        lng: waypoint.lng,
+                      }}
+                      icon={
+                        "http://maps.google.com/mapfiles/marker" +
+                        letter +
+                        ".png"
+                      }
+                    />
+                  );
+                })}
               {path && (
                 <Polyline
                   onLoad={() => console.log("drawing polyline")}
