@@ -5,6 +5,8 @@ import {
   Polyline,
 } from "@react-google-maps/api";
 import Map from "./Map";
+import Login from "./Login";
+var google = window.google;
 const data = [
   {
     id: "h98ZbeAb8QO2wZ-dPMO6iw",
@@ -222,95 +224,142 @@ const ModifiedDirections = ({ center, setCenter }) => {
     setResponse(null);
   };
 
+  var icons = {
+    start: new google.maps.MarkerImage(
+      // URL
+      "http://maps.google.com/mapfiles/ms/micons/blue.png",
+      // (width,height)
+      new google.maps.Size(44, 32),
+      // The origin point (x,y)
+      new google.maps.Point(0, 0),
+      // The anchor point (x,y)
+      new google.maps.Point(22, 32)
+    ),
+    end: new google.maps.MarkerImage(
+      // URL
+      "http://maps.google.com/mapfiles/ms/micons/green.png",
+      // (width,height)
+      new google.maps.Size(44, 32),
+      // The origin point (x,y)
+      new google.maps.Point(0, 0),
+      // The anchor point (x,y)
+      new google.maps.Point(22, 32)
+    ),
+  };
+  console.log(window.google, "the map");
+
+  const makeMarker = (position, icon, title) => {
+    console.log(position, "position");
+    const myMarker = new google.maps.Marker({
+      position: position,
+      map: window.google.map,
+      icon: icon,
+      title: title,
+    });
+    console.log(myMarker, "my marker");
+    return myMarker;
+  };
+
   return (
-    <div className={"map-container"}>
-      <div className='map-card-controls'>
-        <div style={{ display: "flex" }}>
-          <button
-            className='map-controls'
-            style={
-              currIdx <= 0
-                ? {
-                    color: "dimgrey",
-                    background: "#6969695c",
-                  }
-                : null
-            }
-            disabled={currIdx <= 0 ? true : false}
-            onClick={() => prevDestination()}
-          >
-            {currIdx === startingSearchIndex + 1 ? "Full Plan" : "Previous"}
-          </button>
-          <button
-            style={
-              currIdx >= derivedData.length - 1
-                ? {
-                    color: "dimgrey",
-                    background: "#6969695c",
-                  }
-                : null
-            }
-            className='map-controls'
-            disabled={currIdx >= derivedData.length - 1 ? true : false}
-            onClick={() => nextDestination()}
-          >
-            {currIdx === startingSearchIndex ? "Start" : "Next"}
-          </button>
+    <>
+      <div className='wrappy'>
+        <Login />{" "}
+        <div className={"map-container"}>
+          <div className='map-card-controls'>
+            <div style={{ display: "flex" }}>
+              <button
+                className='map-controls'
+                style={
+                  currIdx <= 0
+                    ? {
+                        color: "dimgrey",
+                        background: "#6969695c",
+                      }
+                    : null
+                }
+                disabled={currIdx <= 0 ? true : false}
+                onClick={() => prevDestination()}
+              >
+                {currIdx === startingSearchIndex + 1 ? "Full Plan" : "Previous"}
+              </button>
+              <button
+                style={
+                  currIdx >= derivedData.length - 1
+                    ? {
+                        color: "dimgrey",
+                        background: "#6969695c",
+                      }
+                    : null
+                }
+                className='map-controls'
+                disabled={currIdx >= derivedData.length - 1 ? true : false}
+                onClick={() => nextDestination()}
+              >
+                {currIdx === startingSearchIndex ? "Start" : "Next"}
+              </button>
+            </div>
+          </div>
+
+          <main className={"map-wrapper"}>
+            <Map center={center}>
+              {!response && !path && destination && origin && (
+                <DirectionsService
+                  options={{
+                    origin: origin,
+                    destination: destination,
+                    waypoints: getWayPoints(),
+                    travelMode: "DRIVING",
+                  }}
+                  callback={(response) => {
+                    if (response !== null) {
+                      if (response.status === "OK") {
+                        setResponse(response);
+                        const leg = response.routes[0].legs[0];
+                        console.log(leg, "leg");
+                        makeMarker(leg.start_location, icons.start, "title");
+                        makeMarker(leg.end_location, icons.end, "title");
+                      } else {
+                        setPath([origin, destination]);
+                      }
+                    }
+                  }}
+                />
+              )}
+
+              {response !== null && (
+                <DirectionsRenderer
+                  options={{
+                    suppressMarkers: true,
+
+                    directions: response,
+                    polylineOptions: {
+                      strokeColor:
+                        currIdx === startingSearchIndex ? "red" : "#604ca6c7",
+                      strokeOpacity:
+                        currIdx !== startingSearchIndex
+                          ? pathVisibilityDefaults.strokeOpacity
+                          : null,
+                      strokeWeight:
+                        currIdx !== startingSearchIndex
+                          ? pathVisibilityDefaults.strokeWeight
+                          : null,
+                    },
+                  }}
+                />
+              )}
+
+              {path && (
+                <Polyline
+                  onLoad={() => console.log("drawing polyline")}
+                  path={path}
+                  options={pathOptions}
+                />
+              )}
+            </Map>
+          </main>
         </div>
       </div>
-
-      <main className={"map-wrapper"}>
-        <Map center={center}>
-          {!response && !path && destination && origin && (
-            <DirectionsService
-              options={{
-                origin: origin,
-                destination: destination,
-                waypoints: getWayPoints(),
-                travelMode: "DRIVING",
-              }}
-              callback={(response) => {
-                if (response !== null) {
-                  if (response.status === "OK") {
-                    setResponse(response);
-                  } else {
-                    setPath([origin, destination]);
-                  }
-                }
-              }}
-            />
-          )}
-
-          {response !== null && (
-            <DirectionsRenderer
-              options={{
-                directions: response,
-                polylineOptions: {
-                  strokeColor:
-                    currIdx === startingSearchIndex ? "red" : "#604ca6c7",
-                  strokeOpacity:
-                    currIdx !== startingSearchIndex
-                      ? pathVisibilityDefaults.strokeOpacity
-                      : null,
-                  strokeWeight:
-                    currIdx !== startingSearchIndex
-                      ? pathVisibilityDefaults.strokeWeight
-                      : null,
-                },
-              }}
-            />
-          )}
-
-          {path && (
-            <Polyline
-              onLoad={() => console.log("drawing polyline")}
-              path={path}
-              options={pathOptions}
-            />
-          )}
-        </Map>
-      </main>
-    </div>
+    </>
   );
 };
 

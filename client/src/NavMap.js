@@ -25,6 +25,7 @@ const NavMap = ({ data, center }) => {
             {(clusterer) =>
               result.map((location) => (
                 <Marker
+                  label={"C"}
                   key={createKey(location)}
                   position={location}
                   clusterer={clusterer}

@@ -6,6 +6,7 @@ import SearchPage from "./Search";
 import MultiSelectAsync from "./MultiSelect";
 import Cal from "./Cal";
 import NavMap from "./NavMap";
+import Sortable from "./Sortable";
 // import Directions from "./Directions";
 import ModifiedDirections from "./ModifiedDirections";
 import Login from "./Login";
@@ -19,9 +20,9 @@ function App() {
     <div className='App'>
       <Router>
         <Routes>
-          <Route path='/' exact element={<Login />} />
+          {/* <Route path='/' exact element={<Login />} /> */}
           <Route
-            path='/search'
+            path='/'
             exact
             element={
               <SearchPage
@@ -44,6 +45,7 @@ function App() {
               <Directions data={data} center={center} setCenter={setCenter} />
             }
           /> */}
+          <Route path='/sort' element={<Sortable />} />
           <Route
             path='/modified'
             element={
