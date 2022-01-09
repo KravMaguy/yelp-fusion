@@ -127,7 +127,7 @@ const data = [
 
 const pathVisibilityDefaults = {
   strokeOpacity: 0.9,
-  strokeWeight: 8,
+  strokeWeight: 6,
 };
 
 const pathOptions = {
@@ -311,7 +311,6 @@ const ModifiedDirections = ({ center, setCenter }) => {
                   }}
                 />
               )}
-
               {!getWayPoints() &&
                 wayPoints.map((waypoint, idx) => {
                   const letter = String.fromCharCode(
@@ -323,11 +322,7 @@ const ModifiedDirections = ({ center, setCenter }) => {
                         lat: waypoint.lat,
                         lng: waypoint.lng,
                       }}
-                      icon={
-                        "http://maps.google.com/mapfiles/marker" +
-                        letter +
-                        ".png"
-                      }
+                      label={{ text: letter, color: "white" }}
                     />
                   );
                 })}
