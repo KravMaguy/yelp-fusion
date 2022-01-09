@@ -1,10 +1,5 @@
 import React, { useState } from "react";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Navigate,
-} from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./App.css";
 import Buisness from "./Buisness";
 import SearchPage from "./Search";
@@ -13,6 +8,7 @@ import Cal from "./Cal";
 import NavMap from "./NavMap";
 // import Directions from "./Directions";
 import ModifiedDirections from "./ModifiedDirections";
+import Login from "./Login";
 function App() {
   const [initialReq, setInitialReq] = useState(false);
   const [data, setData] = useState([]);
@@ -23,8 +19,9 @@ function App() {
     <div className='App'>
       <Router>
         <Routes>
+          <Route path='/' exact element={<Login />} />
           <Route
-            path='/'
+            path='/search'
             exact
             element={
               <SearchPage
@@ -59,7 +56,7 @@ function App() {
           />
           <Route path='/category' element={<MultiSelectAsync />} />
           <Route path='/map' element={<NavMap data={data} center={center} />} />
-          <Route path='*' element={<Navigate to='/' />} />
+          {/* <Route path='*' element={<Navigate to='/' />} /> */}
         </Routes>
       </Router>
     </div>
