@@ -202,6 +202,8 @@ const ModifiedDirections = ({ center, setCenter }) => {
 
   const prevDestination = () => {
     if (currIdx === startingSearchIndex + 1) {
+      travelMode === "TRANSIT" && setTravelMode("DRIVING");
+
       setIdx(startingSearchIndex);
       const startingDestination = {
         lat: derivedData[startingSearchIndex].coordinates.latitude,
@@ -406,13 +408,13 @@ const ModifiedDirections = ({ center, setCenter }) => {
                     />
                   );
                 })}
-              {path && (
+              {/* {path && (
                 <Polyline
                   onLoad={() => console.log("drawing polyline")}
                   path={path}
                   options={pathOptions}
                 />
-              )}
+              )} */}
             </Map>
           </main>
         </div>
