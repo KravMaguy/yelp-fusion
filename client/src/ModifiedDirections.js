@@ -156,7 +156,8 @@ const ModifiedDirections = ({ center, setCenter }) => {
   const [origin, setOrigin] = useState(center);
   const [response, setResponse] = useState(null);
   const [path, setPath] = useState(null);
-
+  const [travelMode, setTravelMode] = useState("DRIVING");
+  console.log(travelMode, "travelMode");
   useEffect(() => {
     const lastDestination = {
       lat: derivedData[derivedData.length - 1].coordinates.latitude,
@@ -226,11 +227,90 @@ const ModifiedDirections = ({ center, setCenter }) => {
 
   const wayPoints = [origin, destination];
 
+  const checkDriving = ({ target: { checked } }) => {
+    checked && setTravelMode("DRIVING");
+    setResponse(null);
+  };
+
+  const checkBicycling = ({ target: { checked } }) => {
+    checked && setTravelMode("BICYCLING");
+    setResponse(null);
+  };
+
+  const checkTransit = ({ target: { checked } }) => {
+    checked && setTravelMode("TRANSIT");
+    setResponse(null);
+  };
+
+  const checkWalking = ({ target: { checked } }) => {
+    checked && setTravelMode("WALKING");
+    setResponse(null);
+  };
+
   return (
     <>
       <div className='wrappy'>
-        <Login />{" "}
+        <Login /> {/* the select boxes */}
         <div className={"map-container"}>
+          <div className=''>
+            <div className=''>
+              <input
+                id='DRIVING'
+                className=''
+                name='travelMode'
+                type='radio'
+                checked={travelMode === "DRIVING"}
+                onChange={checkDriving}
+              />
+              <label className='custom-control-label' htmlFor='DRIVING'>
+                Driving
+              </label>
+            </div>
+
+            <div className=''>
+              <input
+                id='BICYCLING'
+                className=''
+                name='travelMode'
+                type='radio'
+                checked={travelMode === "BICYCLING"}
+                onChange={checkBicycling}
+              />
+              <label className='' htmlFor='BICYCLING'>
+                Bicycling
+              </label>
+            </div>
+
+            <div className=''>
+              <input
+                disabled={currIdx === startingSearchIndex}
+                id='TRANSIT'
+                className=''
+                name='travelMode'
+                type='radio'
+                checked={travelMode === "TRANSIT"}
+                onChange={checkTransit}
+              />
+              <label className='custom-control-label' htmlFor='TRANSIT'>
+                Transit
+              </label>
+            </div>
+
+            <div className=''>
+              <input
+                id='WALKING'
+                className='custom-control-input'
+                name='travelMode'
+                type='radio'
+                checked={travelMode === "WALKING"}
+                onChange={checkWalking}
+              />
+              <label className='' htmlFor='WALKING'>
+                Walking
+              </label>
+            </div>
+          </div>
+
           <div className='map-card-controls'>
             <div style={{ display: "flex" }}>
               <button
@@ -274,7 +354,7 @@ const ModifiedDirections = ({ center, setCenter }) => {
                     origin: origin,
                     destination: destination,
                     waypoints: getWayPoints(),
-                    travelMode: "DRIVING",
+                    travelMode: travelMode,
                   }}
                   callback={(response) => {
                     if (response !== null) {
