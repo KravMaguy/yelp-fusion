@@ -1,66 +1,31 @@
-import React, { useState, useEffect } from "react";
-import { GoogleLogin } from "react-google-login";
-import "./Header.css";
+import Google from "./img/google.png";
 
-import axios from "axios";
 const Login = () => {
-  const responseGoogle = async (response) => {
-    if (response.profileObj) {
-      const { profileObj } = response;
-      try {
-        const data = await axios.post("/createlogin/", profileObj);
-        console.log("the data", data);
-      } catch (error) {
-        console.error("err: ", error);
-      }
-    }
+  const google = () => {
+    window.open("http://localhost:5000/auth/google", "_self");
   };
 
   return (
-    <>
-      <div class='header header-fixed shadow'>
-        <div class='navbar container'>
-          <div class='logo'>
-            {/* <a href='#home'> */}
-            <img
-              src='../fusion.png'
-              style={{
-                size: "1.875em",
-                height: "2em",
-                position: "absolute",
-                top: "10px",
-                left: "15px",
-              }}
-            />
-            {/* </a> */}
+    <div className='login'>
+      <h1 className='loginTitle'>Choose a Login Method</h1>
+      <div className='wrapper'>
+        <div className='left'>
+          <div className='loginButton google' onClick={google}>
+            <img src={Google} alt='' className='icon' />
+            Google
           </div>
-          <GoogleLogin
-            clientId={process.env.REACT_APP_CLIENT_ID}
-            buttonText='Login'
-            onSuccess={responseGoogle}
-            onFailure={responseGoogle}
-            clientSecret={process.env.REACT_APP_CLIENT_SECRET}
-          />
-          <input type='checkbox' id='navbar-toggle' />
-          <label for='navbar-toggle'>
-            <i></i>
-          </label>
-          <nav class='menu'>
-            <ul>
-              <li>
-                <a href='#search'>Search</a>
-              </li>
-              <li>
-                <a href='#calendar'>Calendar</a>
-              </li>
-              <li>
-                <a href='#map'>Map</a>
-              </li>
-            </ul>
-          </nav>
+        </div>
+        <div className='center'>
+          <div className='line' />
+          <div className='or'>OR</div>
+        </div>
+        <div className='right'>
+          <input type='text' placeholder='Username' />
+          <input type='text' placeholder='Password' />
+          <button className='submit'>Login</button>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

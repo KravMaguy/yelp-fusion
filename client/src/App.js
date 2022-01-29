@@ -1,5 +1,10 @@
-import React, { useState } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 import "./App.css";
 import Buisness from "./Buisness";
 import SearchPage from "./Search";
@@ -10,17 +15,48 @@ import Sortable from "./Sortable";
 // import Directions from "./Directions";
 import ModifiedDirections from "./ModifiedDirections";
 import Login from "./Login";
+import Navbar from "./Navbar";
 function App() {
   const [initialReq, setInitialReq] = useState(false);
   const [data, setData] = useState([]);
   const [center, setCenter] = useState({ lat: 42.009933, lng: -87.70515 });
+  const [user, setUser] = useState(null);
 
+  useEffect(() => {
+    const getUser = () => {
+      fetch("http://localhost:5000/auth/login/success", {
+        method: "GET",
+        credentials: "include",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Credentials": true,
+        },
+      })
+        .then((response) => {
+          if (response.status === 200) return response.json();
+          throw new Error("authentication has been failed!");
+        })
+        .then((resObject) => {
+          setUser(resObject.user);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    };
+    getUser();
+  }, []);
   console.log(data, "data");
   return (
     <div className='App'>
       <Router>
+        <Navbar user={user} />
+
         <Routes>
-          {/* <Route path='/' exact element={<Login />} /> */}
+          <Route
+            path='/login'
+            element={user ? <Navigate to='/' /> : <Login />}
+          />
           <Route
             path='/'
             exact

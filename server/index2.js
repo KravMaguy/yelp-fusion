@@ -1,36 +1,12 @@
 const dotenv = require("dotenv");
 dotenv.config();
-const cookieSession = require("cookie-session");
 const express = require("express");
-const cors = require("cors");
-const passportSetup = require("./passport");
-const passport = require("passport");
-const authRoute = require("./routes/auth");
-const app = express();
 const axios = require("axios");
-
 axios.defaults.headers.common["Authorization"] = `Bearer ${process.env.token}`;
 axios.defaults.baseURL = "https://api.yelp.com/v3/";
-app.use(
-  cookieSession({
-    name: "session",
-    keys: ["yelp-fusion"],
-    maxAge: 24 * 60 * 60 * 100,
-  })
-);
+const app = express();
+const port = process.env.PORT || 3001;
 
-app.use(passport.initialize());
-app.use(passport.session());
-
-app.use(
-  cors({
-    origin: "http://localhost:3000",
-    methods: "GET,POST,PUT,DELETE",
-    credentials: true,
-  })
-);
-
-app.use("/auth", authRoute);
 app.use(express.json());
 
 const token = process.env.TOKEN;
@@ -105,6 +81,4 @@ app.get("/autocomplete/:text", async (req, res) => {
     .catch((err) => res.status(err.response.status).send(err.message));
 });
 
-app.listen("5000", () => {
-  console.log("Server is running!");
-});
+app.listen(port, () => console.log(`App is running on port ${port}`));
