@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import {
   BrowserRouter as Router,
   Routes,
@@ -38,7 +39,8 @@ function App() {
           throw new Error("authentication has been failed!");
         })
         .then((resObject) => {
-          setUser(resObject.user);
+          const { user } = resObject;
+          setUser(user);
         })
         .catch((err) => {
           console.log(err);
@@ -46,6 +48,7 @@ function App() {
     };
     getUser();
   }, []);
+
   console.log(data, "data");
   return (
     <div className='App'>

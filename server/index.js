@@ -53,17 +53,18 @@ const User = new mongoose.model("User", userSchema);
 
 app.post("/createlogin/", async (req, res) => {
   const body = req.body;
-  const { googleId, imageUrl, email, givenName, familyName } = body;
-  User.findOrCreate(
-    { googleId, imageUrl, email, givenName, familyName },
-    function (err, user) {
-      if (err) {
-        return console.log("err", err);
-      } else if (user) {
-        return res.json(res.data);
-      }
+  console.clear();
+  console.log("BODY IN CREARE", body);
+  const { id, displayName } = body;
+  console.log(id, displayName, "id and display name");
+  const photo = body.photos[0].value;
+  User.findOrCreate({ id, displayName, photo }, function (err, user) {
+    if (err) {
+      return console.log("err", err);
+    } else if (user) {
+      return res.json(res.data);
     }
-  );
+  });
 });
 
 app.post("/api/", async (req, res) => {
