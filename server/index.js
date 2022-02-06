@@ -8,7 +8,6 @@ const passport = require("passport");
 const authRoute = require("./routes/auth");
 const app = express();
 const axios = require("axios");
-
 axios.defaults.headers.common["Authorization"] = `Bearer ${process.env.token}`;
 axios.defaults.baseURL = "https://api.yelp.com/v3/";
 app.use(
@@ -46,6 +45,7 @@ const userSchema = new mongoose.Schema({
   givenName: String,
   familyName: String,
   imageUrl: String,
+  plans: Array,
 });
 
 userSchema.plugin(findOrCreate);
@@ -53,8 +53,6 @@ const User = new mongoose.model("User", userSchema);
 
 app.post("/createlogin/", async (req, res) => {
   const body = req.body;
-  console.clear();
-  console.log("BODY IN CREARE", body);
   const { id, displayName } = body;
   console.log(id, displayName, "id and display name");
   const photo = body.photos[0].value;
@@ -66,6 +64,15 @@ app.post("/createlogin/", async (req, res) => {
     }
   });
 });
+app.post("/saveplan/", async (req, res) => {
+  const body = req.body;
+  const userId = "get the userId from React";
+  const filter = { displayName: userId };
+  const { selectedDay } = req.body;
+  doc = await User.findOne(filter);
+  doc.plans = [{ date: selectedDay }];
+  await doc.save();
+});
 
 app.post("/api/", async (req, res) => {
   const body = req.body;
@@ -76,7 +83,7 @@ app.post("/api/", async (req, res) => {
         term +
         "&location=" +
         place +
-        "&limit=3&sortby=distance"
+        "&limit=4&sortby=distance"
     )
     .then((response) => res.json(response.data))
     .catch((err) => res.status(err.response.status).send(err.message));
