@@ -118,7 +118,7 @@ const SearchForm = ({
     setLoading(true);
     try {
       const terms = { term, place };
-      const { data } = await axios.post("/api/", terms);
+      const { data } = await axios.post("http://localhost:5000/api/", terms);
       setLoading(false);
       const { businesses, region } = data;
       const { center } = region;
