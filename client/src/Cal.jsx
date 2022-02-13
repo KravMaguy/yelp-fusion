@@ -6,10 +6,9 @@ import "react-day-picker/lib/style.css";
 import useMediaQuery from "./useMediaQuery";
 import DailyPlan from "./DailyPlan.jsx";
 
-function Cal({ BuisnessData }) {
+function Cal({ BuisnessData, selectedDay, setSelectedDay, formatShift }) {
   const isMobile = useMediaQuery("(max-width: 560px)");
   const [holidays, setHolidays] = useState([]);
-  const [selectedDay, setSelectedDay] = useState(new Date(Date.now()));
 
   const selectedDayHoliday = holidays.find((holidayEntry) => {
     const SelectedDay = selectedDay
@@ -80,6 +79,7 @@ function Cal({ BuisnessData }) {
         {BuisnessData.length ? (
           <>
             <DailyPlan
+              formatShift={formatShift}
               BuisnessData={BuisnessData}
               selectedDay={selectedDay}
               selectedDayHoliday={selectedDayHoliday}

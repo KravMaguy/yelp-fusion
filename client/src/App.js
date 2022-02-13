@@ -65,6 +65,7 @@ function App() {
             exact
             element={
               <SearchPage
+                user={user}
                 setInitialReq={setInitialReq}
                 data={data}
                 setData={setData}

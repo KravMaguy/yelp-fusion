@@ -1,22 +1,13 @@
 import SpecialHours from "./SpecialHours";
 import Shift from "./Shift";
-const weekDays = [
-  "Monday",
-  "Tuesday",
-  "Wednesday",
-  "Thursday",
-  "Friday",
-  "Saturday",
-  "Sunday",
-];
+import { weekDays } from "./utils.js";
 
-const DailyPlan = ({ BuisnessData, selectedDay, selectedDayHoliday }) => {
-  const formatShift = (shift) => {
-    const myShift = shift.split("");
-    myShift.splice(2, 0, ":");
-    return myShift.join("");
-  };
-
+const DailyPlan = ({
+  BuisnessData,
+  selectedDay,
+  selectedDayHoliday,
+  formatShift,
+}) => {
   return (
     <>
       <ul>
@@ -31,7 +22,7 @@ const DailyPlan = ({ BuisnessData, selectedDay, selectedDayHoliday }) => {
             )
           ) {
             return (
-              <>
+              <div key={id}>
                 <h4 className='buisness-cal-title' key={buisness.id}>
                   {buisness.name}
                 </h4>
@@ -45,7 +36,7 @@ const DailyPlan = ({ BuisnessData, selectedDay, selectedDayHoliday }) => {
                       })
                     ) {
                       return (
-                        <div>
+                        <div key={idx}>
                           <Shift
                             selectedDay={selectedDay}
                             formatShift={formatShift}
@@ -64,7 +55,7 @@ const DailyPlan = ({ BuisnessData, selectedDay, selectedDayHoliday }) => {
                     return null;
                   })}
                 </div>
-              </>
+              </div>
             );
           }
           return null;

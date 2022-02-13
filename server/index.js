@@ -66,12 +66,15 @@ app.post("/createlogin/", async (req, res) => {
 });
 app.post("/saveplan/", async (req, res) => {
   const body = req.body;
-  const userId = "get the userId from React";
-  const filter = { displayName: userId };
-  const { selectedDay } = req.body;
+  const { userId, ...rest } = body;
+  const filter = { id: userId };
   doc = await User.findOne(filter);
-  doc.plans = [{ date: selectedDay }];
-  await doc.save();
+  if (doc) {
+    doc.plans.push(rest);
+    await doc.save();
+  } else {
+    console.log("non existant userId");
+  }
 });
 
 app.post("/api/", async (req, res) => {

@@ -10,7 +10,14 @@ import Plan from "./Plan";
 Geocode.setApiKey(process.env.REACT_APP_GOOGLE_MAP_API_KEY);
 Geocode.enableDebug();
 
-const SearchPage = ({ setInitialReq, data, setData, center, setCenter }) => {
+const SearchPage = ({
+  setInitialReq,
+  data,
+  setData,
+  center,
+  setCenter,
+  user,
+}) => {
   const [place, setPlace] = useState("");
   const [term, setTerm] = useState("");
   const [loading, setLoading] = useState(false);
@@ -59,7 +66,7 @@ const SearchPage = ({ setInitialReq, data, setData, center, setCenter }) => {
           >
             {createDisplayPlan ? (
               <>
-                <Plan data={data} term={term} place={place} />
+                <Plan user={user} data={data} term={term} place={place} />
               </>
             ) : (
               <>
