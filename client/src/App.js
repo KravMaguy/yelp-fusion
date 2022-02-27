@@ -13,6 +13,7 @@ import MultiSelectAsync from "./MultiSelect";
 import Cal from "./Cal";
 import NavMap from "./NavMap";
 import Sortable from "./Sortable";
+import BigCalendar from "./BigCalendar";
 // import Directions from "./Directions";
 import ModifiedDirections from "./ModifiedDirections";
 import Login from "./Login";
@@ -56,6 +57,10 @@ function App() {
         <Navbar user={user} />
 
         <Routes>
+          <Route
+            path='/bigCalendar'
+            element={user ? <Navigate to='/' /> : <BigCalendar />}
+          />
           <Route
             path='/login'
             element={user ? <Navigate to='/' /> : <Login />}
