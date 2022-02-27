@@ -7,8 +7,7 @@ const fetchBuisnessData = async (id) => {
   return data;
 };
 
-const Plan = ({ data, term, place, user }) => {
-  const [BuisnessData, setBuisnessData] = useState([]);
+const Plan = ({ data, term, place, user, setBuisnessData, BuisnessData }) => {
   const [selectedDay, setSelectedDay] = useState(new Date(Date.now()));
   useEffect(() => {
     const Locations = data.map((location) => fetchBuisnessData(location.id));
@@ -19,7 +18,7 @@ const Plan = ({ data, term, place, user }) => {
       .catch((error) => {
         console.log(error);
       });
-  }, [data]);
+  }, [data, setBuisnessData]);
 
   const formatShift = (shift) => {
     const myShift = shift.split("");

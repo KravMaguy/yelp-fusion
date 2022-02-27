@@ -11,6 +11,8 @@ Geocode.setApiKey(process.env.REACT_APP_GOOGLE_MAP_API_KEY);
 Geocode.enableDebug();
 
 const SearchPage = ({
+  BuisnessData,
+  setBuisnessData,
   setInitialReq,
   data,
   setData,
@@ -66,7 +68,14 @@ const SearchPage = ({
           >
             {createDisplayPlan ? (
               <>
-                <Plan user={user} data={data} term={term} place={place} />
+                <Plan
+                  user={user}
+                  data={data}
+                  term={term}
+                  place={place}
+                  BuisnessData={BuisnessData}
+                  setBuisnessData={setBuisnessData}
+                />
               </>
             ) : (
               <>

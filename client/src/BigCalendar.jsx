@@ -244,9 +244,11 @@ function BigCalendar() {
           onChange={(e) => setNewEvent({ ...newEvent, title: e.target.value })}
         />
         <DayPickerInput
+          value={newEvent.start}
           onDayChange={(start) => setNewEvent({ ...newEvent, start })}
         />
         <DayPickerInput
+          value={newEvent.end}
           onDayChange={(end) => setNewEvent({ ...newEvent, end })}
         />
         <button stlye={{ marginTop: "10px" }} onClick={handleAddEvent}>

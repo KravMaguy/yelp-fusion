@@ -23,6 +23,7 @@ function App() {
   const [data, setData] = useState([]);
   const [center, setCenter] = useState({ lat: 42.009933, lng: -87.70515 });
   const [user, setUser] = useState(null);
+  const [BuisnessData, setBuisnessData] = useState([]);
 
   useEffect(() => {
     const getUser = () => {
@@ -50,7 +51,7 @@ function App() {
     getUser();
   }, []);
 
-  console.log(data, "data");
+  // console.log(data, "data");
   return (
     <div className='App'>
       <Router>
@@ -76,6 +77,8 @@ function App() {
                 setData={setData}
                 center={center}
                 setCenter={setCenter}
+                BuisnessData={BuisnessData}
+                setBuisnessData={setBuisnessData}
               />
             }
           />
