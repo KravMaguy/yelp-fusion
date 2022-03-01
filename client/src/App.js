@@ -16,6 +16,7 @@ import Sortable from "./Sortable";
 import BigCalendar from "./BigCalendar";
 // import Directions from "./Directions";
 import ModifiedDirections from "./ModifiedDirections";
+import List from "./List";
 import Login from "./Login";
 import Navbar from "./Navbar";
 function App() {
@@ -51,16 +52,22 @@ function App() {
     getUser();
   }, []);
 
-  // console.log(data, "data");
   return (
     <div className='App'>
       <Router>
         <Navbar user={user} />
-
         <Routes>
+          <Route path='/list' element={<List />} />
+
           <Route
             path='/bigCalendar'
-            element={user ? <Navigate to='/' /> : <BigCalendar />}
+            element={
+              user ? (
+                <Navigate to='/' />
+              ) : (
+                <BigCalendar BuisnessData={BuisnessData} />
+              )
+            }
           />
           <Route
             path='/login'

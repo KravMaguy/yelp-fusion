@@ -2,10 +2,11 @@ import format from "date-fns/format";
 import getDay from "date-fns/getDay";
 import parse from "date-fns/parse";
 import startOfWeek from "date-fns/startOfWeek";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Calendar, dateFnsLocalizer } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import DayPickerInput from "react-day-picker/DayPickerInput";
+import { weekDays } from "./utils";
 
 const locales = {
   "en-US": require("date-fns/locale/en-US"),
@@ -85,8 +86,8 @@ const events = [
   {
     id: 9,
     title: "Happy Hour",
-    start: new Date(2015, 3, 12, 17, 0, 0, 0),
-    end: new Date(2015, 3, 12, 17, 30, 0, 0),
+    start: new Date(2022, 3, 12, 17, 0, 0, 0),
+    end: new Date(2022, 3, 12, 17, 30, 0, 0),
     desc: "Most important meal of the day",
   },
   {
@@ -199,37 +200,45 @@ const events = [
   },
 ];
 
-const events2 = [
-  {
-    title: "Fly to Los Angeles",
-    allDay: true,
-    start: new Date(2022, 2, 25),
-    end: new Date(2022, 2, 27),
-  },
-  {
-    title: "Big Meeting",
-    allDay: true,
-    start: new Date(2021, 6, 0),
-    end: new Date(2021, 6, 0),
-  },
-  {
-    title: "Vacation",
-    start: new Date(2021, 6, 7),
-    end: new Date(2021, 6, 10),
-  },
-  {
-    title: "Conference",
-    start: new Date(2021, 6, 20),
-    end: new Date(2021, 6, 23),
-  },
-];
-
-function BigCalendar() {
+function BigCalendar({ BuisnessData }) {
   const [newEvent, setNewEvent] = useState({ title: "", start: "", end: "" });
   const [allEvents, setAllEvents] = useState(events);
+  const [selectedDay, setSelectedDay] = useState(new Date(Date.now()));
+  console.log(BuisnessData, "the buisnessData");
 
   function handleAddEvent() {
     setAllEvents([...allEvents, newEvent]);
+  }
+
+  if (BuisnessData) {
+    const timeBlocks = [];
+
+    BuisnessData.map((buisness) => {
+      const { name } = buisness;
+      return buisness.hours[0].open.map((hour) => {
+        if (
+          weekDays[hour.day] ===
+          selectedDay.toLocaleDateString("en-US", {
+            weekday: "long",
+          })
+        ) {
+          timeBlocks.push({ ...hour, name });
+        }
+        console.log("timeblocks", timeBlocks);
+
+        return null;
+      });
+    });
+
+    const obj = {
+      id: 30,
+      title: timeBlocks[0].name,
+      start: new Date(2022, 3, 15, 18, 30, 0),
+      end: new Date(2022, 3, 15, 20, 0, 0),
+    };
+
+    console.log(obj);
+    events.push(obj);
   }
 
   return (
