@@ -7,3 +7,323 @@ export const weekDays = [
   "Saturday",
   "Sunday",
 ];
+
+export const restaurantObjects = [
+  {
+    id: "9mhqcimD0CYvqxzfj_VXnQ",
+    alias: "little-bad-wolf-chicago",
+    name: "Little Bad Wolf",
+    image_url:
+      "https://s3-media3.fl.yelpcdn.com/bphoto/Cf_ZeAt323eQv83zdhxASA/o.jpg",
+    is_claimed: true,
+    is_closed: false,
+    url: "https://www.yelp.com/biz/little-bad-wolf-chicago?adjust_creative=CbTAfRmoCY_s6Ex6jqjcQg&utm_campaign=yelp_api_v3&utm_medium=api_v3_business_lookup&utm_source=CbTAfRmoCY_s6Ex6jqjcQg",
+    phone: "+17739426399",
+    display_phone: "(773) 942-6399",
+    review_count: 1748,
+    categories: [
+      {
+        alias: "tradamerican",
+        title: "American (Traditional)",
+      },
+      {
+        alias: "beerbar",
+        title: "Beer Bar",
+      },
+      {
+        alias: "cocktailbars",
+        title: "Cocktail Bars",
+      },
+    ],
+    rating: 4.5,
+    location: {
+      address1: "1541 W Bryn Mawr Ave",
+      address2: "",
+      address3: "",
+      city: "Chicago",
+      zip_code: "60660",
+      country: "US",
+      state: "IL",
+      display_address: ["1541 W Bryn Mawr Ave", "Chicago, IL 60660"],
+      cross_streets: "Ashland Ave & Clark St",
+    },
+    coordinates: {
+      latitude: 41.983356,
+      longitude: -87.669057,
+    },
+    photos: [
+      "https://s3-media3.fl.yelpcdn.com/bphoto/Cf_ZeAt323eQv83zdhxASA/o.jpg",
+      "https://s3-media2.fl.yelpcdn.com/bphoto/toArQxfxcRhOTenGCVMtAQ/o.jpg",
+      "https://s3-media1.fl.yelpcdn.com/bphoto/Wsqimf33E95n3Jkr9pR_6g/o.jpg",
+    ],
+    price: "$$",
+    hours: [
+      {
+        open: [
+          {
+            is_overnight: false,
+            start: "1100",
+            end: "0000",
+            day: 0,
+          },
+          {
+            is_overnight: false,
+            start: "1100",
+            end: "0000",
+            day: 1,
+          },
+          {
+            is_overnight: false,
+            start: "1100",
+            end: "0000",
+            day: 2,
+          },
+          {
+            is_overnight: false,
+            start: "1100",
+            end: "0000",
+            day: 3,
+          },
+          {
+            is_overnight: true,
+            start: "1100",
+            end: "0100",
+            day: 4,
+          },
+          {
+            is_overnight: true,
+            start: "1100",
+            end: "0100",
+            day: 5,
+          },
+          {
+            is_overnight: false,
+            start: "1100",
+            end: "0000",
+            day: 6,
+          },
+        ],
+        hours_type: "REGULAR",
+        is_open_now: false,
+      },
+    ],
+    transactions: ["delivery", "pickup"],
+  },
+  {
+    id: "e9aAISx0navH8qMr33X4TA",
+    alias: "mother-cluckers-kitchen-chicago-chicago",
+    name: "Mother Cluckers Kitchen - Chicago",
+    image_url:
+      "https://s3-media3.fl.yelpcdn.com/bphoto/YOgwO43W8xy9wYEutkwudw/o.jpg",
+    is_claimed: true,
+    is_closed: false,
+    url: "https://www.yelp.com/biz/mother-cluckers-kitchen-chicago-chicago?adjust_creative=CbTAfRmoCY_s6Ex6jqjcQg&utm_campaign=yelp_api_v3&utm_medium=api_v3_business_lookup&utm_source=CbTAfRmoCY_s6Ex6jqjcQg",
+    phone: "+17736854630",
+    display_phone: "(773) 685-4630",
+    review_count: 886,
+    categories: [
+      {
+        alias: "southern",
+        title: "Southern",
+      },
+      {
+        alias: "tradamerican",
+        title: "American (Traditional)",
+      },
+    ],
+    rating: 4.5,
+    location: {
+      address1: "5200 N Elston Ave",
+      address2: "",
+      address3: "",
+      city: "Chicago",
+      zip_code: "60630",
+      country: "US",
+      state: "IL",
+      display_address: ["5200 N Elston Ave", "Chicago, IL 60630"],
+      cross_streets: "Laporte Ave & Foster Ave",
+    },
+    coordinates: {
+      latitude: 41.9752685744915,
+      longitude: -87.7522482539673,
+    },
+    photos: [
+      "https://s3-media3.fl.yelpcdn.com/bphoto/YOgwO43W8xy9wYEutkwudw/o.jpg",
+      "https://s3-media3.fl.yelpcdn.com/bphoto/m6sJUAlj18RH1xpunrrTTA/o.jpg",
+      "https://s3-media1.fl.yelpcdn.com/bphoto/_rr95Pu5Ji6BxaUC1C391A/o.jpg",
+    ],
+    price: "$$",
+    hours: [
+      {
+        open: [
+          {
+            is_overnight: false,
+            start: "1100",
+            end: "2000",
+            day: 0,
+          },
+          {
+            is_overnight: false,
+            start: "1100",
+            end: "2000",
+            day: 2,
+          },
+          {
+            is_overnight: false,
+            start: "1100",
+            end: "2000",
+            day: 3,
+          },
+          {
+            is_overnight: false,
+            start: "1100",
+            end: "2100",
+            day: 4,
+          },
+          {
+            is_overnight: false,
+            start: "1100",
+            end: "2100",
+            day: 5,
+          },
+          {
+            is_overnight: false,
+            start: "1100",
+            end: "2000",
+            day: 6,
+          },
+        ],
+        hours_type: "REGULAR",
+        is_open_now: false,
+      },
+    ],
+    transactions: ["delivery", "pickup"],
+  },
+  {
+    id: "xA_jOrFrywsyht2-_8wU2w",
+    alias: "land-and-lake-andersonville-chicago",
+    name: "Land & Lake Andersonville",
+    image_url:
+      "https://s3-media1.fl.yelpcdn.com/bphoto/vEx4eUxDt2t3nvXOsc2n-w/o.jpg",
+    is_claimed: true,
+    is_closed: false,
+    url: "https://www.yelp.com/biz/land-and-lake-andersonville-chicago?adjust_creative=CbTAfRmoCY_s6Ex6jqjcQg&utm_campaign=yelp_api_v3&utm_medium=api_v3_business_lookup&utm_source=CbTAfRmoCY_s6Ex6jqjcQg",
+    phone: "+17737399072",
+    display_phone: "(773) 739-9072",
+    review_count: 34,
+    categories: [
+      {
+        alias: "tradamerican",
+        title: "American (Traditional)",
+      },
+    ],
+    rating: 4.5,
+    location: {
+      address1: "5420 N Clark St",
+      address2: null,
+      address3: "",
+      city: "Chicago",
+      zip_code: "60640",
+      country: "US",
+      state: "IL",
+      display_address: ["5420 N Clark St", "Chicago, IL 60640"],
+      cross_streets: "Rascher Ave & Balmoral Ave",
+    },
+    coordinates: {
+      latitude: 41.980472,
+      longitude: -87.66852,
+    },
+    photos: [
+      "https://s3-media1.fl.yelpcdn.com/bphoto/vEx4eUxDt2t3nvXOsc2n-w/o.jpg",
+      "https://s3-media2.fl.yelpcdn.com/bphoto/w9-cvQK5SjdlJ9JJMC-JPQ/o.jpg",
+      "https://s3-media4.fl.yelpcdn.com/bphoto/kBVrY39BL_6A1uCbFPhNAA/o.jpg",
+    ],
+    price: "$$",
+    hours: [
+      {
+        open: [
+          {
+            is_overnight: false,
+            start: "1600",
+            end: "2100",
+            day: 1,
+          },
+          {
+            is_overnight: false,
+            start: "1600",
+            end: "2100",
+            day: 2,
+          },
+          {
+            is_overnight: false,
+            start: "1600",
+            end: "2100",
+            day: 3,
+          },
+          {
+            is_overnight: false,
+            start: "1100",
+            end: "2200",
+            day: 4,
+          },
+          {
+            is_overnight: false,
+            start: "1100",
+            end: "2200",
+            day: 5,
+          },
+          {
+            is_overnight: false,
+            start: "1100",
+            end: "2100",
+            day: 6,
+          },
+        ],
+        hours_type: "REGULAR",
+        is_open_now: false,
+      },
+    ],
+    transactions: ["delivery"],
+  },
+  {
+    id: "ysMipfzNQQFweoLSpGJTaA",
+    alias: "pho-le-777-chicago",
+    name: "Pho Le 777",
+    image_url:
+      "https://s3-media1.fl.yelpcdn.com/bphoto/eYsb9LOD-4KhwDQB56rWsg/o.jpg",
+    is_claimed: false,
+    is_closed: false,
+    url: "https://www.yelp.com/biz/pho-le-777-chicago?adjust_creative=CbTAfRmoCY_s6Ex6jqjcQg&utm_campaign=yelp_api_v3&utm_medium=api_v3_business_lookup&utm_source=CbTAfRmoCY_s6Ex6jqjcQg",
+    phone: "",
+    display_phone: "",
+    review_count: 1,
+    categories: [
+      {
+        alias: "vietnamese",
+        title: "Vietnamese",
+      },
+    ],
+    rating: 5,
+    location: {
+      address1: "6257 N McCormick Blvd",
+      address2: "",
+      address3: null,
+      city: "Chicago",
+      zip_code: "60659",
+      country: "US",
+      state: "IL",
+      display_address: ["6257 N McCormick Blvd", "Chicago, IL 60659"],
+      cross_streets: "",
+    },
+    coordinates: {
+      latitude: 41.99546514676066,
+      longitude: -87.71261516958475,
+    },
+    photos: [
+      "https://s3-media1.fl.yelpcdn.com/bphoto/eYsb9LOD-4KhwDQB56rWsg/o.jpg",
+      "https://s3-media4.fl.yelpcdn.com/bphoto/Uj3jSbtR_CVc9R53tYkdyA/o.jpg",
+      "https://s3-media2.fl.yelpcdn.com/bphoto/GPAjRL5_Pqrzt4ouL9oGkw/o.jpg",
+    ],
+    transactions: ["delivery", "pickup"],
+  },
+];

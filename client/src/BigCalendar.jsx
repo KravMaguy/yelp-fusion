@@ -6,7 +6,7 @@ import React, { useEffect, useState } from "react";
 import { Calendar, dateFnsLocalizer } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import DayPickerInput from "react-day-picker/DayPickerInput";
-import { weekDays } from "./utils";
+import { weekDays, restaurantObjects } from "./utils";
 
 const locales = {
   "en-US": require("date-fns/locale/en-US"),
@@ -200,46 +200,71 @@ const events = [
   },
 ];
 
+function getNextDayOfTheWeek(dayName, refDate = new Date()) {
+  const dayOfWeek = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"].indexOf(
+    dayName.slice(0, 3).toLowerCase()
+  );
+  if (dayOfWeek < 0) return;
+  refDate.setHours(0, 0, 0, 0);
+  refDate.setDate(refDate.getDate() + ((dayOfWeek + 7 - refDate.getDay()) % 7));
+  return refDate;
+}
+
 function BigCalendar({ BuisnessData }) {
   const [newEvent, setNewEvent] = useState({ title: "", start: "", end: "" });
   const [allEvents, setAllEvents] = useState(events);
   const [selectedDay, setSelectedDay] = useState(new Date(Date.now()));
-  console.log(BuisnessData, "the buisnessData");
 
   function handleAddEvent() {
     setAllEvents([...allEvents, newEvent]);
   }
+  console.log(BuisnessData);
+  //restaurantObjects[0].hours[0]
 
-  if (BuisnessData) {
-    const timeBlocks = [];
+  useEffect(() => {
+    for (let i = 0; i < restaurantObjects.length; i++) {
+      const hours = restaurantObjects[i].hours;
+      if (hours && restaurantObjects[i].is_claimed) {
+        for (let j = 0; j < hours[0].open.length; j++) {
+          const shift = hours[0].open[j];
+          const shift_hours_start = [
+            parseInt(shift.start.slice(0, 2)),
+            parseInt(shift.start.slice(2)),
+          ];
+          const shift_hours_end = [
+            parseInt(shift.end.slice(0, 2)),
+            parseInt(shift.end.slice(2)),
+          ];
+          const start = new Date(
+            getNextDayOfTheWeek(weekDays[shift.day]).setHours(
+              shift_hours_start[0],
+              shift_hours_start[1],
+              0
+            )
+          );
+          const end = new Date(
+            getNextDayOfTheWeek(weekDays[shift.day]).setHours(
+              shift_hours_end[0],
+              shift_hours_end[1],
+              0
+            )
+          );
 
-    BuisnessData.map((buisness) => {
-      const { name } = buisness;
-      return buisness.hours[0].open.map((hour) => {
-        if (
-          weekDays[hour.day] ===
-          selectedDay.toLocaleDateString("en-US", {
-            weekday: "long",
-          })
-        ) {
-          timeBlocks.push({ ...hour, name });
+          console.log(shift_hours_end[0] + shift_hours_end[1]);
+          const Shift = {
+            // id: 50,
+            title: restaurantObjects[i].name,
+            start,
+            end,
+            all_day:
+              shift_hours_end[0] + shift_hours_end[1] === 0 ? true : false,
+          };
+
+          events.push(Shift);
         }
-        console.log("timeblocks", timeBlocks);
-
-        return null;
-      });
-    });
-
-    const obj = {
-      id: 30,
-      title: timeBlocks[0].name,
-      start: new Date(2022, 3, 15, 18, 30, 0),
-      end: new Date(2022, 3, 15, 20, 0, 0),
-    };
-
-    console.log(obj);
-    events.push(obj);
-  }
+      }
+    }
+  }, []);
 
   return (
     <div className='App'>
