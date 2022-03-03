@@ -218,7 +218,7 @@ function BigCalendar({ BuisnessData: data, user }) {
   const [name, setName] = useState("");
   const params = useParams();
   const { id } = params;
-  const mockBuisnessData = true;
+  const mockBuisnessData = false;
   if (mockBuisnessData) {
     data = restaurantObjects;
   }
@@ -228,56 +228,46 @@ function BigCalendar({ BuisnessData: data, user }) {
   }
 
   useEffect(() => {
-    const handler = [];
-    for (let i = 0; i < data.length; i++) {
-      const hours = data[i].hours;
-      if (hours && data[i].is_claimed) {
-        const Name = data.filter((Buisness) => Buisness.id === id);
-        const { name } = Name[0];
-        setName(name);
-        if (data[i].id === id) {
-          for (let j = 0; j < hours[0].open.length; j++) {
-            const shift = hours[0].open[j];
-            const shift_hours_start = [
-              parseInt(shift.start.slice(0, 2)),
-              parseInt(shift.start.slice(2)),
-            ];
-            const shift_hours_end = [
-              parseInt(shift.end.slice(0, 2)),
-              parseInt(shift.end.slice(2)),
-            ];
-            const start = new Date(
-              getNextDayOfTheWeek(weekDays[shift.day]).setHours(
-                shift_hours_start[0],
-                shift_hours_start[1],
-                0
-              )
-            );
-            const end = new Date(
-              getNextDayOfTheWeek(weekDays[shift.day]).setHours(
-                shift_hours_end[0],
-                shift_hours_end[1],
-                0
-              )
-            );
+    const calendarObject = data.find((element) => element.id === id);
+    if (!calendarObject) return;
+    const { name, hours, is_claimed } = calendarObject;
+    setName(name);
+    if (!hours || !is_claimed) return;
+    const shifts = hours[0].open.map((shift) => {
+      const shift_hours_start = [
+        parseInt(shift.start.slice(0, 2)),
+        parseInt(shift.start.slice(2)),
+      ];
+      const shift_hours_end = [
+        parseInt(shift.end.slice(0, 2)),
+        parseInt(shift.end.slice(2)),
+      ];
+      const start = new Date(
+        getNextDayOfTheWeek(weekDays[shift.day]).setHours(
+          shift_hours_start[0],
+          shift_hours_start[1],
+          0
+        )
+      );
+      const end = new Date(
+        getNextDayOfTheWeek(weekDays[shift.day]).setHours(
+          shift_hours_end[0],
+          shift_hours_end[1],
+          0
+        )
+      );
 
-            const Shift = {
-              // id: allEvents[allEvents.length - 1].id + 1,
-              title: data[i].name,
-              start,
-              end,
-              all_day:
-                shift_hours_end[0] + shift_hours_end[1] === 0 ? true : false,
-            };
-            handler.push(Shift);
-          }
-        }
-      }
-    }
-    const newEvents = allEvents.concat(handler);
-    setAllEvents(newEvents);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+      const Shift = {
+        // id: allEvents[allEvents.length - 1].id + 1,
+        title: name,
+        start,
+        end,
+        all_day: shift_hours_end[0] + shift_hours_end[1] === 0 ? true : false,
+      };
+      return Shift;
+    });
+    setAllEvents((allEvents) => [...allEvents, ...shifts]);
+  }, [data, id]);
 
   return (
     <div className='App'>
