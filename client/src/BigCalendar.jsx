@@ -218,15 +218,17 @@ function BigCalendar({ BuisnessData: data, user }) {
   const [name, setName] = useState("");
   const params = useParams();
   const { id } = params;
-  const mockBuisnessData = false;
+  const mockBuisnessData = true;
   if (mockBuisnessData) {
     data = restaurantObjects;
   }
+
   function handleAddEvent() {
     setAllEvents([...allEvents, newEvent]);
   }
 
   useEffect(() => {
+    const handler = [];
     for (let i = 0; i < data.length; i++) {
       const hours = data[i].hours;
       if (hours && data[i].is_claimed) {
@@ -259,22 +261,23 @@ function BigCalendar({ BuisnessData: data, user }) {
               )
             );
 
-            console.log(shift_hours_end[0] + shift_hours_end[1]);
             const Shift = {
-              // id: 50,
+              // id: allEvents[allEvents.length - 1].id + 1,
               title: data[i].name,
               start,
               end,
               all_day:
                 shift_hours_end[0] + shift_hours_end[1] === 0 ? true : false,
             };
-
-            events.push(Shift);
+            handler.push(Shift);
           }
         }
       }
     }
-  }, [id, data]);
+    const newEvents = allEvents.concat(handler);
+    setAllEvents(newEvents);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className='App'>
