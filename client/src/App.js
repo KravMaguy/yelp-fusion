@@ -25,7 +25,8 @@ function App() {
   const [center, setCenter] = useState({ lat: 42.009933, lng: -87.70515 });
   const [user, setUser] = useState(null);
   const [BuisnessData, setBuisnessData] = useState([]);
-
+  const [isModalShowing, setisModalShowing] = useState(false);
+  const [createDisplayPlan, setCreateDisplayPlan] = useState(false);
   useEffect(() => {
     const getUser = () => {
       fetch("http://localhost:5000/auth/login/success", {
@@ -80,6 +81,10 @@ function App() {
                 setCenter={setCenter}
                 BuisnessData={BuisnessData}
                 setBuisnessData={setBuisnessData}
+                isModalShowing={isModalShowing}
+                setisModalShowing={setisModalShowing}
+                createDisplayPlan={createDisplayPlan}
+                setCreateDisplayPlan={setCreateDisplayPlan}
               />
             }
           />

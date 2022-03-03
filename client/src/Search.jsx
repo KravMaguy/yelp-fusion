@@ -19,13 +19,16 @@ const SearchPage = ({
   center,
   setCenter,
   user,
+  isModalShowing,
+  setisModalShowing,
+  createDisplayPlan,
+  setCreateDisplayPlan,
 }) => {
   const [place, setPlace] = useState("");
   const [term, setTerm] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [isModalShowing, setisModalShowing] = useState(false);
-  const [createDisplayPlan, setCreateDisplayPlan] = useState(false);
+
   const [userCoordinates, setuserCoordinates] = useState(null);
 
   return (
