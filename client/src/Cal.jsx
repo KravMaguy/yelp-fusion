@@ -43,7 +43,6 @@ function Cal({ BuisnessData, selectedDay, setSelectedDay, formatShift }) {
       <div className={!isMobile ? "plan-wrapper" : "left"}>
         <div style={{ margin: "16px" }}>
           <Link to={`/map`}>Link to map</Link>
-          <Link to={`/bigCalendar`}>Calendar</Link>
         </div>
         <DayPicker
           selectedDays={selectedDay}

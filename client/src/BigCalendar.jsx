@@ -7,7 +7,9 @@ import { Calendar, dateFnsLocalizer } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import DayPickerInput from "react-day-picker/DayPickerInput";
 import { weekDays, restaurantObjects } from "./utils";
-
+import { Link, useParams, useNavigate } from "react-router-dom";
+import { Data } from "@react-google-maps/api";
+import Buisness from "./Buisness";
 const locales = {
   "en-US": require("date-fns/locale/en-US"),
 };
@@ -210,85 +212,100 @@ function getNextDayOfTheWeek(dayName, refDate = new Date()) {
   return refDate;
 }
 
-function BigCalendar({ BuisnessData }) {
+function BigCalendar({ BuisnessData: data, user }) {
   const [newEvent, setNewEvent] = useState({ title: "", start: "", end: "" });
   const [allEvents, setAllEvents] = useState(events);
-  const [selectedDay, setSelectedDay] = useState(new Date(Date.now()));
-
+  const [name, setName] = useState("");
+  const params = useParams();
+  const { id } = params;
+  const mockBuisnessData = false;
+  if (mockBuisnessData) {
+    data = restaurantObjects;
+  }
   function handleAddEvent() {
     setAllEvents([...allEvents, newEvent]);
   }
-  console.log(BuisnessData);
-  //restaurantObjects[0].hours[0]
 
   useEffect(() => {
-    for (let i = 0; i < restaurantObjects.length; i++) {
-      const hours = restaurantObjects[i].hours;
-      if (hours && restaurantObjects[i].is_claimed) {
-        for (let j = 0; j < hours[0].open.length; j++) {
-          const shift = hours[0].open[j];
-          const shift_hours_start = [
-            parseInt(shift.start.slice(0, 2)),
-            parseInt(shift.start.slice(2)),
-          ];
-          const shift_hours_end = [
-            parseInt(shift.end.slice(0, 2)),
-            parseInt(shift.end.slice(2)),
-          ];
-          const start = new Date(
-            getNextDayOfTheWeek(weekDays[shift.day]).setHours(
-              shift_hours_start[0],
-              shift_hours_start[1],
-              0
-            )
-          );
-          const end = new Date(
-            getNextDayOfTheWeek(weekDays[shift.day]).setHours(
-              shift_hours_end[0],
-              shift_hours_end[1],
-              0
-            )
-          );
+    for (let i = 0; i < data.length; i++) {
+      const hours = data[i].hours;
+      if (hours && data[i].is_claimed) {
+        const Name = data.filter((Buisness) => Buisness.id === id);
+        const { name } = Name[0];
+        setName(name);
+        if (data[i].id === id) {
+          for (let j = 0; j < hours[0].open.length; j++) {
+            const shift = hours[0].open[j];
+            const shift_hours_start = [
+              parseInt(shift.start.slice(0, 2)),
+              parseInt(shift.start.slice(2)),
+            ];
+            const shift_hours_end = [
+              parseInt(shift.end.slice(0, 2)),
+              parseInt(shift.end.slice(2)),
+            ];
+            const start = new Date(
+              getNextDayOfTheWeek(weekDays[shift.day]).setHours(
+                shift_hours_start[0],
+                shift_hours_start[1],
+                0
+              )
+            );
+            const end = new Date(
+              getNextDayOfTheWeek(weekDays[shift.day]).setHours(
+                shift_hours_end[0],
+                shift_hours_end[1],
+                0
+              )
+            );
 
-          console.log(shift_hours_end[0] + shift_hours_end[1]);
-          const Shift = {
-            // id: 50,
-            title: restaurantObjects[i].name,
-            start,
-            end,
-            all_day:
-              shift_hours_end[0] + shift_hours_end[1] === 0 ? true : false,
-          };
+            console.log(shift_hours_end[0] + shift_hours_end[1]);
+            const Shift = {
+              // id: 50,
+              title: data[i].name,
+              start,
+              end,
+              all_day:
+                shift_hours_end[0] + shift_hours_end[1] === 0 ? true : false,
+            };
 
-          events.push(Shift);
+            events.push(Shift);
+          }
         }
       }
     }
-  }, []);
+  }, [id, data]);
 
   return (
     <div className='App'>
       <h1>Calendar</h1>
-      <div>
-        <input
-          type='text'
-          placeholder='Add Title'
-          style={{ width: "20%", marginRight: "10px" }}
-          value={newEvent.title}
-          onChange={(e) => setNewEvent({ ...newEvent, title: e.target.value })}
-        />
-        <DayPickerInput
-          value={newEvent.start}
-          onDayChange={(start) => setNewEvent({ ...newEvent, start })}
-        />
-        <DayPickerInput
-          value={newEvent.end}
-          onDayChange={(end) => setNewEvent({ ...newEvent, end })}
-        />
-        <button stlye={{ marginTop: "10px" }} onClick={handleAddEvent}>
-          Add Event
-        </button>
-      </div>
+      <h2>{name}</h2>
+
+      <Link to={"/"}>back</Link>
+      {user && (
+        <>
+          <input
+            type='text'
+            placeholder='Add Title'
+            style={{ width: "20%", marginRight: "10px" }}
+            value={newEvent.title}
+            onChange={(e) =>
+              setNewEvent({ ...newEvent, title: e.target.value })
+            }
+          />
+          <DayPickerInput
+            value={newEvent.start}
+            onDayChange={(start) => setNewEvent({ ...newEvent, start })}
+          />
+          <DayPickerInput
+            value={newEvent.end}
+            onDayChange={(end) => setNewEvent({ ...newEvent, end })}
+          />
+          <button stlye={{ marginTop: "10px" }} onClick={handleAddEvent}>
+            Add Event
+          </button>
+        </>
+      )}
       <Calendar
         localizer={localizer}
         events={allEvents}

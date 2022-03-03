@@ -60,14 +60,8 @@ function App() {
           <Route path='/list' element={<List />} />
 
           <Route
-            path='/bigCalendar'
-            element={
-              user ? (
-                <Navigate to='/' />
-              ) : (
-                <BigCalendar BuisnessData={BuisnessData} />
-              )
-            }
+            path='/bigCalendar/:id'
+            element={<BigCalendar user={user} BuisnessData={BuisnessData} />}
           />
           <Route
             path='/login'

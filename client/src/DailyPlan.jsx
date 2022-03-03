@@ -39,6 +39,7 @@ const DailyPlan = ({
                         return (
                           <div key={idx}>
                             <Shift
+                              id={buisness.id}
                               selectedDay={selectedDay}
                               formatShift={formatShift}
                               hour={hour}

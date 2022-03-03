@@ -314,3 +314,8 @@ div {
   min-width: 36px;
   font-weight: 500;
 }
+
+.cal-buisness-details {
+  position: relative;
+  top: -10px;
+}
