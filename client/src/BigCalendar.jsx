@@ -213,15 +213,18 @@ function getNextDayOfTheWeek(dayName, refDate = new Date()) {
 }
 
 function BigCalendar({ BuisnessData: data, user }) {
+  const navigate = useNavigate();
   const [newEvent, setNewEvent] = useState({ title: "", start: "", end: "" });
   const [allEvents, setAllEvents] = useState(events);
   const [name, setName] = useState("");
   const params = useParams();
   const { id } = params;
-  const mockBuisnessData = false;
+  const mockBuisnessData = true;
   if (mockBuisnessData) {
     data = restaurantObjects;
   }
+
+  console.log(id, "id");
 
   function handleAddEvent() {
     setAllEvents([...allEvents, newEvent]);
@@ -269,9 +272,31 @@ function BigCalendar({ BuisnessData: data, user }) {
     setAllEvents((allEvents) => [...allEvents, ...shifts]);
   }, [data, id]);
 
+  const handleSelectCal = (e) => {
+    navigate(`/bigCalendar/${e.target.value}`);
+  };
+
   return (
     <div className='App'>
       <h1>Calendar</h1>
+      <select onChange={handleSelectCal}>
+        {data.length > 0 ? (
+          data.map((option) => (
+            <option
+              selected={option.id === id}
+              key={option.id}
+              value={option.id}
+            >
+              {option.id}
+            </option>
+          ))
+        ) : (
+          <option value='Loading...'>
+            Getting buisness data please wait...
+          </option>
+        )}
+      </select>
+
       <h2>{name}</h2>
 
       <Link to={"/"}>back</Link>
@@ -299,6 +324,7 @@ function BigCalendar({ BuisnessData: data, user }) {
           </button>
         </>
       )}
+
       <Calendar
         localizer={localizer}
         events={allEvents}

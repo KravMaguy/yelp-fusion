@@ -27,6 +27,17 @@ function App() {
   const [BuisnessData, setBuisnessData] = useState([]);
   const [isModalShowing, setisModalShowing] = useState(false);
   const [createDisplayPlan, setCreateDisplayPlan] = useState(false);
+
+  const [currentZoom, setCurrentZoom] = useState(5);
+
+  // function handleClick() {
+  //   console.log(currentZoom);
+  // }
+
+  function handleZoomChanged(newZoom) {
+    setCurrentZoom(newZoom);
+  }
+
   useEffect(() => {
     const getUser = () => {
       fetch("http://localhost:5000/auth/login/success", {
