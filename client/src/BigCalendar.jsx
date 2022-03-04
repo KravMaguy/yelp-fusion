@@ -273,6 +273,7 @@ function BigCalendar({ BuisnessData: data, user }) {
   }, [data, id]);
 
   const handleSelectCal = (e) => {
+    setAllEvents(events);
     navigate(`/bigCalendar/${e.target.value}`);
   };
 
