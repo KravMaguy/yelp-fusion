@@ -20,7 +20,6 @@ const NavMap = ({ data, center }) => {
     <div className='map-container'>
       <div className='map-wrapper'>
         <Map center={center}>
-          {" "}
           <MarkerClusterer options={options}>
             {(clusterer) =>
               result.map((location) => (

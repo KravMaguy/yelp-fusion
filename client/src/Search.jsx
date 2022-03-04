@@ -7,6 +7,9 @@ import { MdLocationOff, MdLocationOn } from "react-icons/md";
 import Geocode from "react-geocode";
 import LocationSearchInput from "./PlacesAutocomplete";
 import Plan from "./Plan";
+import { OverlayView } from "@react-google-maps/api";
+import "./Marker.css";
+
 Geocode.setApiKey(process.env.REACT_APP_GOOGLE_MAP_API_KEY);
 Geocode.enableDebug();
 
@@ -58,7 +61,20 @@ const SearchPage = ({
         setTerm={setTerm}
       />
       <WrappedMap className='center shadow mt-20 p-20 w-70 vh-35 mb-20'>
-        <Map center={center} />
+        <Map center={center}>
+          {userCoordinates && (
+            <OverlayView
+              position={{
+                lat: userCoordinates.latitude,
+                lng: userCoordinates.longitude,
+              }}
+              mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
+            >
+              <div className='marker' />
+              {/* <Lottie options={defaultOptions} height={100} width={100} /> */}
+            </OverlayView>
+          )}
+        </Map>
       </WrappedMap>
       {error === "" ? (
         loading ? (
@@ -162,6 +178,7 @@ const SearchForm = ({
   };
 
   const runGetLocation = () => {
+    console.log("getLocation run");
     try {
       navigator.geolocation.getCurrentPosition((position) => {
         const { latitude, longitude } = position.coords;
