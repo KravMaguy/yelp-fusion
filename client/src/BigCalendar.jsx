@@ -278,7 +278,7 @@ function BigCalendar({ BuisnessData: data, user }) {
   };
 
   return (
-    <div className='App'>
+    <div className="App">
       <h1>Calendar</h1>
       <select onChange={handleSelectCal}>
         {data.length > 0 ? (
@@ -292,20 +292,22 @@ function BigCalendar({ BuisnessData: data, user }) {
             </option>
           ))
         ) : (
-          <option value='Loading...'>
+          <option value="Loading...">
             Getting buisness data please wait...
           </option>
         )}
       </select>
-
-      <h2>{name}</h2>
-
+      <h2>
+        {allEvents.length === events.length
+          ? name + " has no listed times"
+          : name}
+      </h2>
       <Link to={"/"}>back</Link>
       {user && (
         <>
           <input
-            type='text'
-            placeholder='Add Title'
+            type="text"
+            placeholder="Add Title"
             style={{ width: "20%", marginRight: "10px" }}
             value={newEvent.title}
             onChange={(e) =>
@@ -329,8 +331,8 @@ function BigCalendar({ BuisnessData: data, user }) {
       <Calendar
         localizer={localizer}
         events={allEvents}
-        startAccessor='start'
-        endAccessor='end'
+        startAccessor="start"
+        endAccessor="end"
         style={{ height: 500, margin: "50px" }}
       />
     </div>

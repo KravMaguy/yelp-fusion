@@ -9,7 +9,6 @@ const authRoute = require("./routes/auth");
 const app = express();
 const axios = require("axios");
 
-const calendarSetup = require("./calendar");
 axios.defaults.headers.common["Authorization"] = `Bearer ${process.env.token}`;
 axios.defaults.baseURL = "https://api.yelp.com/v3/";
 app.use(

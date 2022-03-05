@@ -16,7 +16,6 @@ import Sortable from "./Sortable";
 import BigCalendar from "./BigCalendar";
 // import Directions from "./Directions";
 import ModifiedDirections from "./ModifiedDirections";
-import List from "./List";
 import Login from "./Login";
 import Navbar from "./Navbar";
 function App() {
@@ -65,22 +64,20 @@ function App() {
   }, []);
 
   return (
-    <div className='App'>
+    <div className="App">
       <Router>
         <Navbar user={user} />
         <Routes>
-          <Route path='/list' element={<List />} />
-
           <Route
-            path='/bigCalendar/:id'
+            path="/bigCalendar/:id"
             element={<BigCalendar user={user} BuisnessData={BuisnessData} />}
           />
           <Route
-            path='/login'
-            element={user ? <Navigate to='/' /> : <Login />}
+            path="/login"
+            element={user ? <Navigate to="/" /> : <Login />}
           />
           <Route
-            path='/'
+            path="/"
             exact
             element={
               <SearchPage
@@ -99,9 +96,9 @@ function App() {
               />
             }
           />
-          <Route path='/cal' exact element={<Cal />} />
+          <Route path="/cal" exact element={<Cal />} />
           <Route
-            path='/buisness/:id'
+            path="/buisness/:id"
             element={<Buisness initialRequest={initialReq} />}
           />
           {/* <Route
@@ -110,9 +107,9 @@ function App() {
               <Directions data={data} center={center} setCenter={setCenter} />
             }
           /> */}
-          <Route path='/sort' element={<Sortable />} />
+          <Route path="/sort" element={<Sortable />} />
           <Route
-            path='/modified'
+            path="/modified"
             element={
               <ModifiedDirections
                 // data={data}
@@ -121,8 +118,8 @@ function App() {
               />
             }
           />
-          <Route path='/category' element={<MultiSelectAsync />} />
-          <Route path='/map' element={<NavMap data={data} center={center} />} />
+          <Route path="/category" element={<MultiSelectAsync />} />
+          <Route path="/map" element={<NavMap data={data} center={center} />} />
           {/* <Route path='*' element={<Navigate to='/' />} /> */}
         </Routes>
       </Router>
