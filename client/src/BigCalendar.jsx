@@ -17,6 +17,8 @@ function BigCalendar({ BuisnessData: data, user }) {
   const [newEvent, setNewEvent] = useState({ title: "", start: "", end: "" });
   const [allEvents, setAllEvents] = useState(events);
   const [name, setName] = useState("");
+  const [userTimes, setUserTimes] = useState([]);
+  const [isUserTimesDisplayed, setIsUserTimesDisplayed] = useState(false);
   const params = useParams();
   const { id } = params;
   const mockBuisnessData = true;
@@ -76,7 +78,6 @@ function BigCalendar({ BuisnessData: data, user }) {
   };
 
   const displayEvents = (events) => {
-    console.log(events, "the events in display events");
     const userCaltimes = events.map((event) => {
       return {
         // id: 0,
@@ -89,41 +90,46 @@ function BigCalendar({ BuisnessData: data, user }) {
         end: new Date(event.end.dateTime),
       };
     });
-
-    console.log(userCaltimes, "the user calender times");
-    setAllEvents((allEvents) => [...allEvents, ...userCaltimes]);
+    setUserTimes([...userCaltimes]);
   };
 
-  const visualizeTimes = () => {
-    const gapi = window.gapi;
-    const { apiKey, clientId, discoveryDocs, scope } = gapiConfig;
-    gapi.load("client:auth2", () => {
-      gapi.client.init({
-        apiKey,
-        clientId,
-        discoveryDocs,
-        scope,
-      });
-      gapi.client.load("calendar", "v3", () => console.log("gapi loaded"));
-      gapi.auth2
-        .getAuthInstance()
-        .signIn()
-        .then(() => {
-          gapi.client.calendar.events
-            .list({
-              calendarId: "primary",
-              timeMin: new Date().toISOString(),
-              showDeleted: false,
-              singleEvents: true,
-              maxResults: 10,
-              orderBy: "startTime",
-            })
-            .then((response) => {
-              const events = response.result.items;
-              displayEvents(events);
-            });
+  const displayTimes = () => {
+    if (userTimes.length === 0 && !isUserTimesDisplayed) {
+      const gapi = window.gapi;
+      const { apiKey, clientId, discoveryDocs, scope } = gapiConfig;
+      gapi.load("client:auth2", () => {
+        gapi.client.init({
+          apiKey,
+          clientId,
+          discoveryDocs,
+          scope,
         });
-    });
+        gapi.client.load("calendar", "v3", () => console.log("gapi loaded"));
+        gapi.auth2
+          .getAuthInstance()
+          .signIn()
+          .then(() => {
+            gapi.client.calendar.events
+              .list({
+                calendarId: "primary",
+                timeMin: new Date().toISOString(),
+                showDeleted: false,
+                singleEvents: true,
+                maxResults: 10,
+                orderBy: "startTime",
+              })
+              .then((response) => {
+                const events = response.result.items;
+                displayEvents(events);
+              });
+          });
+      });
+    }
+    setIsUserTimesDisplayed(true);
+  };
+
+  const hideTimes = () => {
+    setIsUserTimesDisplayed(false);
   };
 
   return (
@@ -152,7 +158,11 @@ function BigCalendar({ BuisnessData: data, user }) {
           : name}
       </h2>
       <Link to={"/"}>back</Link>
-      <button onClick={visualizeTimes}>Display my times</button>
+      <div>
+        <button onClick={!isUserTimesDisplayed ? displayTimes : hideTimes}>
+          {!isUserTimesDisplayed ? "Display" : "Hide"} my times
+        </button>
+      </div>
       {user && (
         <>
           <input
@@ -180,7 +190,9 @@ function BigCalendar({ BuisnessData: data, user }) {
 
       <Calendar
         localizer={localizer}
-        events={allEvents}
+        events={
+          isUserTimesDisplayed ? [...allEvents].concat(...userTimes) : allEvents
+        }
         startAccessor="start"
         endAccessor="end"
         style={{ height: 500, margin: "50px" }}
