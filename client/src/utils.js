@@ -545,3 +545,30 @@ export const gapiConfig = {
   ],
   scope: "https://www.googleapis.com/auth/calendar.events",
 };
+
+export const gcalConfig = {
+  calendarId: "primary",
+  timeMin: new Date().toISOString(),
+  showDeleted: false,
+  singleEvents: true,
+  maxResults: 10,
+  orderBy: "startTime",
+};
+
+export function utilAlert(expr, obj) {
+  let type;
+  switch (expr) {
+    case "gcal":
+      type =
+        "is from your google calendar, and will be added to your profile calendar automatically";
+      break;
+    case "Mangoes":
+    case "Papayas":
+      console.log("Mangoes and papayas are $2.79 a pound.");
+      // expected output: "Mangoes and papayas are $2.79 a pound."
+      break;
+    default:
+      console.log(`Sorry, we are out of ${expr}.`);
+  }
+  window.alert(`${obj?.title} ${type}`);
+}

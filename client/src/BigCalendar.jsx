@@ -9,10 +9,28 @@ import {
   getNextDayOfTheWeek,
   localizer,
   gapiConfig,
+  utilAlert,
+  gcalConfig,
 } from "./utils";
 import { useParams, useNavigate } from "react-router-dom";
 
 function BigCalendar({ BuisnessData: data, user }) {
+  const mockBuisnessData = true;
+  if (mockBuisnessData) {
+    data = restaurantObjects;
+  }
+  let lastHourId = events[events.length - 1].id + 1;
+
+  data.forEach((obj) => {
+    if (obj.hours) {
+      const hours = obj.hours[0].open;
+      for (let i = 0; i < hours.length; i++) {
+        hours[i].id = lastHourId;
+        lastHourId++;
+      }
+    }
+  });
+
   const navigate = useNavigate();
   const [newEvent, setNewEvent] = useState({ title: "", start: "", end: "" });
   const [allEvents, setAllEvents] = useState(events);
@@ -22,17 +40,11 @@ function BigCalendar({ BuisnessData: data, user }) {
   const [selectedEventIds, setSelectedEventIds] = useState([]);
   const params = useParams();
   const { id } = params;
-  const mockBuisnessData = true;
-  if (mockBuisnessData) {
-    data = restaurantObjects;
-  }
 
   const handleSelectedEvent = (event) => {
     const { id } = event;
     if (!allEvents.some((obj) => obj.id === id))
-      return window.alert(
-        "this event was found on your google calendar, it will be automatically added to your profile calendar, at this time, please make any changes to existing google calendar events through the google calendar app"
-      );
+      return utilAlert("gcal", event);
     if (selectedEventIds.includes(id)) {
       const arr = selectedEventIds.filter((x) => x !== id);
       setSelectedEventIds(arr);
@@ -51,7 +63,6 @@ function BigCalendar({ BuisnessData: data, user }) {
     const { name, hours, is_claimed } = calendarObject;
     setName(name);
     if (!hours || !is_claimed) return;
-    let lastId = events[events.length - 1].id + 1;
     const shifts = hours[0].open.map((shift) => {
       const shift_hours_start = [
         parseInt(shift.start.slice(0, 2)),
@@ -77,7 +88,7 @@ function BigCalendar({ BuisnessData: data, user }) {
       );
 
       const Shift = {
-        id: lastId++,
+        id: shift.id,
         title: name,
         start,
         end,
@@ -128,19 +139,10 @@ function BigCalendar({ BuisnessData: data, user }) {
           .getAuthInstance()
           .signIn()
           .then(() => {
-            gapi.client.calendar.events
-              .list({
-                calendarId: "primary",
-                timeMin: new Date().toISOString(),
-                showDeleted: false,
-                singleEvents: true,
-                maxResults: 10,
-                orderBy: "startTime",
-              })
-              .then((response) => {
-                const events = response.result.items;
-                displayEvents(events);
-              });
+            gapi.client.calendar.events.list(gcalConfig).then((response) => {
+              const events = response.result.items;
+              displayEvents(events);
+            });
           });
       });
     }
