@@ -10,22 +10,32 @@ import {
   localizer,
   gapiConfig,
 } from "./utils";
-import { Link, useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 function BigCalendar({ BuisnessData: data, user }) {
   const navigate = useNavigate();
   const [newEvent, setNewEvent] = useState({ title: "", start: "", end: "" });
   const [allEvents, setAllEvents] = useState(events);
-  console.log(allEvents, "allEvetns");
   const [name, setName] = useState("");
   const [userTimes, setUserTimes] = useState([]);
   const [isUserTimesDisplayed, setIsUserTimesDisplayed] = useState(false);
+  const [selectedEventIds, setSelectedEventIds] = useState([]);
   const params = useParams();
   const { id } = params;
   const mockBuisnessData = true;
   if (mockBuisnessData) {
     data = restaurantObjects;
   }
+
+  const handleSelectedEvent = (event) => {
+    const { id } = event;
+    if (selectedEventIds.includes(id)) {
+      const arr = selectedEventIds.filter((x) => x !== id);
+      setSelectedEventIds(arr);
+    } else {
+      setSelectedEventIds([...selectedEventIds, id]);
+    }
+  };
 
   function handleAddEvent() {
     setAllEvents([...allEvents, newEvent]);
@@ -96,6 +106,8 @@ function BigCalendar({ BuisnessData: data, user }) {
     setUserTimes([...userCaltimes]);
   };
 
+  const handleSelect = ({ start, end }) => {};
+
   const displayTimes = () => {
     if (userTimes.length === 0 && !isUserTimesDisplayed) {
       const gapi = window.gapi;
@@ -160,7 +172,6 @@ function BigCalendar({ BuisnessData: data, user }) {
           ? name + " has no listed times"
           : name}
       </h2>
-      <Link to={"/"}>back</Link>
       <div>
         <button onClick={!isUserTimesDisplayed ? displayTimes : hideTimes}>
           {!isUserTimesDisplayed ? "Display" : "Hide"} my times
@@ -192,13 +203,23 @@ function BigCalendar({ BuisnessData: data, user }) {
       )}
 
       <Calendar
+        selectable
         localizer={localizer}
         events={
           isUserTimesDisplayed ? [...allEvents].concat(...userTimes) : allEvents
         }
         startAccessor="start"
         endAccessor="end"
+        onSelectEvent={(event) => handleSelectedEvent(event)}
+        onSelectSlot={handleSelect}
         style={{ height: 500, margin: "50px" }}
+        eventPropGetter={(event) => {
+          if (selectedEventIds.includes(event.id)) {
+            return {
+              className: "selected-shift",
+            };
+          } else return {};
+        }}
       />
     </div>
   );
