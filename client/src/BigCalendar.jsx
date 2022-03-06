@@ -29,6 +29,10 @@ function BigCalendar({ BuisnessData: data, user }) {
 
   const handleSelectedEvent = (event) => {
     const { id } = event;
+    if (!allEvents.some((obj) => obj.id === id))
+      return window.alert(
+        "this event was found on your google calendar, it will be automatically added to your profile calendar, at this time, please make any changes to existing google calendar events through the google calendar app"
+      );
     if (selectedEventIds.includes(id)) {
       const arr = selectedEventIds.filter((x) => x !== id);
       setSelectedEventIds(arr);
