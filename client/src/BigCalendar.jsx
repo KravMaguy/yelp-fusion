@@ -16,6 +16,7 @@ function BigCalendar({ BuisnessData: data, user }) {
   const navigate = useNavigate();
   const [newEvent, setNewEvent] = useState({ title: "", start: "", end: "" });
   const [allEvents, setAllEvents] = useState(events);
+  console.log(allEvents, "allEvetns");
   const [name, setName] = useState("");
   const [userTimes, setUserTimes] = useState([]);
   const [isUserTimesDisplayed, setIsUserTimesDisplayed] = useState(false);
@@ -36,6 +37,7 @@ function BigCalendar({ BuisnessData: data, user }) {
     const { name, hours, is_claimed } = calendarObject;
     setName(name);
     if (!hours || !is_claimed) return;
+    let lastId = events[events.length - 1].id + 1;
     const shifts = hours[0].open.map((shift) => {
       const shift_hours_start = [
         parseInt(shift.start.slice(0, 2)),
@@ -61,7 +63,7 @@ function BigCalendar({ BuisnessData: data, user }) {
       );
 
       const Shift = {
-        // id: allEvents[allEvents.length - 1].id + 1,
+        id: lastId++,
         title: name,
         start,
         end,
@@ -78,9 +80,10 @@ function BigCalendar({ BuisnessData: data, user }) {
   };
 
   const displayEvents = (events) => {
+    let lastId = allEvents[allEvents.length - 1].id + 1;
     const userCaltimes = events.map((event) => {
       return {
-        // id: 0,
+        id: lastId++,
         title: event.summary
           ? event.summary
           : event.description
