@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Calendar } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
-import DayPickerInput from "react-day-picker/DayPickerInput";
 import {
   weekDays,
   restaurantObjects,
@@ -12,7 +11,7 @@ import {
   utilAlert,
   gcalConfig,
 } from "./utils";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 
 function BigCalendar({ BuisnessData: data, user }) {
   const mockBuisnessData = true;
@@ -32,9 +31,9 @@ function BigCalendar({ BuisnessData: data, user }) {
   });
 
   const navigate = useNavigate();
-  const [newEvent, setNewEvent] = useState({ title: "", start: "", end: "" });
   const [allEvents, setAllEvents] = useState(events);
   const [name, setName] = useState("");
+  const [GcalProfile, setGcalProfile] = useState("");
   const [userTimes, setUserTimes] = useState([]);
   const [isUserTimesDisplayed, setIsUserTimesDisplayed] = useState(false);
   const [selectedEventIds, setSelectedEventIds] = useState([]);
@@ -52,10 +51,6 @@ function BigCalendar({ BuisnessData: data, user }) {
       setSelectedEventIds([...selectedEventIds, id]);
     }
   };
-
-  function handleAddEvent() {
-    setAllEvents([...allEvents, newEvent]);
-  }
 
   useEffect(() => {
     const calendarObject = data.find((element) => element.id === id);
@@ -119,8 +114,6 @@ function BigCalendar({ BuisnessData: data, user }) {
     setUserTimes([...userCaltimes]);
   };
 
-  const handleSelect = ({ start, end }) => {};
-
   const displayTimes = () => {
     if (userTimes.length === 0 && !isUserTimesDisplayed) {
       const gapi = window.gapi;
@@ -138,6 +131,8 @@ function BigCalendar({ BuisnessData: data, user }) {
           .signIn()
           .then(() => {
             gapi.client.calendar.events.list(gcalConfig).then((response) => {
+              const summary = response.result.summary;
+              setGcalProfile(summary);
               const events = response.result.items;
               displayEvents(events);
             });
@@ -147,64 +142,67 @@ function BigCalendar({ BuisnessData: data, user }) {
     setIsUserTimesDisplayed(true);
   };
 
+  console.log(GcalProfile, "gcalprofile");
   const hideTimes = () => {
     setIsUserTimesDisplayed(false);
   };
 
+  useEffect(() => {
+    console.log("the useEffect run second $#@$#$");
+    console.log(id, " id");
+    console.log(GcalProfile, " gcalProfiel");
+    if (!GcalProfile || id !== GcalProfile.slice(0, GcalProfile.indexOf("@")))
+      return;
+    setAllEvents(events);
+    setIsUserTimesDisplayed(true);
+  }, [GcalProfile, id]);
+
   return (
     <div className="App">
-      <h1>Calendar</h1>
-      <select onChange={handleSelectCal}>
-        {data.length > 0 ? (
-          data.map((option) => (
-            <option
-              selected={option.id === id}
-              key={option.id}
-              value={option.id}
-            >
-              {option.id}
-            </option>
-          ))
-        ) : (
-          <option value="Loading...">
-            Getting buisness data please wait...
-          </option>
-        )}
-      </select>
-      <h2>
-        {allEvents.length === events.length
+      <h1>
+        {GcalProfile && id === GcalProfile.slice(0, GcalProfile.indexOf("@"))
+          ? GcalProfile
+          : allEvents.length === events.length
           ? name + " has no listed times"
           : name}
-      </h2>
-      <div>
-        <button onClick={!isUserTimesDisplayed ? displayTimes : hideTimes}>
-          {!isUserTimesDisplayed ? "Display" : "Hide"} my times
-        </button>
-      </div>
-      {user && (
-        <>
-          <input
-            type="text"
-            placeholder="Add Title"
-            style={{ width: "20%", marginRight: "10px" }}
-            value={newEvent.title}
-            onChange={(e) =>
-              setNewEvent({ ...newEvent, title: e.target.value })
-            }
-          />
-          <DayPickerInput
-            value={newEvent.start}
-            onDayChange={(start) => setNewEvent({ ...newEvent, start })}
-          />
-          <DayPickerInput
-            value={newEvent.end}
-            onDayChange={(end) => setNewEvent({ ...newEvent, end })}
-          />
-          <button stlye={{ marginTop: "10px" }} onClick={handleAddEvent}>
-            Add Event
-          </button>
-        </>
+      </h1>
+      {GcalProfile && id !== GcalProfile.slice(0, GcalProfile.indexOf("@")) && (
+        <Link
+          to={`/bigCalendar/${GcalProfile.slice(0, GcalProfile.indexOf("@"))}`}
+        >
+          {GcalProfile.slice(0, GcalProfile.indexOf("@"))}'s Calendar
+        </Link>
       )}
+      <div>
+        <label>
+          Change Calendar{" "}
+          <select onChange={handleSelectCal}>
+            {data.length > 0 ? (
+              data.map((option) => (
+                <option
+                  selected={option.id === id}
+                  key={option.id}
+                  value={option.id}
+                >
+                  {option.id}
+                </option>
+              ))
+            ) : (
+              <option value="Loading...">
+                Getting buisness data please wait...
+              </option>
+            )}
+          </select>
+        </label>
+      </div>
+
+      <div>
+        {id !== GcalProfile.slice(0, GcalProfile.indexOf("@")) && (
+          <button onClick={!isUserTimesDisplayed ? displayTimes : hideTimes}>
+            {!isUserTimesDisplayed ? "Display" : "Hide"} my times
+          </button>
+        )}
+      </div>
 
       <Calendar
         selectable
@@ -215,7 +213,6 @@ function BigCalendar({ BuisnessData: data, user }) {
         startAccessor="start"
         endAccessor="end"
         onSelectEvent={(event) => handleSelectedEvent(event)}
-        onSelectSlot={handleSelect}
         style={{ height: 500, margin: "50px" }}
         eventPropGetter={(event) => {
           if (!event.id) return;
