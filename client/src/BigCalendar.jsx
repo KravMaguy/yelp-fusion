@@ -36,19 +36,20 @@ function BigCalendar({ BuisnessData: data, user }) {
   const [GcalProfile, setGcalProfile] = useState("");
   const [userTimes, setUserTimes] = useState([]);
   const [isUserTimesDisplayed, setIsUserTimesDisplayed] = useState(false);
-  const [selectedEventIds, setSelectedEventIds] = useState([]);
+  const [selectedEventObjects, setSelectedEventObjects] = useState([]);
   const params = useParams();
   const { id } = params;
 
   const handleSelectedEvent = (event) => {
+    if (params.id === GcalProfile) return;
     const { id } = event;
     if (!allEvents.some((obj) => obj.id === id))
       return utilAlert("gcal", event);
-    if (selectedEventIds.includes(id)) {
-      const arr = selectedEventIds.filter((x) => x !== id);
-      setSelectedEventIds(arr);
+    if (selectedEventObjects.some((obj) => obj.id === id)) {
+      const arr = selectedEventObjects.filter((obj) => obj.id !== id);
+      setSelectedEventObjects(arr);
     } else {
-      setSelectedEventIds([...selectedEventIds, id]);
+      setSelectedEventObjects([...selectedEventObjects, event]);
     }
   };
 
@@ -143,7 +144,6 @@ function BigCalendar({ BuisnessData: data, user }) {
     setIsUserTimesDisplayed(true);
   };
 
-  console.log(GcalProfile, "gcalprofile");
   const hideTimes = () => {
     setIsUserTimesDisplayed(false);
   };
@@ -163,6 +163,8 @@ function BigCalendar({ BuisnessData: data, user }) {
     }
     return selectableCalendars;
   };
+
+  console.log(selectedEventObjects, "selectedEvent Ids");
 
   return (
     <div className="App">
@@ -206,12 +208,15 @@ function BigCalendar({ BuisnessData: data, user }) {
           </button>
         )}
       </div>
-
       <Calendar
         selectable
         localizer={localizer}
         events={
-          isUserTimesDisplayed ? [...allEvents].concat(...userTimes) : allEvents
+          GcalProfile && id === GcalProfile
+            ? userTimes.concat(selectedEventObjects)
+            : isUserTimesDisplayed
+            ? [...allEvents].concat(...userTimes)
+            : allEvents
         }
         startAccessor="start"
         endAccessor="end"
@@ -219,7 +224,7 @@ function BigCalendar({ BuisnessData: data, user }) {
         style={{ height: 500, margin: "50px" }}
         eventPropGetter={(event) => {
           if (!event.id) return;
-          if (selectedEventIds.includes(event.id)) {
+          if (selectedEventObjects.some((obj) => obj.id === event.id)) {
             return {
               className: "selected-shift",
             };
