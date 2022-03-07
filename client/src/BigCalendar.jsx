@@ -105,10 +105,8 @@ function BigCalendar({ BuisnessData: data, user }) {
   };
 
   const displayEvents = (events) => {
-    let lastId = allEvents[allEvents.length - 1].id + 1;
     const userCaltimes = events.map((event) => {
       return {
-        id: lastId++,
         title: event.summary
           ? event.summary
           : event.description
@@ -220,11 +218,12 @@ function BigCalendar({ BuisnessData: data, user }) {
         onSelectSlot={handleSelect}
         style={{ height: 500, margin: "50px" }}
         eventPropGetter={(event) => {
+          if (!event.id) return;
           if (selectedEventIds.includes(event.id)) {
             return {
               className: "selected-shift",
             };
-          } else return {};
+          }
         }}
       />
     </div>
