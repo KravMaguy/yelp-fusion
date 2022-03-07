@@ -131,10 +131,11 @@ function BigCalendar({ BuisnessData: data, user }) {
           .signIn()
           .then(() => {
             gapi.client.calendar.events.list(gcalConfig).then((response) => {
-              const summary = response.result.summary;
-              setGcalProfile(summary);
-              const events = response.result.items;
-              displayEvents(events);
+              const { result } = response;
+              const { summary, items } = result;
+              const profile = summary.slice(0, summary.indexOf("@"));
+              setGcalProfile(profile);
+              displayEvents(items);
             });
           });
       });
@@ -148,43 +149,45 @@ function BigCalendar({ BuisnessData: data, user }) {
   };
 
   useEffect(() => {
-    console.log("the useEffect run second $#@$#$");
-    console.log(id, " id");
-    console.log(GcalProfile, " gcalProfiel");
-    if (!GcalProfile || id !== GcalProfile.slice(0, GcalProfile.indexOf("@")))
-      return;
+    if (!GcalProfile || id !== GcalProfile) return;
     setAllEvents(events);
     setIsUserTimesDisplayed(true);
   }, [GcalProfile, id]);
 
+  const GetSelectableCalendars = () => {
+    const selectableCalendars = data.map((option) => {
+      return { id: option.id, name: option.name };
+    });
+    if (GcalProfile) {
+      selectableCalendars.push({ id: GcalProfile, name: GcalProfile });
+    }
+    return selectableCalendars;
+  };
+
   return (
     <div className="App">
       <h1>
-        {GcalProfile && id === GcalProfile.slice(0, GcalProfile.indexOf("@"))
+        {GcalProfile && id === GcalProfile
           ? GcalProfile
           : allEvents.length === events.length
           ? name + " has no listed times"
           : name}
       </h1>
-      {GcalProfile && id !== GcalProfile.slice(0, GcalProfile.indexOf("@")) && (
-        <Link
-          to={`/bigCalendar/${GcalProfile.slice(0, GcalProfile.indexOf("@"))}`}
-        >
-          {GcalProfile.slice(0, GcalProfile.indexOf("@"))}'s Calendar
-        </Link>
+      {GcalProfile && id !== GcalProfile && (
+        <Link to={`/bigCalendar/${GcalProfile}`}>{GcalProfile}'s Calendar</Link>
       )}
       <div>
         <label>
           Change Calendar{" "}
           <select onChange={handleSelectCal}>
-            {data.length > 0 ? (
-              data.map((option) => (
+            {GetSelectableCalendars().length > 0 ? (
+              GetSelectableCalendars().map((option) => (
                 <option
                   selected={option.id === id}
                   key={option.id}
                   value={option.id}
                 >
-                  {option.id}
+                  {option.name}
                 </option>
               ))
             ) : (
@@ -197,7 +200,7 @@ function BigCalendar({ BuisnessData: data, user }) {
       </div>
 
       <div>
-        {id !== GcalProfile.slice(0, GcalProfile.indexOf("@")) && (
+        {id !== GcalProfile && (
           <button onClick={!isUserTimesDisplayed ? displayTimes : hideTimes}>
             {!isUserTimesDisplayed ? "Display" : "Hide"} my times
           </button>
