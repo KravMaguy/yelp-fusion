@@ -572,3 +572,21 @@ export function utilAlert(expr, obj) {
   }
   window.alert(`${obj?.title} ${type}`);
 }
+
+// export function convertToTimeInput(date) {
+//   const dateFormatted = format(date, "EEEE',' MMMM d',' ha");
+//   return dateFormatted;
+// }
+
+export function convertToTimeInput(date) {
+  const dateFormatted = format(date, "kk:mm");
+  return dateFormatted;
+}
+
+export function formatLocal(start) {
+  if (!start) return;
+  return start.toLocaleString("en-US", {
+    hour: "numeric",
+    hour12: true,
+  });
+}

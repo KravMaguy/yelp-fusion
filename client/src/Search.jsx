@@ -60,7 +60,7 @@ const SearchPage = ({
         term={term}
         setTerm={setTerm}
       />
-      <WrappedMap className='center shadow mt-20 p-20 w-70 vh-35 mb-20'>
+      <WrappedMap className="center shadow mt-20 p-20 w-70 vh-35 mb-20">
         <Map center={center}>
           {userCoordinates && (
             <OverlayView
@@ -70,7 +70,7 @@ const SearchPage = ({
               }}
               mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
             >
-              <div className='marker' />
+              <div className="marker" />
               {/* <Lottie options={defaultOptions} height={100} width={100} /> */}
             </OverlayView>
           )}
@@ -202,33 +202,33 @@ const SearchForm = ({
   };
 
   return (
-    <div className='shadow center mt-20 p-20 w-70'>
+    <div className="shadow center mt-20 p-20 w-70">
       <form onSubmit={(e) => handleSubmit(e)}>
-        <div className='search-inputs shadow center p-10'>
+        <div className="search-inputs shadow center p-10">
           <input
-            className='lg-input left-pad-15 mt-b-2'
+            className="lg-input left-pad-15 mt-b-2"
             onChange={(e) => setTerm(e.target.value)}
             placeholder={`Search in ${place}`}
-            type='text'
-            name='name'
+            type="text"
+            name="name"
             value={term}
           />
-          <div className='lg-input mt-b-2'>
+          <div className="lg-input mt-b-2">
             <LocationSearchInput
-              className='form-control'
+              className="form-control"
               setPlace={setPlace}
               place={place}
               setCenter={setCenter}
             />
 
-            <div onClick={runGetLocation} className='icon'>
+            <div onClick={runGetLocation} className="icon">
               <span>
                 {!userCoordinates ? (
-                  <MdLocationOff size={18} className='location-icon' />
+                  <MdLocationOff size={18} className="location-icon" />
                 ) : (
                   <MdLocationOn
                     size={18}
-                    className='location-icon'
+                    className="location-icon"
                     color={"green"}
                   />
                 )}
@@ -236,31 +236,31 @@ const SearchForm = ({
             </div>
           </div>
         </div>
-        <div className='search-inputs shadow center p-10 mt-20'>
-          <div className='center'>
+        <div className="search-inputs shadow center p-10 mt-20">
+          <div className="center submit-btn-container">
             <input
-              className='btn-wide'
-              type='submit'
-              value='Submit'
+              className="btn-wide"
+              type="submit"
+              value="Submit"
               disabled={loading || term.length < 1}
             />
           </div>
           {data.length > 0 && (
             <>
-              <div className='center mt-10'>
+              <div className="center mt-10">
                 <button
-                  className='btn-wide'
-                  value='Open'
+                  className="btn-wide"
+                  value="Open"
                   disabled={loading}
                   onClick={(e) => handleModalOpen(e)}
                 >
                   Show results for {term} in {place}
                 </button>
               </div>
-              <div className='open-container center mt-10'>
+              <div className="open-container center mt-10">
                 <button
-                  className='btn-wide'
-                  value='Open'
+                  className="btn-wide"
+                  value="Open"
                   disabled={loading}
                   onClick={(e) => {
                     handleCreateDisplayPlan(e);
@@ -284,10 +284,10 @@ const Modal = ({
   setCreateDisplayPlan,
 }) => {
   return (
-    <div className='modal'>
-      <div className='modal-content center p-20 w-80'>
+    <div className="modal">
+      <div className="modal-content center p-20 w-80">
         <span
-          className='close'
+          className="close"
           onClick={() => {
             createDisplayPlan
               ? setCreateDisplayPlan(false)
@@ -308,9 +308,9 @@ const WrappedMap = ({ children, className }) => {
 
 const LoadingScreen = (term, place) => {
   return (
-    <div id='loading-screen'>
-      <img src={logo} className='App-logo' alt='logo' />
-      <p className='pulsate'>
+    <div id="loading-screen">
+      <img src={logo} className="App-logo" alt="logo" />
+      <p className="pulsate">
         Loading results for {term} in {place}
       </p>
     </div>
