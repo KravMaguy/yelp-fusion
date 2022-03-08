@@ -151,6 +151,7 @@ function BigCalendar({ BuisnessData: data, user }) {
           .signIn()
           .then(() => {
             gapi.client.calendar.events.list(gcalConfig).then((response) => {
+              console.log(response, "response from gapi");
               const { result } = response;
               const { summary, items } = result;
               const profile = summary.slice(0, summary.indexOf("@"));
@@ -189,6 +190,7 @@ function BigCalendar({ BuisnessData: data, user }) {
     <div className="App">
       {isModalShowing && (
         <Modal
+          data={data}
           selectedEventObjects={selectedEventObjects}
           setSelectedEventObjects={setSelectedEventObjects}
           setSelectedEventId={setSelectedEventId}
@@ -267,6 +269,7 @@ function BigCalendar({ BuisnessData: data, user }) {
 }
 
 const Modal = ({
+  data,
   selectedEventId,
   setIsModalShowing,
   setSelectedEventId,
@@ -278,8 +281,14 @@ const Modal = ({
   );
   const { start, end, title } = event;
 
+  console.log(selectedEventId, "selectedEventId");
   //start and end
-
+  const originalEventObject = data.find((buisness) => buisness.name === title);
+  const originalTimeSlot = originalEventObject.hours[0].open.find(
+    (timeslot) => timeslot.id === selectedEventId
+  );
+  const originalStart = originalTimeSlot.start;
+  const originalEnd = originalTimeSlot.end;
   const removeEvent = () => {
     const index = selectedEventObjects
       .map((obj) => obj.id)
@@ -332,7 +341,7 @@ const Modal = ({
           {/* <h4>{start.toLocaleString()}</h4>
           <h4>{end.toLocaleString()}</h4> */}
           <h4>
-            Event hours {formatLocal(start)} to {formatLocal(end)}
+            Event hours {originalStart} to {originalEnd}
           </h4>
 
           <form onSubmit={handleSubmit}>
@@ -346,8 +355,8 @@ const Modal = ({
                 id="appt-start-time"
                 type="time"
                 name="appt-start-time"
-                min={convertToTimeInput(start)}
-                max="18:00"
+                // min={convertToTimeInput(start)}
+                // max="18:00"
               />
               <span class="validity"></span>
             </div>
@@ -359,8 +368,8 @@ const Modal = ({
                 id="appt-end-time"
                 type="time"
                 name="appt-end-time"
-                min="12:00"
-                max="18:00"
+                // min="12:00"
+                // max="18:00"
               />
               <span class="validity"></span>
             </div>
