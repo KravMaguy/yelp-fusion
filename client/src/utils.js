@@ -560,12 +560,12 @@ export function utilAlert(expr, obj) {
   switch (expr) {
     case "gcal":
       type =
-        "is from your google calendar, and will be added to your profile calendar automatically";
+        " -is an event from your google calendar, and will be added to your profile calendar automatically";
       break;
     case "Mangoes":
-    case "Papayas":
-      console.log("Mangoes and papayas are $2.79 a pound.");
-      // expected output: "Mangoes and papayas are $2.79 a pound."
+    case "gcalProfile":
+      type =
+        " -go to your google calendar to edit your personal events. Please try again and select a highlighted event to edit";
       break;
     default:
       console.log(`Sorry, we are out of ${expr}.`);

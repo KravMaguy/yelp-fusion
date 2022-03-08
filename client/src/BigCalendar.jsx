@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Calendar } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
+import withDragAndDrop from "react-big-calendar/lib/addons/dragAndDrop";
+import "react-big-calendar/lib/css/react-big-calendar.css";
+import "react-big-calendar/lib/addons/dragAndDrop/styles.css";
 import {
   weekDays,
   restaurantObjects,
@@ -12,6 +15,7 @@ import {
   gcalConfig,
 } from "./utils";
 import { useParams, useNavigate, Link } from "react-router-dom";
+const DragAndDropCalendar = withDragAndDrop(Calendar);
 
 function BigCalendar({ BuisnessData: data, user }) {
   const mockBuisnessData = true;
@@ -37,11 +41,20 @@ function BigCalendar({ BuisnessData: data, user }) {
   const [userTimes, setUserTimes] = useState([]);
   const [isUserTimesDisplayed, setIsUserTimesDisplayed] = useState(false);
   const [selectedEventObjects, setSelectedEventObjects] = useState([]);
+  const [isModalShowing, setIsModalShowing] = useState(false);
+  const [selectedEventId, setSelectedEventId] = useState(null);
   const params = useParams();
   const { id } = params;
 
+  const handleSelectedUserProfileEvent = (event) => {
+    const { id } = event;
+    if (!id) return utilAlert("gcalProfile", event);
+    setIsModalShowing(true);
+    setSelectedEventId(id);
+  };
+
   const handleSelectedEvent = (event) => {
-    if (params.id === GcalProfile) return;
+    if (params.id === GcalProfile) return handleSelectedUserProfileEvent(event);
     const { id } = event;
     if (!allEvents.some((obj) => obj.id === id))
       return utilAlert("gcal", event);
@@ -168,6 +181,15 @@ function BigCalendar({ BuisnessData: data, user }) {
 
   return (
     <div className="App">
+      {isModalShowing && (
+        <Modal
+          selectedEventObjects={selectedEventObjects}
+          setSelectedEventObjects={setSelectedEventObjects}
+          setSelectedEventId={setSelectedEventId}
+          setIsModalShowing={setIsModalShowing}
+          selectedEventId={selectedEventId}
+        />
+      )}
       <h1>
         {GcalProfile && id === GcalProfile
           ? GcalProfile
@@ -208,7 +230,7 @@ function BigCalendar({ BuisnessData: data, user }) {
           </button>
         )}
       </div>
-      <Calendar
+      <DragAndDropCalendar
         selectable
         localizer={localizer}
         events={
@@ -234,5 +256,49 @@ function BigCalendar({ BuisnessData: data, user }) {
     </div>
   );
 }
+
+const Modal = ({
+  selectedEventId,
+  setIsModalShowing,
+  setSelectedEventId,
+  selectedEventObjects,
+  setSelectedEventObjects,
+}) => {
+  const event = selectedEventObjects.find(
+    (event) => event.id === selectedEventId
+  );
+
+  const removeEvent = () => {
+    const index = selectedEventObjects
+      .map((obj) => obj.id)
+      .indexOf(selectedEventId);
+    const reducedArr = [...selectedEventObjects];
+    reducedArr.splice(index, 1);
+    setSelectedEventObjects(reducedArr);
+    setIsModalShowing(false);
+    setSelectedEventId(null);
+  };
+
+  return (
+    <div className="modal">
+      <div className="modal-content center p-20 w-80">
+        <span
+          className="close"
+          onClick={() => {
+            setIsModalShowing(false);
+            setSelectedEventId(null);
+          }}
+        >
+          &times;
+        </span>
+        <h3>{event.title}</h3>
+        <h4>{event.start.toLocaleString()}</h4>
+        <h4>{event.end.toLocaleString()}</h4>
+
+        <button onClick={removeEvent}>Remove Event</button>
+      </div>
+    </div>
+  );
+};
 
 export default BigCalendar;
