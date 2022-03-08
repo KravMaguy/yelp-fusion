@@ -15,6 +15,7 @@ import {
   gcalConfig,
   convertToTimeInput,
   formatLocal,
+  formatTooltipTime,
 } from "./utils";
 import set from "date-fns/set";
 import { useParams, useNavigate, Link } from "react-router-dom";
@@ -184,8 +185,6 @@ function BigCalendar({ BuisnessData: data, user }) {
     return selectableCalendars;
   };
 
-  console.log(selectedEventObjects, "selectedEvent Ids");
-
   return (
     <div className="App">
       {isModalShowing && (
@@ -248,6 +247,9 @@ function BigCalendar({ BuisnessData: data, user }) {
             ? [...allEvents].concat(...userTimes)
             : allEvents
         }
+        tooltipAccessor={(event) => {
+          return formatTooltipTime(event);
+        }}
         startAccessor="start"
         endAccessor="end"
         onSelectEvent={(event) => handleSelectedEvent(event)}
@@ -281,8 +283,6 @@ const Modal = ({
   );
   const { start, end, title } = event;
 
-  console.log(selectedEventId, "selectedEventId");
-  //start and end
   const originalEventObject = data.find((buisness) => buisness.name === title);
   const originalTimeSlot = originalEventObject.hours[0].open.find(
     (timeslot) => timeslot.id === selectedEventId
@@ -338,8 +338,6 @@ const Modal = ({
             &times;
           </span>
           <h3>{title}</h3>
-          {/* <h4>{start.toLocaleString()}</h4>
-          <h4>{end.toLocaleString()}</h4> */}
           <h4>
             Event hours {originalStart} to {originalEnd}
           </h4>

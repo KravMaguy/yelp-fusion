@@ -590,3 +590,9 @@ export function formatLocal(start) {
     hour12: true,
   });
 }
+
+export function formatTooltipTime(e) {
+  const start = format(e.start, "p");
+  const end = format(e.end, "p");
+  return `${e.title} from ${start} to ${end}`;
+}
