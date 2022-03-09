@@ -11,14 +11,24 @@ const customStyles = {
     padding: 20,
   }),
   singleValue: (provided, state) => {
-    const opacity = state.isDisabled ? 0.5 : 1;
+    const opacity = state.isDisabled ? 0.5 : 0.5;
     const transition = "opacity 300ms";
     return { ...provided, opacity, transition };
   },
+  valueContainer: (provided) => {
+    return { ...provided, width: "fit-content" };
+  },
 };
+
+console.log("in multiselect file");
 const loadOptions = async (inputValue) => {
+  console.log("loadoptions caleed");
   const options = [];
-  const { data } = await axios.get(`/autocomplete/${inputValue}`);
+
+  const { data } = await axios.get(
+    `http://localhost:5000/autocomplete/${inputValue}`
+  );
+  console.log(data, "data");
   const myData = data.categories.map((category) =>
     options.push({ value: category.alias, label: category.title })
   );

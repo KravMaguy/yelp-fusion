@@ -107,8 +107,10 @@ app.get("/buisnesses/:id", async (req, res) => {
     .then((response) => res.json(response.data))
     .catch((err) => res.status(err.response.status).send(err.message));
 });
+console.log("express");
 
 app.get("/autocomplete/:text", async (req, res) => {
+  console.log("here");
   console.log(req.params, "the params");
   const { text } = req.params;
   axios
