@@ -16,6 +16,7 @@ import {
   convertToTimeInput,
   formatLocal,
   formatTooltipTime,
+  gapiResponse,
 } from "./utils";
 import set from "date-fns/set";
 import { useParams, useNavigate, Link } from "react-router-dom";
@@ -23,6 +24,7 @@ import { useParams, useNavigate, Link } from "react-router-dom";
 const DragAndDropCalendar = withDragAndDrop(Calendar);
 
 function BigCalendar({ BuisnessData: data, user }) {
+  const mockGapi = true;
   const mockBuisnessData = true;
   if (mockBuisnessData) {
     data = restaurantObjects;
@@ -137,30 +139,38 @@ function BigCalendar({ BuisnessData: data, user }) {
 
   const displayTimes = () => {
     if (userTimes.length === 0 && !isUserTimesDisplayed) {
-      const gapi = window.gapi;
-      const { apiKey, clientId, discoveryDocs, scope } = gapiConfig;
-      gapi.load("client:auth2", () => {
-        gapi.client.init({
-          apiKey,
-          clientId,
-          discoveryDocs,
-          scope,
-        });
-        gapi.client.load("calendar", "v3", () => console.log("gapi loaded"));
-        gapi.auth2
-          .getAuthInstance()
-          .signIn()
-          .then(() => {
-            gapi.client.calendar.events.list(gcalConfig).then((response) => {
-              console.log(response, "response from gapi");
-              const { result } = response;
-              const { summary, items } = result;
-              const profile = summary.slice(0, summary.indexOf("@"));
-              setGcalProfile(profile);
-              displayEvents(items);
-            });
+      if (!mockGapi) {
+        const gapi = window.gapi;
+        const { apiKey, clientId, discoveryDocs, scope } = gapiConfig;
+        gapi.load("client:auth2", () => {
+          gapi.client.init({
+            apiKey,
+            clientId,
+            discoveryDocs,
+            scope,
           });
-      });
+          gapi.client.load("calendar", "v3", () => console.log("gapi loaded"));
+          gapi.auth2
+            .getAuthInstance()
+            .signIn()
+            .then(() => {
+              gapi.client.calendar.events.list(gcalConfig).then((response) => {
+                console.log(response, "response from gapi");
+                const { result } = response;
+                const { summary, items } = result;
+                const profile = summary.slice(0, summary.indexOf("@"));
+                setGcalProfile(profile);
+                displayEvents(items);
+              });
+            });
+        });
+      } else {
+        const { result } = gapiResponse;
+        const { summary, items } = result;
+        const profile = summary.slice(0, summary.indexOf("@"));
+        setGcalProfile(profile);
+        displayEvents(items);
+      }
     }
     setIsUserTimesDisplayed(true);
   };
@@ -289,6 +299,13 @@ const Modal = ({
   );
   const originalStart = originalTimeSlot.start;
   const originalEnd = originalTimeSlot.end;
+  console.log(originalStart, "origin start");
+  console.log(originalEnd, "original end");
+
+  console.log(start, "start");
+  console.log(end, "end");
+
+  console.log(convertToTimeInput(Date.now()), "date now conv to time input");
   const removeEvent = () => {
     const index = selectedEventObjects
       .map((obj) => obj.id)
@@ -311,6 +328,8 @@ const Modal = ({
       hours: startHours,
       minutes: startMinutes,
     });
+
+    console.log(StartTime, "start time");
     event.start = StartTime;
     setIsModalShowing(false);
     setSelectedEventId(null);
@@ -321,6 +340,8 @@ const Modal = ({
       hours: endHours,
       minutes: endMinutes,
     });
+    console.log(EndTime, "end time");
+
     event.end = EndTime;
   };
 

@@ -596,3 +596,468 @@ export function formatTooltipTime(e) {
   const end = format(e.end, "p");
   return `${e.title} from ${start} to ${end}`;
 }
+
+export const gapiResponse = {
+  result: {
+    kind: "calendar#events",
+    etag: '"p334d95femervc0g"',
+    summary: "flex4lease@gmail.com",
+    updated: "2022-03-08T20:58:22.013Z",
+    timeZone: "America/Chicago",
+    accessRole: "owner",
+    defaultReminders: [
+      {
+        method: "popup",
+        minutes: 30,
+      },
+    ],
+    items: [
+      {
+        kind: "calendar#event",
+        etag: '"3293546140366000"',
+        id: "3i3b0qqov3bilepslbbck0tqqn",
+        status: "confirmed",
+        htmlLink:
+          "https://www.google.com/calendar/event?eid=M2kzYjBxcW92M2JpbGVwc2xiYmNrMHRxcW4gZmxleDRsZWFzZUBt",
+        created: "2022-03-08T20:57:50.000Z",
+        updated: "2022-03-08T20:57:50.183Z",
+        summary: "speak w yak",
+        creator: {
+          email: "flex4lease@gmail.com",
+          self: true,
+        },
+        organizer: {
+          email: "flex4lease@gmail.com",
+          self: true,
+        },
+        start: {
+          dateTime: "2022-03-11T15:00:00-06:00",
+          timeZone: "America/Chicago",
+        },
+        end: {
+          dateTime: "2022-03-11T16:00:00-06:00",
+          timeZone: "America/Chicago",
+        },
+        iCalUID: "3i3b0qqov3bilepslbbck0tqqn@google.com",
+        sequence: 0,
+        reminders: {
+          useDefault: true,
+        },
+        eventType: "default",
+      },
+      {
+        kind: "calendar#event",
+        etag: '"3293546203751000"',
+        id: "5vdcegi16n1smmrvvb5e6i86be",
+        status: "confirmed",
+        htmlLink:
+          "https://www.google.com/calendar/event?eid=NXZkY2VnaTE2bjFzbW1ydnZiNWU2aTg2YmUgZmxleDRsZWFzZUBt",
+        created: "2022-03-08T20:58:06.000Z",
+        updated: "2022-03-08T20:58:22.013Z",
+        summary: "possible travel",
+        creator: {
+          email: "flex4lease@gmail.com",
+          self: true,
+        },
+        organizer: {
+          email: "flex4lease@gmail.com",
+          self: true,
+        },
+        start: {
+          dateTime: "2022-03-13T10:00:00-05:00",
+          timeZone: "America/Chicago",
+        },
+        end: {
+          dateTime: "2022-03-13T10:30:00-05:00",
+          timeZone: "America/Chicago",
+        },
+        transparency: "transparent",
+        iCalUID: "5vdcegi16n1smmrvvb5e6i86be@google.com",
+        sequence: 1,
+        reminders: {
+          useDefault: false,
+          overrides: [
+            {
+              method: "popup",
+              minutes: 30,
+            },
+          ],
+        },
+        eventType: "default",
+      },
+      {
+        kind: "calendar#event",
+        etag: '"3292922226490000"',
+        id: "3s8pmu5smg5km38thv8otpb5gs_20220528T160000Z",
+        status: "confirmed",
+        htmlLink:
+          "https://www.google.com/calendar/event?eid=M3M4cG11NXNtZzVrbTM4dGh2OG90cGI1Z3NfMjAyMjA1MjhUMTYwMDAwWiBmbGV4NGxlYXNlQG0",
+        created: "2022-03-05T06:18:33.000Z",
+        updated: "2022-03-05T06:18:33.378Z",
+        summary: "martial arts Event!",
+        description: "travel and train musashi",
+        location: "800 Howard St., San Francisco, CA 94103",
+        creator: {
+          email: "flex4lease@gmail.com",
+          self: true,
+        },
+        organizer: {
+          email: "flex4lease@gmail.com",
+          self: true,
+        },
+        start: {
+          dateTime: "2022-05-28T11:00:00-05:00",
+          timeZone: "America/Los_Angeles",
+        },
+        end: {
+          dateTime: "2022-05-28T19:00:00-05:00",
+          timeZone: "America/Los_Angeles",
+        },
+        recurringEventId: "3s8pmu5smg5km38thv8otpb5gs",
+        originalStartTime: {
+          dateTime: "2022-05-28T11:00:00-05:00",
+          timeZone: "America/Los_Angeles",
+        },
+        iCalUID: "3s8pmu5smg5km38thv8otpb5gs@google.com",
+        sequence: 0,
+        attendees: [
+          {
+            email: "lpage@example.com",
+            responseStatus: "needsAction",
+          },
+          {
+            email: "sbrin@example.com",
+            responseStatus: "needsAction",
+          },
+        ],
+        reminders: {
+          useDefault: false,
+          overrides: [
+            {
+              method: "popup",
+              minutes: 10,
+            },
+            {
+              method: "email",
+              minutes: 1440,
+            },
+          ],
+        },
+        eventType: "default",
+      },
+      {
+        kind: "calendar#event",
+        etag: '"3292922226490000"',
+        id: "3s8pmu5smg5km38thv8otpb5gs_20220529T160000Z",
+        status: "confirmed",
+        htmlLink:
+          "https://www.google.com/calendar/event?eid=M3M4cG11NXNtZzVrbTM4dGh2OG90cGI1Z3NfMjAyMjA1MjlUMTYwMDAwWiBmbGV4NGxlYXNlQG0",
+        created: "2022-03-05T06:18:33.000Z",
+        updated: "2022-03-05T06:18:33.378Z",
+        summary: "martial arts Event!",
+        description: "travel and train musashi",
+        location: "800 Howard St., San Francisco, CA 94103",
+        creator: {
+          email: "flex4lease@gmail.com",
+          self: true,
+        },
+        organizer: {
+          email: "flex4lease@gmail.com",
+          self: true,
+        },
+        start: {
+          dateTime: "2022-05-29T11:00:00-05:00",
+          timeZone: "America/Los_Angeles",
+        },
+        end: {
+          dateTime: "2022-05-29T19:00:00-05:00",
+          timeZone: "America/Los_Angeles",
+        },
+        recurringEventId: "3s8pmu5smg5km38thv8otpb5gs",
+        originalStartTime: {
+          dateTime: "2022-05-29T11:00:00-05:00",
+          timeZone: "America/Los_Angeles",
+        },
+        iCalUID: "3s8pmu5smg5km38thv8otpb5gs@google.com",
+        sequence: 0,
+        attendees: [
+          {
+            email: "lpage@example.com",
+            responseStatus: "needsAction",
+          },
+          {
+            email: "sbrin@example.com",
+            responseStatus: "needsAction",
+          },
+        ],
+        reminders: {
+          useDefault: false,
+          overrides: [
+            {
+              method: "popup",
+              minutes: 10,
+            },
+            {
+              method: "email",
+              minutes: 1440,
+            },
+          ],
+        },
+        eventType: "default",
+      },
+      {
+        kind: "calendar#event",
+        etag: '"3292873092503000"',
+        id: "es54ha640fv74i2biti2aji5mc_20220628T160000Z",
+        status: "confirmed",
+        htmlLink:
+          "https://www.google.com/calendar/event?eid=ZXM1NGhhNjQwZnY3NGkyYml0aTJhamk1bWNfMjAyMjA2MjhUMTYwMDAwWiBmbGV4NGxlYXNlQG0",
+        created: "2022-03-04T23:29:06.000Z",
+        updated: "2022-03-04T23:29:06.365Z",
+        summary: "Awesome Event!",
+        description: "Really great refreshments",
+        location: "800 Howard St., San Francisco, CA 94103",
+        creator: {
+          email: "flex4lease@gmail.com",
+          self: true,
+        },
+        organizer: {
+          email: "flex4lease@gmail.com",
+          self: true,
+        },
+        start: {
+          dateTime: "2022-06-28T11:00:00-05:00",
+          timeZone: "America/Los_Angeles",
+        },
+        end: {
+          dateTime: "2022-06-28T19:00:00-05:00",
+          timeZone: "America/Los_Angeles",
+        },
+        recurringEventId: "es54ha640fv74i2biti2aji5mc",
+        originalStartTime: {
+          dateTime: "2022-06-28T11:00:00-05:00",
+          timeZone: "America/Los_Angeles",
+        },
+        iCalUID: "es54ha640fv74i2biti2aji5mc@google.com",
+        sequence: 0,
+        attendees: [
+          {
+            email: "lpage@example.com",
+            responseStatus: "needsAction",
+          },
+          {
+            email: "sbrin@example.com",
+            responseStatus: "needsAction",
+          },
+        ],
+        reminders: {
+          useDefault: false,
+          overrides: [
+            {
+              method: "popup",
+              minutes: 10,
+            },
+            {
+              method: "email",
+              minutes: 1440,
+            },
+          ],
+        },
+        eventType: "default",
+      },
+      {
+        kind: "calendar#event",
+        etag: '"3292873092503000"',
+        id: "es54ha640fv74i2biti2aji5mc_20220629T160000Z",
+        status: "confirmed",
+        htmlLink:
+          "https://www.google.com/calendar/event?eid=ZXM1NGhhNjQwZnY3NGkyYml0aTJhamk1bWNfMjAyMjA2MjlUMTYwMDAwWiBmbGV4NGxlYXNlQG0",
+        created: "2022-03-04T23:29:06.000Z",
+        updated: "2022-03-04T23:29:06.365Z",
+        summary: "Awesome Event!",
+        description: "Really great refreshments",
+        location: "800 Howard St., San Francisco, CA 94103",
+        creator: {
+          email: "flex4lease@gmail.com",
+          self: true,
+        },
+        organizer: {
+          email: "flex4lease@gmail.com",
+          self: true,
+        },
+        start: {
+          dateTime: "2022-06-29T11:00:00-05:00",
+          timeZone: "America/Los_Angeles",
+        },
+        end: {
+          dateTime: "2022-06-29T19:00:00-05:00",
+          timeZone: "America/Los_Angeles",
+        },
+        recurringEventId: "es54ha640fv74i2biti2aji5mc",
+        originalStartTime: {
+          dateTime: "2022-06-29T11:00:00-05:00",
+          timeZone: "America/Los_Angeles",
+        },
+        iCalUID: "es54ha640fv74i2biti2aji5mc@google.com",
+        sequence: 0,
+        attendees: [
+          {
+            email: "lpage@example.com",
+            responseStatus: "needsAction",
+          },
+          {
+            email: "sbrin@example.com",
+            responseStatus: "needsAction",
+          },
+        ],
+        reminders: {
+          useDefault: false,
+          overrides: [
+            {
+              method: "popup",
+              minutes: 10,
+            },
+            {
+              method: "email",
+              minutes: 1440,
+            },
+          ],
+        },
+        eventType: "default",
+      },
+      {
+        kind: "calendar#event",
+        etag: '"3293003731182000"',
+        id: "jo96abvquohe2qv5u8g7apetss_20220928T160000Z",
+        status: "confirmed",
+        htmlLink:
+          "https://www.google.com/calendar/event?eid=am85NmFidnF1b2hlMnF2NXU4ZzdhcGV0c3NfMjAyMjA5MjhUMTYwMDAwWiBmbGV4NGxlYXNlQG0",
+        created: "2022-03-05T17:37:45.000Z",
+        updated: "2022-03-05T17:37:45.723Z",
+        summary: "Give Martial Arts seminar!",
+        description: "travel and train the students",
+        location: "3922 W Touhy Ave, Lincolnwood, IL 60712",
+        creator: {
+          email: "flex4lease@gmail.com",
+          self: true,
+        },
+        organizer: {
+          email: "flex4lease@gmail.com",
+          self: true,
+        },
+        start: {
+          dateTime: "2022-09-28T11:00:00-05:00",
+          timeZone: "America/Chicago",
+        },
+        end: {
+          dateTime: "2022-10-28T19:00:00-05:00",
+          timeZone: "America/Chicago",
+        },
+        recurringEventId: "jo96abvquohe2qv5u8g7apetss",
+        originalStartTime: {
+          dateTime: "2022-09-28T11:00:00-05:00",
+          timeZone: "America/Chicago",
+        },
+        iCalUID: "jo96abvquohe2qv5u8g7apetss@google.com",
+        sequence: 0,
+        attendees: [
+          {
+            email: "lpage@example.com",
+            responseStatus: "needsAction",
+          },
+          {
+            email: "sbrin@example.com",
+            responseStatus: "needsAction",
+          },
+        ],
+        reminders: {
+          useDefault: false,
+          overrides: [
+            {
+              method: "popup",
+              minutes: 10,
+            },
+            {
+              method: "email",
+              minutes: 1440,
+            },
+          ],
+        },
+        eventType: "default",
+      },
+      {
+        kind: "calendar#event",
+        etag: '"3293003731182000"',
+        id: "jo96abvquohe2qv5u8g7apetss_20220929T160000Z",
+        status: "confirmed",
+        htmlLink:
+          "https://www.google.com/calendar/event?eid=am85NmFidnF1b2hlMnF2NXU4ZzdhcGV0c3NfMjAyMjA5MjlUMTYwMDAwWiBmbGV4NGxlYXNlQG0",
+        created: "2022-03-05T17:37:45.000Z",
+        updated: "2022-03-05T17:37:45.723Z",
+        summary: "Give Martial Arts seminar!",
+        description: "travel and train the students",
+        location: "3922 W Touhy Ave, Lincolnwood, IL 60712",
+        creator: {
+          email: "flex4lease@gmail.com",
+          self: true,
+        },
+        organizer: {
+          email: "flex4lease@gmail.com",
+          self: true,
+        },
+        start: {
+          dateTime: "2022-09-29T11:00:00-05:00",
+          timeZone: "America/Chicago",
+        },
+        end: {
+          dateTime: "2022-10-29T19:00:00-05:00",
+          timeZone: "America/Chicago",
+        },
+        recurringEventId: "jo96abvquohe2qv5u8g7apetss",
+        originalStartTime: {
+          dateTime: "2022-09-29T11:00:00-05:00",
+          timeZone: "America/Chicago",
+        },
+        iCalUID: "jo96abvquohe2qv5u8g7apetss@google.com",
+        sequence: 0,
+        attendees: [
+          {
+            email: "lpage@example.com",
+            responseStatus: "needsAction",
+          },
+          {
+            email: "sbrin@example.com",
+            responseStatus: "needsAction",
+          },
+        ],
+        reminders: {
+          useDefault: false,
+          overrides: [
+            {
+              method: "popup",
+              minutes: 10,
+            },
+            {
+              method: "email",
+              minutes: 1440,
+            },
+          ],
+        },
+        eventType: "default",
+      },
+    ],
+  },
+  body: '{\n "kind": "calendar#events",\n "etag": "\\"p334d95femervc0g\\"",\n "summary": "flex4lease@gmail.com",\n "updated": "2022-03-08T20:58:22.013Z",\n "timeZone": "America/Chicago",\n "accessRole": "owner",\n "defaultReminders": [\n  {\n   "method": "popup",\n   "minutes": 30\n  }\n ],\n "items": [\n  {\n   "kind": "calendar#event",\n   "etag": "\\"3293546140366000\\"",\n   "id": "3i3b0qqov3bilepslbbck0tqqn",\n   "status": "confirmed",\n   "htmlLink": "https://www.google.com/calendar/event?eid=M2kzYjBxcW92M2JpbGVwc2xiYmNrMHRxcW4gZmxleDRsZWFzZUBt",\n   "created": "2022-03-08T20:57:50.000Z",\n   "updated": "2022-03-08T20:57:50.183Z",\n   "summary": "speak w yak",\n   "creator": {\n    "email": "flex4lease@gmail.com",\n    "self": true\n   },\n   "organizer": {\n    "email": "flex4lease@gmail.com",\n    "self": true\n   },\n   "start": {\n    "dateTime": "2022-03-11T15:00:00-06:00",\n    "timeZone": "America/Chicago"\n   },\n   "end": {\n    "dateTime": "2022-03-11T16:00:00-06:00",\n    "timeZone": "America/Chicago"\n   },\n   "iCalUID": "3i3b0qqov3bilepslbbck0tqqn@google.com",\n   "sequence": 0,\n   "reminders": {\n    "useDefault": true\n   },\n   "eventType": "default"\n  },\n  {\n   "kind": "calendar#event",\n   "etag": "\\"3293546203751000\\"",\n   "id": "5vdcegi16n1smmrvvb5e6i86be",\n   "status": "confirmed",\n   "htmlLink": "https://www.google.com/calendar/event?eid=NXZkY2VnaTE2bjFzbW1ydnZiNWU2aTg2YmUgZmxleDRsZWFzZUBt",\n   "created": "2022-03-08T20:58:06.000Z",\n   "updated": "2022-03-08T20:58:22.013Z",\n   "summary": "possible travel",\n   "creator": {\n    "email": "flex4lease@gmail.com",\n    "self": true\n   },\n   "organizer": {\n    "email": "flex4lease@gmail.com",\n    "self": true\n   },\n   "start": {\n    "dateTime": "2022-03-13T10:00:00-05:00",\n    "timeZone": "America/Chicago"\n   },\n   "end": {\n    "dateTime": "2022-03-13T10:30:00-05:00",\n    "timeZone": "America/Chicago"\n   },\n   "transparency": "transparent",\n   "iCalUID": "5vdcegi16n1smmrvvb5e6i86be@google.com",\n   "sequence": 1,\n   "reminders": {\n    "useDefault": false,\n    "overrides": [\n     {\n      "method": "popup",\n      "minutes": 30\n     }\n    ]\n   },\n   "eventType": "default"\n  },\n  {\n   "kind": "calendar#event",\n   "etag": "\\"3292922226490000\\"",\n   "id": "3s8pmu5smg5km38thv8otpb5gs_20220528T160000Z",\n   "status": "confirmed",\n   "htmlLink": "https://www.google.com/calendar/event?eid=M3M4cG11NXNtZzVrbTM4dGh2OG90cGI1Z3NfMjAyMjA1MjhUMTYwMDAwWiBmbGV4NGxlYXNlQG0",\n   "created": "2022-03-05T06:18:33.000Z",\n   "updated": "2022-03-05T06:18:33.378Z",\n   "summary": "martial arts Event!",\n   "description": "travel and train musashi",\n   "location": "800 Howard St., San Francisco, CA 94103",\n   "creator": {\n    "email": "flex4lease@gmail.com",\n    "self": true\n   },\n   "organizer": {\n    "email": "flex4lease@gmail.com",\n    "self": true\n   },\n   "start": {\n    "dateTime": "2022-05-28T11:00:00-05:00",\n    "timeZone": "America/Los_Angeles"\n   },\n   "end": {\n    "dateTime": "2022-05-28T19:00:00-05:00",\n    "timeZone": "America/Los_Angeles"\n   },\n   "recurringEventId": "3s8pmu5smg5km38thv8otpb5gs",\n   "originalStartTime": {\n    "dateTime": "2022-05-28T11:00:00-05:00",\n    "timeZone": "America/Los_Angeles"\n   },\n   "iCalUID": "3s8pmu5smg5km38thv8otpb5gs@google.com",\n   "sequence": 0,\n   "attendees": [\n    {\n     "email": "lpage@example.com",\n     "responseStatus": "needsAction"\n    },\n    {\n     "email": "sbrin@example.com",\n     "responseStatus": "needsAction"\n    }\n   ],\n   "reminders": {\n    "useDefault": false,\n    "overrides": [\n     {\n      "method": "popup",\n      "minutes": 10\n     },\n     {\n      "method": "email",\n      "minutes": 1440\n     }\n    ]\n   },\n   "eventType": "default"\n  },\n  {\n   "kind": "calendar#event",\n   "etag": "\\"3292922226490000\\"",\n   "id": "3s8pmu5smg5km38thv8otpb5gs_20220529T160000Z",\n   "status": "confirmed",\n   "htmlLink": "https://www.google.com/calendar/event?eid=M3M4cG11NXNtZzVrbTM4dGh2OG90cGI1Z3NfMjAyMjA1MjlUMTYwMDAwWiBmbGV4NGxlYXNlQG0",\n   "created": "2022-03-05T06:18:33.000Z",\n   "updated": "2022-03-05T06:18:33.378Z",\n   "summary": "martial arts Event!",\n   "description": "travel and train musashi",\n   "location": "800 Howard St., San Francisco, CA 94103",\n   "creator": {\n    "email": "flex4lease@gmail.com",\n    "self": true\n   },\n   "organizer": {\n    "email": "flex4lease@gmail.com",\n    "self": true\n   },\n   "start": {\n    "dateTime": "2022-05-29T11:00:00-05:00",\n    "timeZone": "America/Los_Angeles"\n   },\n   "end": {\n    "dateTime": "2022-05-29T19:00:00-05:00",\n    "timeZone": "America/Los_Angeles"\n   },\n   "recurringEventId": "3s8pmu5smg5km38thv8otpb5gs",\n   "originalStartTime": {\n    "dateTime": "2022-05-29T11:00:00-05:00",\n    "timeZone": "America/Los_Angeles"\n   },\n   "iCalUID": "3s8pmu5smg5km38thv8otpb5gs@google.com",\n   "sequence": 0,\n   "attendees": [\n    {\n     "email": "lpage@example.com",\n     "responseStatus": "needsAction"\n    },\n    {\n     "email": "sbrin@example.com",\n     "responseStatus": "needsAction"\n    }\n   ],\n   "reminders": {\n    "useDefault": false,\n    "overrides": [\n     {\n      "method": "popup",\n      "minutes": 10\n     },\n     {\n      "method": "email",\n      "minutes": 1440\n     }\n    ]\n   },\n   "eventType": "default"\n  },\n  {\n   "kind": "calendar#event",\n   "etag": "\\"3292873092503000\\"",\n   "id": "es54ha640fv74i2biti2aji5mc_20220628T160000Z",\n   "status": "confirmed",\n   "htmlLink": "https://www.google.com/calendar/event?eid=ZXM1NGhhNjQwZnY3NGkyYml0aTJhamk1bWNfMjAyMjA2MjhUMTYwMDAwWiBmbGV4NGxlYXNlQG0",\n   "created": "2022-03-04T23:29:06.000Z",\n   "updated": "2022-03-04T23:29:06.365Z",\n   "summary": "Awesome Event!",\n   "description": "Really great refreshments",\n   "location": "800 Howard St., San Francisco, CA 94103",\n   "creator": {\n    "email": "flex4lease@gmail.com",\n    "self": true\n   },\n   "organizer": {\n    "email": "flex4lease@gmail.com",\n    "self": true\n   },\n   "start": {\n    "dateTime": "2022-06-28T11:00:00-05:00",\n    "timeZone": "America/Los_Angeles"\n   },\n   "end": {\n    "dateTime": "2022-06-28T19:00:00-05:00",\n    "timeZone": "America/Los_Angeles"\n   },\n   "recurringEventId": "es54ha640fv74i2biti2aji5mc",\n   "originalStartTime": {\n    "dateTime": "2022-06-28T11:00:00-05:00",\n    "timeZone": "America/Los_Angeles"\n   },\n   "iCalUID": "es54ha640fv74i2biti2aji5mc@google.com",\n   "sequence": 0,\n   "attendees": [\n    {\n     "email": "lpage@example.com",\n     "responseStatus": "needsAction"\n    },\n    {\n     "email": "sbrin@example.com",\n     "responseStatus": "needsAction"\n    }\n   ],\n   "reminders": {\n    "useDefault": false,\n    "overrides": [\n     {\n      "method": "popup",\n      "minutes": 10\n     },\n     {\n      "method": "email",\n      "minutes": 1440\n     }\n    ]\n   },\n   "eventType": "default"\n  },\n  {\n   "kind": "calendar#event",\n   "etag": "\\"3292873092503000\\"",\n   "id": "es54ha640fv74i2biti2aji5mc_20220629T160000Z",\n   "status": "confirmed",\n   "htmlLink": "https://www.google.com/calendar/event?eid=ZXM1NGhhNjQwZnY3NGkyYml0aTJhamk1bWNfMjAyMjA2MjlUMTYwMDAwWiBmbGV4NGxlYXNlQG0",\n   "created": "2022-03-04T23:29:06.000Z",\n   "updated": "2022-03-04T23:29:06.365Z",\n   "summary": "Awesome Event!",\n   "description": "Really great refreshments",\n   "location": "800 Howard St., San Francisco, CA 94103",\n   "creator": {\n    "email": "flex4lease@gmail.com",\n    "self": true\n   },\n   "organizer": {\n    "email": "flex4lease@gmail.com",\n    "self": true\n   },\n   "start": {\n    "dateTime": "2022-06-29T11:00:00-05:00",\n    "timeZone": "America/Los_Angeles"\n   },\n   "end": {\n    "dateTime": "2022-06-29T19:00:00-05:00",\n    "timeZone": "America/Los_Angeles"\n   },\n   "recurringEventId": "es54ha640fv74i2biti2aji5mc",\n   "originalStartTime": {\n    "dateTime": "2022-06-29T11:00:00-05:00",\n    "timeZone": "America/Los_Angeles"\n   },\n   "iCalUID": "es54ha640fv74i2biti2aji5mc@google.com",\n   "sequence": 0,\n   "attendees": [\n    {\n     "email": "lpage@example.com",\n     "responseStatus": "needsAction"\n    },\n    {\n     "email": "sbrin@example.com",\n     "responseStatus": "needsAction"\n    }\n   ],\n   "reminders": {\n    "useDefault": false,\n    "overrides": [\n     {\n      "method": "popup",\n      "minutes": 10\n     },\n     {\n      "method": "email",\n      "minutes": 1440\n     }\n    ]\n   },\n   "eventType": "default"\n  },\n  {\n   "kind": "calendar#event",\n   "etag": "\\"3293003731182000\\"",\n   "id": "jo96abvquohe2qv5u8g7apetss_20220928T160000Z",\n   "status": "confirmed",\n   "htmlLink": "https://www.google.com/calendar/event?eid=am85NmFidnF1b2hlMnF2NXU4ZzdhcGV0c3NfMjAyMjA5MjhUMTYwMDAwWiBmbGV4NGxlYXNlQG0",\n   "created": "2022-03-05T17:37:45.000Z",\n   "updated": "2022-03-05T17:37:45.723Z",\n   "summary": "Give Martial Arts seminar!",\n   "description": "travel and train the students",\n   "location": "3922 W Touhy Ave, Lincolnwood, IL 60712",\n   "creator": {\n    "email": "flex4lease@gmail.com",\n    "self": true\n   },\n   "organizer": {\n    "email": "flex4lease@gmail.com",\n    "self": true\n   },\n   "start": {\n    "dateTime": "2022-09-28T11:00:00-05:00",\n    "timeZone": "America/Chicago"\n   },\n   "end": {\n    "dateTime": "2022-10-28T19:00:00-05:00",\n    "timeZone": "America/Chicago"\n   },\n   "recurringEventId": "jo96abvquohe2qv5u8g7apetss",\n   "originalStartTime": {\n    "dateTime": "2022-09-28T11:00:00-05:00",\n    "timeZone": "America/Chicago"\n   },\n   "iCalUID": "jo96abvquohe2qv5u8g7apetss@google.com",\n   "sequence": 0,\n   "attendees": [\n    {\n     "email": "lpage@example.com",\n     "responseStatus": "needsAction"\n    },\n    {\n     "email": "sbrin@example.com",\n     "responseStatus": "needsAction"\n    }\n   ],\n   "reminders": {\n    "useDefault": false,\n    "overrides": [\n     {\n      "method": "popup",\n      "minutes": 10\n     },\n     {\n      "method": "email",\n      "minutes": 1440\n     }\n    ]\n   },\n   "eventType": "default"\n  },\n  {\n   "kind": "calendar#event",\n   "etag": "\\"3293003731182000\\"",\n   "id": "jo96abvquohe2qv5u8g7apetss_20220929T160000Z",\n   "status": "confirmed",\n   "htmlLink": "https://www.google.com/calendar/event?eid=am85NmFidnF1b2hlMnF2NXU4ZzdhcGV0c3NfMjAyMjA5MjlUMTYwMDAwWiBmbGV4NGxlYXNlQG0",\n   "created": "2022-03-05T17:37:45.000Z",\n   "updated": "2022-03-05T17:37:45.723Z",\n   "summary": "Give Martial Arts seminar!",\n   "description": "travel and train the students",\n   "location": "3922 W Touhy Ave, Lincolnwood, IL 60712",\n   "creator": {\n    "email": "flex4lease@gmail.com",\n    "self": true\n   },\n   "organizer": {\n    "email": "flex4lease@gmail.com",\n    "self": true\n   },\n   "start": {\n    "dateTime": "2022-09-29T11:00:00-05:00",\n    "timeZone": "America/Chicago"\n   },\n   "end": {\n    "dateTime": "2022-10-29T19:00:00-05:00",\n    "timeZone": "America/Chicago"\n   },\n   "recurringEventId": "jo96abvquohe2qv5u8g7apetss",\n   "originalStartTime": {\n    "dateTime": "2022-09-29T11:00:00-05:00",\n    "timeZone": "America/Chicago"\n   },\n   "iCalUID": "jo96abvquohe2qv5u8g7apetss@google.com",\n   "sequence": 0,\n   "attendees": [\n    {\n     "email": "lpage@example.com",\n     "responseStatus": "needsAction"\n    },\n    {\n     "email": "sbrin@example.com",\n     "responseStatus": "needsAction"\n    }\n   ],\n   "reminders": {\n    "useDefault": false,\n    "overrides": [\n     {\n      "method": "popup",\n      "minutes": 10\n     },\n     {\n      "method": "email",\n      "minutes": 1440\n     }\n    ]\n   },\n   "eventType": "default"\n  }\n ]\n}\n',
+  headers: {
+    "cache-control": "private, max-age=0, must-revalidate, no-transform",
+    "content-encoding": "gzip",
+    "content-length": "1474",
+    "content-type": "application/json; charset=UTF-8",
+    date: "Thu, 10 Mar 2022 16:59:32 GMT",
+    expires: "Thu, 10 Mar 2022 16:59:32 GMT",
+    server: "ESF",
+    vary: "Origin, X-Origin, Referer",
+  },
+  status: 200,
+  statusText: null,
+};

@@ -15,54 +15,78 @@ const customStyles = {
     const transition = "opacity 300ms";
     return { ...provided, opacity, transition };
   },
-  valueContainer: (provided) => {
-    return { ...provided, width: "fit-content" };
+  // valueContainer: (provided, state) => {
+  //   return { ...provided, width: "fit-content!important" };
+  // },
+  multiValueContainer: (provided, state) => {
+    return { ...provided, width: "fit-content!important" };
   },
+  // multiValue: (provided, state) => {
+  //   return { ...provided, width: "fit-content!important" };
+  // },
 };
 
-console.log("in multiselect file");
 const loadOptions = async (inputValue) => {
-  console.log("loadoptions caleed");
-  const options = [];
-
   const { data } = await axios.get(
     `http://localhost:5000/autocomplete/${inputValue}`
   );
-  console.log(data, "data");
-  const myData = data.categories.map((category) =>
-    options.push({ value: category.alias, label: category.title })
-  );
-  const data2 = data.terms.map((term) =>
-    options.push({
-      value: term.text,
-      label: term.text,
-    })
-  );
-  return options.filter((i) =>
-    i.label.toLowerCase().includes(inputValue.toLowerCase())
-  );
+  const options = data.categories.map((category) => ({
+    value: category.alias,
+    label: category.title,
+  }));
+  const additionalOptions = data.terms.map((term) => ({
+    value: term.text,
+    label: term.text,
+  }));
+  return options
+    .concat(additionalOptions)
+    .filter((i) => i.label.toLowerCase().includes(inputValue.toLowerCase()));
 };
 
 export default function MultiSelectAsync() {
   const [inputValue, setInputValue] = useState("");
+  const [selectedOptions, setSelectedOptions] = useState([]);
+  const { option } = selectedOptions;
+
   const handleInputChange = (newValue) => {
+    if (option && option.length > 5) {
+      return;
+    }
     const inputValue = newValue.replace(/\W/g, "");
     setInputValue(newValue);
     return inputValue;
   };
 
+  const handleChange = (option) => {
+    setSelectedOptions({ option });
+  };
+
   return (
     <div>
       <pre>inputValue: "{inputValue}"</pre>
-      <AsyncSelect
-        cacheOptions
-        defaultOptions
-        onInputChange={handleInputChange}
-        loadOptions={loadOptions}
-        components={animatedComponents}
-        isMulti
-        styles={customStyles}
-      />
+      <form className="w-70 center">
+        <div className="shadow p-10 mt-10">
+          <AsyncSelect
+            cacheOptions
+            defaultOptions
+            onInputChange={handleInputChange}
+            loadOptions={loadOptions}
+            components={animatedComponents}
+            isMulti
+            styles={customStyles}
+            onChange={handleChange}
+            value={option}
+          />
+        </div>
+        <div className="shadow p-10 mt-10">
+          <input
+            className="btn-wide"
+            type="submit"
+            value="Submit"
+            // disabled={loading || term.length < 1}
+          />
+        </div>
+      </form>
     </div>
   );
 }
