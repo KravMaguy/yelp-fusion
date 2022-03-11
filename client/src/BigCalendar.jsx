@@ -138,6 +138,14 @@ function BigCalendar({ BuisnessData: data, user }) {
   };
 
   const displayTimes = () => {
+    function handleResponse(response) {
+      const { result } = response;
+      const { summary, items } = result;
+      const profile = summary.slice(0, summary.indexOf("@"));
+      setGcalProfile(profile);
+      displayEvents(items);
+    }
+
     if (userTimes.length === 0 && !isUserTimesDisplayed) {
       if (!mockGapi) {
         const gapi = window.gapi;
@@ -155,21 +163,12 @@ function BigCalendar({ BuisnessData: data, user }) {
             .signIn()
             .then(() => {
               gapi.client.calendar.events.list(gcalConfig).then((response) => {
-                console.log(response, "response from gapi");
-                const { result } = response;
-                const { summary, items } = result;
-                const profile = summary.slice(0, summary.indexOf("@"));
-                setGcalProfile(profile);
-                displayEvents(items);
+                handleResponse(response);
               });
             });
         });
       } else {
-        const { result } = gapiResponse;
-        const { summary, items } = result;
-        const profile = summary.slice(0, summary.indexOf("@"));
-        setGcalProfile(profile);
-        displayEvents(items);
+        handleResponse(gapiResponse);
       }
     }
     setIsUserTimesDisplayed(true);
@@ -293,19 +292,16 @@ const Modal = ({
   );
   const { start, end, title } = event;
 
+  const [startTime, setStartTime] = useState(convertToTimeInput(start));
+  const [endTime, setEndTime] = useState(convertToTimeInput(end));
+
   const originalEventObject = data.find((buisness) => buisness.name === title);
   const originalTimeSlot = originalEventObject.hours[0].open.find(
     (timeslot) => timeslot.id === selectedEventId
   );
   const originalStart = originalTimeSlot.start;
   const originalEnd = originalTimeSlot.end;
-  console.log(originalStart, "origin start");
-  console.log(originalEnd, "original end");
 
-  console.log(start, "start");
-  console.log(end, "end");
-
-  console.log(convertToTimeInput(Date.now()), "date now conv to time input");
   const removeEvent = () => {
     const index = selectedEventObjects
       .map((obj) => obj.id)
@@ -317,22 +313,16 @@ const Modal = ({
     setSelectedEventId(null);
   };
 
-  const [startTime, setStartTime] = useState(convertToTimeInput(start));
-  const [endTime, setEndTime] = useState(convertToTimeInput(end));
-
   const handleSubmit = (e) => {
     e.preventDefault();
+
     const startHours = startTime.slice(0, startTime.indexOf(":"));
     const startMinutes = startTime.slice(startTime.indexOf(":") + 1);
     const StartTime = set(start, {
       hours: startHours,
       minutes: startMinutes,
     });
-
-    console.log(StartTime, "start time");
     event.start = StartTime;
-    setIsModalShowing(false);
-    setSelectedEventId(null);
 
     const endHours = endTime.slice(0, endTime.indexOf(":"));
     const endMinutes = endTime.slice(endTime.indexOf(":") + 1);
@@ -340,9 +330,10 @@ const Modal = ({
       hours: endHours,
       minutes: endMinutes,
     });
-    console.log(EndTime, "end time");
 
     event.end = EndTime;
+    setIsModalShowing(false);
+    setSelectedEventId(null);
   };
 
   return (
@@ -365,7 +356,7 @@ const Modal = ({
 
           <form onSubmit={handleSubmit}>
             <div>
-              <label for="appt-start-time">Edit start time : </label>
+              <label htmlFor="appt-start-time">Edit start time : </label>
               <input
                 value={startTime}
                 onChange={(e) => {
@@ -374,23 +365,23 @@ const Modal = ({
                 id="appt-start-time"
                 type="time"
                 name="appt-start-time"
-                // min={convertToTimeInput(start)}
-                // max="18:00"
+                min={convertToTimeInput(start)}
+                max="18:00"
               />
-              <span class="validity"></span>
+              <span className="validity"></span>
             </div>
             <div>
-              <label for="appt-end-time">Edit end time : </label>
+              <label htmlFor="appt-end-time">Edit end time : </label>
               <input
                 value={endTime}
                 onChange={(e) => setEndTime(e.target.value)}
                 id="appt-end-time"
                 type="time"
                 name="appt-end-time"
-                // min="12:00"
-                // max="18:00"
+                min="12:00"
+                max={convertToTimeInput(end)}
               />
-              <span class="validity"></span>
+              <span className="validity"></span>
             </div>
             <input value="save changes" type="submit" />
           </form>
