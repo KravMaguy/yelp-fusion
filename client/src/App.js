@@ -12,7 +12,6 @@ import SearchPage from "./Search";
 import MultiSelectAsync from "./MultiSelect";
 import Cal from "./Cal";
 import NavMap from "./NavMap";
-import Sortable from "./Sortable";
 import BigCalendar from "./BigCalendar";
 // import Directions from "./Directions";
 import ModifiedDirections from "./ModifiedDirections";
@@ -107,7 +106,6 @@ function App() {
               <Directions data={data} center={center} setCenter={setCenter} />
             }
           /> */}
-          <Route path="/sort" element={<Sortable />} />
           <Route
             path="/modified"
             element={

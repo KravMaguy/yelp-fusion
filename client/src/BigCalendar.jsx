@@ -19,6 +19,7 @@ import {
 } from "./utils";
 import TimeSelectionModal from "./TimeSelectionModal";
 import { useParams, useNavigate, Link } from "react-router-dom";
+const { add, isBefore, isAfter } = require("date-fns");
 
 const DragAndDropCalendar = withDragAndDrop(Calendar);
 
@@ -62,7 +63,6 @@ function BigCalendar({ BuisnessData: data, user }) {
   };
 
   const handleSelectedEvent = (event) => {
-    console.log(event, "this event on handle Select");
     if (params.id === GcalProfile) return handleSelectedUserProfileEvent(event);
     const { id } = event;
     if (!allEvents.some((obj) => obj.id === id))
@@ -86,6 +86,7 @@ function BigCalendar({ BuisnessData: data, user }) {
         parseInt(shift.start.slice(0, 2)),
         parseInt(shift.start.slice(2)),
       ];
+
       const shift_hours_end = [
         parseInt(shift.end.slice(0, 2)),
         parseInt(shift.end.slice(2)),
@@ -97,13 +98,20 @@ function BigCalendar({ BuisnessData: data, user }) {
           0
         )
       );
-      const end = new Date(
+      let end = new Date(
         getNextDayOfTheWeek(weekDays[shift.day]).setHours(
           shift_hours_end[0],
           shift_hours_end[1],
           0
         )
       );
+      console.log(end, "as it is");
+      if (shift.is_overnight || shift.end === "0000") {
+        // console.log("reached the case to add 24 hours");
+        end = add(end, {
+          days: 1,
+        });
+      }
 
       const Shift = {
         id: shift.id,
@@ -180,7 +188,8 @@ function BigCalendar({ BuisnessData: data, user }) {
 
   useEffect(() => {
     if (!GcalProfile || id !== GcalProfile) return;
-    setAllEvents(events);
+    const newEvents = [...userTimes].concat(selectedEventObjects);
+    setAllEvents(newEvents);
     setIsUserTimesDisplayed(true);
   }, [GcalProfile, id]);
 
@@ -192,6 +201,58 @@ function BigCalendar({ BuisnessData: data, user }) {
       selectableCalendars.push({ id: GcalProfile, name: GcalProfile });
     }
     return selectableCalendars;
+  };
+
+  const moveEvent = ({ event, start, end }) => {
+    if (!GcalProfile || id !== GcalProfile) return utilAlert("logInCal", event);
+    if (!event.id) return utilAlert("logInGoogle", event);
+    const originalEvent = selectedEventObjects.find(
+      (orignalEvent) => orignalEvent.id === event.id
+    );
+
+    if (isBefore(start, originalEvent.start)) {
+      return alert(
+        "dropped event start time can not be before the start of the original event, try again to stay within the bounds of the event hours"
+      );
+    }
+    if (isAfter(end, originalEvent.end)) {
+      return alert(
+        "dropped event end time can not be after the end of the original event please try to stay witing the bounds of the event hours"
+      );
+    }
+    const idx = allEvents.indexOf(event);
+    const updatedEvent = { ...event, start, end };
+    const nextEvents = [...allEvents];
+    nextEvents.splice(idx, 1, updatedEvent);
+    setAllEvents(nextEvents);
+    alert(`${event.title} was dropped onto ${updatedEvent.start}`);
+  };
+
+  const resizeEvent = ({ event, start, end }) => {
+    if (!GcalProfile || id !== GcalProfile) return utilAlert("logInCal", event);
+    if (!event.id) return utilAlert("logInGoogle", event);
+    const originalEvent = selectedEventObjects.find(
+      (orignalEvent) => orignalEvent.id === event.id
+    );
+
+    if (isBefore(start, originalEvent.start)) {
+      return alert(
+        "resized start size can not be before the start of the original event, try again to stay within the bounds of the event hours"
+      );
+    }
+    if (isAfter(end, originalEvent.end)) {
+      return alert(
+        "resized event end time can not be after the end of the original event please try to stay witing the bounds of the event hours"
+      );
+    }
+
+    const nextEvents = allEvents.map((existingEvent) => {
+      return existingEvent.id === event.id
+        ? { ...existingEvent, start, end }
+        : existingEvent;
+    });
+    setAllEvents(nextEvents);
+    alert(`${event.title} was resized to ${start}-${end}`);
   };
 
   return (
@@ -247,11 +308,14 @@ function BigCalendar({ BuisnessData: data, user }) {
         )}
       </div>
       <DragAndDropCalendar
+        onEventResize={resizeEvent}
+        onEventDrop={moveEvent}
         selectable
+        // scrollToTime={events}
         localizer={localizer}
         events={
           GcalProfile && id === GcalProfile
-            ? userTimes.concat(selectedEventObjects)
+            ? [...allEvents]
             : isUserTimesDisplayed
             ? [...allEvents].concat(...userTimes)
             : allEvents
@@ -259,6 +323,7 @@ function BigCalendar({ BuisnessData: data, user }) {
         tooltipAccessor={(event) => {
           return formatTooltipTime(event);
         }}
+        showMultiDayTimes
         startAccessor="start"
         endAccessor="end"
         onSelectEvent={(event) => handleSelectedEvent(event)}

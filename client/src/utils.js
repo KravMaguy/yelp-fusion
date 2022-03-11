@@ -3,6 +3,7 @@ import format from "date-fns/format";
 import getDay from "date-fns/getDay";
 import parse from "date-fns/parse";
 import startOfWeek from "date-fns/startOfWeek";
+import formatDistanceStrict from "date-fns/formatDistanceStrict";
 
 export const weekDays = [
   "Monday",
@@ -562,10 +563,17 @@ export function utilAlert(expr, obj) {
       type =
         " -is an event from your google calendar, and will be added to your profile calendar automatically";
       break;
-    case "Mangoes":
+    case "logInCal":
+      type =
+        "you dont have permision to edit this buisness's calendar, log in to your profile calendar to make changes to your personal calendar";
+      break;
+    case "logInGoogle":
+      type =
+        "log in to google calendar to make changes to your official personal calendar";
+      break;
     case "gcalProfile":
       type =
-        " -go to your google calendar to edit your personal events. Please try again and select a highlighted event to edit";
+        " -is an imported event from your google calendar, go to your google calendar to edit your personal events. Please try again and select a highlighted event to edit";
       break;
     default:
       console.log(`Sorry, we are out of ${expr}.`);
@@ -592,9 +600,8 @@ export function formatLocal(start) {
 }
 
 export function formatTooltipTime(e) {
-  const start = format(e.start, "p");
-  const end = format(e.end, "p");
-  return `${e.title} from ${start} to ${end}`;
+  const duration = formatDistanceStrict(e.start, e.end);
+  return `(${duration})`;
 }
 
 export const gapiResponse = {

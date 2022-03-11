@@ -376,3 +376,11 @@ input:valid+span:after {
 #root > div > div:nth-child(2) > div > div > div.css-1n81ws8-ValueContainer > div {
   width:max-content!important;
 }
+
+
+.rbc-allday-cell {
+  display: none;
+}
+.rbc-time-view .rbc-header {
+  border-bottom: none;
+}
