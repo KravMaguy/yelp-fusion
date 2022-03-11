@@ -13,12 +13,11 @@ import {
   gapiConfig,
   utilAlert,
   gcalConfig,
-  convertToTimeInput,
   formatLocal,
   formatTooltipTime,
   gapiResponse,
 } from "./utils";
-import set from "date-fns/set";
+import TimeSelectionModal from "./TimeSelectionModal";
 import { useParams, useNavigate, Link } from "react-router-dom";
 
 const DragAndDropCalendar = withDragAndDrop(Calendar);
@@ -63,6 +62,7 @@ function BigCalendar({ BuisnessData: data, user }) {
   };
 
   const handleSelectedEvent = (event) => {
+    console.log(event, "this event on handle Select");
     if (params.id === GcalProfile) return handleSelectedUserProfileEvent(event);
     const { id } = event;
     if (!allEvents.some((obj) => obj.id === id))
@@ -197,7 +197,7 @@ function BigCalendar({ BuisnessData: data, user }) {
   return (
     <div className="App">
       {isModalShowing && (
-        <Modal
+        <TimeSelectionModal
           data={data}
           selectedEventObjects={selectedEventObjects}
           setSelectedEventObjects={setSelectedEventObjects}
@@ -278,119 +278,5 @@ function BigCalendar({ BuisnessData: data, user }) {
     </div>
   );
 }
-
-const Modal = ({
-  data,
-  selectedEventId,
-  setIsModalShowing,
-  setSelectedEventId,
-  selectedEventObjects,
-  setSelectedEventObjects,
-}) => {
-  const event = selectedEventObjects.find(
-    (event) => event.id === selectedEventId
-  );
-  const { start, end, title } = event;
-
-  const [startTime, setStartTime] = useState(convertToTimeInput(start));
-  const [endTime, setEndTime] = useState(convertToTimeInput(end));
-
-  const originalEventObject = data.find((buisness) => buisness.name === title);
-  const originalTimeSlot = originalEventObject.hours[0].open.find(
-    (timeslot) => timeslot.id === selectedEventId
-  );
-  const originalStart = originalTimeSlot.start;
-  const originalEnd = originalTimeSlot.end;
-
-  const removeEvent = () => {
-    const index = selectedEventObjects
-      .map((obj) => obj.id)
-      .indexOf(selectedEventId);
-    const reducedArr = [...selectedEventObjects];
-    reducedArr.splice(index, 1);
-    setSelectedEventObjects(reducedArr);
-    setIsModalShowing(false);
-    setSelectedEventId(null);
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    const startHours = startTime.slice(0, startTime.indexOf(":"));
-    const startMinutes = startTime.slice(startTime.indexOf(":") + 1);
-    const StartTime = set(start, {
-      hours: startHours,
-      minutes: startMinutes,
-    });
-    event.start = StartTime;
-
-    const endHours = endTime.slice(0, endTime.indexOf(":"));
-    const endMinutes = endTime.slice(endTime.indexOf(":") + 1);
-    const EndTime = set(end, {
-      hours: endHours,
-      minutes: endMinutes,
-    });
-
-    event.end = EndTime;
-    setIsModalShowing(false);
-    setSelectedEventId(null);
-  };
-
-  return (
-    <div className="modal cal-modal modalDialog">
-      <div className="modal-content center p-20 w-80">
-        <div>
-          <span
-            className="close"
-            onClick={() => {
-              setIsModalShowing(false);
-              setSelectedEventId(null);
-            }}
-          >
-            &times;
-          </span>
-          <h3>{title}</h3>
-          <h4>
-            Event hours {originalStart} to {originalEnd}
-          </h4>
-
-          <form onSubmit={handleSubmit}>
-            <div>
-              <label htmlFor="appt-start-time">Edit start time : </label>
-              <input
-                value={startTime}
-                onChange={(e) => {
-                  setStartTime(e.target.value);
-                }}
-                id="appt-start-time"
-                type="time"
-                name="appt-start-time"
-                min={convertToTimeInput(start)}
-                max="18:00"
-              />
-              <span className="validity"></span>
-            </div>
-            <div>
-              <label htmlFor="appt-end-time">Edit end time : </label>
-              <input
-                value={endTime}
-                onChange={(e) => setEndTime(e.target.value)}
-                id="appt-end-time"
-                type="time"
-                name="appt-end-time"
-                min="12:00"
-                max={convertToTimeInput(end)}
-              />
-              <span className="validity"></span>
-            </div>
-            <input value="save changes" type="submit" />
-          </form>
-
-          <button onClick={removeEvent}>Remove Event</button>
-        </div>
-      </div>
-    </div>
-  );
-};
 
 export default BigCalendar;
