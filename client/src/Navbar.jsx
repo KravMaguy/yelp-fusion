@@ -5,24 +5,27 @@ const Navbar = ({ user }) => {
     window.open("http://localhost:5000/auth/logout", "_self");
   };
   return (
-    <div className='navbar'>
-      <span className='logo'>
-        <Link className='link' to='/'>
+    <div className="navbar">
+      <span className="logo">
+        <Link className="link" to="/map">
+          multimap
+        </Link>
+        <Link className="link" to="/">
           Home
         </Link>
       </span>
       {user ? (
-        <ul className='list'>
-          <li className='listItem'>
-            <img src={user.photos[0].value} alt='' className='avatar' />
+        <ul className="list">
+          <li className="listItem">
+            <img src={user.photos[0].value} alt="" className="avatar" />
           </li>
-          <li className='listItem'>{user.displayName}</li>
-          <li className='listItem' onClick={logout}>
+          <li className="listItem">{user.displayName}</li>
+          <li className="listItem" onClick={logout}>
             Logout
           </li>
         </ul>
       ) : (
-        <Link className='link' to='login'>
+        <Link className="link" to="login">
           Login
         </Link>
       )}

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      html,
+      body {
+        height: 100%;
+      }
+      h1 {
+        color: green;
+      }
+      div.flexcontainer {
+        display: flex;
+        font-size: 15px;
+        border: 2px solid orange;
+      }
+
+      div.columns {
+        padding: 10px;
+        color: white;
+      }
+      div.columns:nth-of-type(1) {
+        flex: 1;
+        background: #1b2631;
+      }
+      div.columns:nth-of-type(2) {
+        flex: 2;
+        background: #424949;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>I am header</h1>
+    <div class="flexcontainer">
+      <div class="columns">ID</div>
+      <div class="columns">Ph_no</div>
+    </div>
+  </body>
+</html>

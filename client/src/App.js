@@ -117,7 +117,10 @@ function App() {
             }
           />
           <Route path="/category" element={<MultiSelectAsync />} />
-          <Route path="/map" element={<NavMap data={data} center={center} />} />
+          <Route
+            path="/map"
+            element={<NavMap BuisnessData={BuisnessData} center={center} />}
+          />
           {/* <Route path='*' element={<Navigate to='/' />} /> */}
         </Routes>
       </Router>
