@@ -99,6 +99,26 @@ app.get("/categories", async (req, res) => {
     .then((response) => res.json(response.data))
     .catch((err) => res.status(err.response.status).send(err.message));
 });
+
+app.get("/event", (req, res) => {
+  // https://api.yelp.com/v3/event/chicago-st-patricks-day-at-gallagher-way
+  axios
+    .get(`events/chicago-the-makeup-show-chicago-2`)
+    .then((response) => res.json(response.data))
+    .catch((err) => res.status(err.response.status).send(err.message));
+});
+
+app.get("/events", async (req, res) => {
+  console.log("reached events");
+
+  axios
+    .get(
+      `events?location=chicago&start_date=1647212963&categories=food-and-drink&redius=40000`
+    )
+    .then((response) => res.json(response.data))
+    .catch((err) => res.status(err.response.status).send(err.message));
+});
+
 app.get("/buisnesses/:id", async (req, res) => {
   const { id } = req.params;
   console.log(id, ": the id");

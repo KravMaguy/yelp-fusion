@@ -4,6 +4,9 @@ import { restaurantObjects } from "./utils.js";
 import { OverlayView } from "@react-google-maps/api";
 import List from "./List";
 import dateFnsFormat from "date-fns/format";
+import format from "date-fns/format";
+
+import DayPicker from "react-day-picker";
 import "react-day-picker/lib/style.css";
 import DayPickerInput from "react-day-picker/DayPickerInput";
 import dateFnsParse from "date-fns/parse";
@@ -41,6 +44,9 @@ const NavMap = ({ BuisnessData: data, center }) => {
     return dateFnsFormat(date, format, { locale });
   }
 
+  console.log("formeatted: ", format(new Date(), "yyyy-MM-dd"));
+  // console.log("yyyy-mm-dd", formatDate(defaultDate, "yyyy-mm-dd"), "en-us");
+
   function parseDate(str, format, locale) {
     const parsed = dateFnsParse(str, format, new Date(), { locale });
     if (DateUtils.isDate(parsed)) {
@@ -50,18 +56,22 @@ const NavMap = ({ BuisnessData: data, center }) => {
   }
   console.log({ defaultDate });
   const FORMAT = "MM/dd/yyyy";
-
+  // yyyy-mm-dd
   return (
     <>
       <div className="header">
         {/* <h1>{format(defaultDate, "'Happenings on' eeee LLLL wo")}</h1> */}
-        <DayPickerInput
+        {/* <DayPickerInput
           onDayChange={(start) => setDefaultDate(start)}
           formatDate={formatDate}
           format={FORMAT}
           placeholder={`${dateFnsFormat(defaultDate, FORMAT)}`}
           parseDate={parseDate}
-        />
+        /> */}
+
+        <label for="start">Start date:</label>
+
+        <input type="date" id="start" name="trip-start" />
       </div>
       <div className="row">
         <div className="column side">

@@ -17,6 +17,7 @@ import BigCalendar from "./BigCalendar";
 import ModifiedDirections from "./ModifiedDirections";
 import Login from "./Login";
 import Navbar from "./Navbar";
+import GetComponent from "./get";
 function App() {
   const [initialReq, setInitialReq] = useState(false);
   const [data, setData] = useState([]);
