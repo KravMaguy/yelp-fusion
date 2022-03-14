@@ -473,3 +473,17 @@ input:valid+span:after {
   overflow-y: auto;
   height: calc(100vh - 135px);
 }
+
+
+.geo-pill-button{
+  background-color: #ddd;
+  border: none;
+  color: black;
+  padding: 5px 10px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 16px;
+}

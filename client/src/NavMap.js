@@ -18,6 +18,8 @@ const NavMap = ({ BuisnessData: data, center }) => {
     data = restaurantObjects;
   }
 
+  const [defaultCenter, setDefaultCenter] = useState(center);
+  const [zoom, setZoom] = useState(10);
   const [childClicked, setChildClicked] = useState(null);
   const [defaultDate, setDefaultDate] = useState(new Date());
   const [result, setResult] = useState([]);
@@ -82,8 +84,11 @@ const NavMap = ({ BuisnessData: data, center }) => {
     setResult(newResult);
   }, [data, defaultDate]);
 
-  const onClick = (id) => {
+  const onClick = ({ id, location }) => {
     setChildClicked(id);
+    const newCenter = { lat: location.lat, lng: location.lng };
+    setDefaultCenter(newCenter);
+    setZoom(14);
   };
 
   function formatDate(date, format, locale) {
@@ -98,7 +103,7 @@ const NavMap = ({ BuisnessData: data, center }) => {
     return undefined;
   }
   const FORMAT = "MM/dd/yyyy";
-
+  console.log(defaultCenter, "asdfs");
   return (
     <>
       <div className="header">
@@ -118,7 +123,7 @@ const NavMap = ({ BuisnessData: data, center }) => {
         <div className="column middle">
           <div className="multi-map-container">
             <div className="multi-map-wrapper">
-              <Map center={center}>
+              <Map zoom={zoom} center={defaultCenter} setZoom={setZoom}>
                 {result.map((location) => (
                   <OverlayView
                     key={uuidv4()}
@@ -128,22 +133,12 @@ const NavMap = ({ BuisnessData: data, center }) => {
                     }}
                     mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
                   >
-                    <div className="window-overlay">
-                      <h3>{location.name}</h3>
-                      <img
-                        src={location.img}
-                        className="thumbnail"
-                        alt={location.name}
-                      />
-
-                      <button
-                        className="window-btn"
-                        onClick={() => onClick(location.id)}
-                        type="button"
-                      >
-                        Click me
-                      </button>
-                    </div>
+                    <button
+                      className="geo-pill-button"
+                      onClick={() => onClick(location)}
+                    >
+                      {location.name.slice(0, 10)}
+                    </button>
                   </OverlayView>
                 ))}
               </Map>
