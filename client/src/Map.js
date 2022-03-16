@@ -6,14 +6,83 @@ const containerStyle = {
   height: "100%",
 };
 
+const mapStyle = [
+  // {
+  //   featureType: "poi",
+  //   stylers: [{ visibility: "off" }],
+  // },
+  // {
+  //   featureType: "transit",
+  //   elementType: "labels.icon",
+  //   stylers: [{ visibility: "off" }],
+  // },
+
+  {
+    featureType: "all",
+    elementType: "labels.text",
+    stylers: [
+      {
+        color: "#878787",
+      },
+    ],
+  },
+  {
+    featureType: "all",
+    elementType: "labels.text.stroke",
+    stylers: [
+      {
+        visibility: "off",
+      },
+    ],
+  },
+  {
+    featureType: "landscape",
+    elementType: "all",
+    stylers: [
+      {
+        color: "#f9f5ed",
+      },
+    ],
+  },
+  {
+    featureType: "road.highway",
+    elementType: "all",
+    stylers: [
+      {
+        color: "#f5f5f5",
+      },
+    ],
+  },
+  {
+    featureType: "road.highway",
+    elementType: "geometry.stroke",
+    stylers: [
+      {
+        color: "#c9c9c9",
+      },
+    ],
+  },
+  {
+    featureType: "water",
+    elementType: "all",
+    stylers: [
+      {
+        color: "#aee0f4",
+      },
+    ],
+  },
+];
+
 export default function Map(props) {
   const [map, setMap] = useState(null); // map instance
   const onLoadMap = useCallback(setMap, []); // set map once map has loaded
 
-  const { center, zoom, setZoom } = props;
+  const { center, zoom, setZoom, options } = props;
 
   return (
     <GoogleMap
+      // options={options}
+      options={{ clickableIcons: false, styles: mapStyle }}
       mapContainerStyle={containerStyle}
       center={center}
       zoom={zoom}

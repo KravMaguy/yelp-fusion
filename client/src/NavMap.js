@@ -20,7 +20,7 @@ const NavMap = ({ BuisnessData: data, center }) => {
 
   const [defaultCenter, setDefaultCenter] = useState(center);
   const [zoom, setZoom] = useState(10);
-  const [childClicked, setChildClicked] = useState(null);
+  const [selectedLocation, setSelectedLocation] = useState(null);
   const [defaultDate, setDefaultDate] = useState(new Date());
   const [result, setResult] = useState([]);
   useEffect(() => {
@@ -85,7 +85,7 @@ const NavMap = ({ BuisnessData: data, center }) => {
   }, [data, defaultDate]);
 
   const onClick = ({ id, location }) => {
-    setChildClicked(id);
+    setSelectedLocation(id);
     const newCenter = { lat: location.lat, lng: location.lng };
     setDefaultCenter(newCenter);
     setZoom(14);
@@ -118,12 +118,17 @@ const NavMap = ({ BuisnessData: data, center }) => {
       </div>
       <div className="row">
         <div className="column side">
-          <List places={result} childClicked={childClicked} />
+          <List places={result} childClicked={selectedLocation} />
         </div>
         <div className="column middle">
           <div className="multi-map-container">
             <div className="multi-map-wrapper">
-              <Map zoom={zoom} center={defaultCenter} setZoom={setZoom}>
+              <Map
+                zoom={zoom}
+                center={defaultCenter}
+                setZoom={setZoom}
+                // options={HomeMapOptions}
+              >
                 {result.map((location) => (
                   <OverlayView
                     key={uuidv4()}
@@ -134,10 +139,14 @@ const NavMap = ({ BuisnessData: data, center }) => {
                     mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
                   >
                     <button
-                      className="geo-pill-button"
+                      className="button-component"
                       onClick={() => onClick(location)}
                     >
-                      {location.name.slice(0, 10)}
+                      {location.id === selectedLocation
+                        ? location.name
+                        : location.name.length > 10
+                        ? location.name.slice(0, 10) + ".."
+                        : location.name}
                     </button>
                   </OverlayView>
                 ))}
