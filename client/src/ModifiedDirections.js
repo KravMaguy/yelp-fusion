@@ -5,9 +5,9 @@ import {
   DirectionsService,
   DirectionsRenderer,
   Polyline,
+  DistanceMatrixService,
 } from "@react-google-maps/api";
 import Map from "./Map";
-import Login from "./Login";
 
 const data = [
   {
@@ -142,6 +142,8 @@ const pathOptions = {
   ...pathVisibilityDefaults,
 };
 
+const startingSearchIndex = 0;
+
 const ModifiedDirections = ({ center, setCenter }) => {
   const derivedData = data.map((x) => {
     return { name: x.name, coordinates: x.coordinates };
@@ -150,14 +152,15 @@ const ModifiedDirections = ({ center, setCenter }) => {
     name: "starting Location",
     coordinates: { latitude: center.lat, longitude: center.lng },
   });
-  const startingSearchIndex = 0;
   const [currIdx, setIdx] = useState(startingSearchIndex);
   const [destination, setDestination] = useState(null);
   const [origin, setOrigin] = useState(center);
   const [response, setResponse] = useState(null);
+  const [distanceMatrixServiceResponse, setDistanceMatrixServiceResponse] =
+    useState(null);
   const [path, setPath] = useState(null);
   const [travelMode, setTravelMode] = useState("DRIVING");
-  console.log(travelMode, "travelMode");
+  //console.log(travelMode, "travelMode");
   useEffect(() => {
     const lastDestination = {
       lat: derivedData[derivedData.length - 1].coordinates.latitude,
@@ -249,74 +252,95 @@ const ModifiedDirections = ({ center, setCenter }) => {
     setResponse(null);
   };
 
+  //console.log(origin, "origin");
+  const origin1 = { lat: 55.93, lng: -3.118 };
+  const origin2 = "Greenwich, England";
+  const destinationA = "Stockholm, Sweden";
+  const destinationB = { lat: 50.087, lng: 14.421 };
+
+  const handleSelectBox = (boxIndex) => {
+    if (boxIndex === currIdx) return alert("already here");
+    const origin = {
+      lat: derivedData[boxIndex - 1].coordinates.latitude,
+      lng: derivedData[boxIndex - 1].coordinates.longitude,
+    };
+    const destination = {
+      lat: derivedData[boxIndex].coordinates.latitude,
+      lng: derivedData[boxIndex].coordinates.longitude,
+    };
+    setOrigin(origin);
+    setDestination(destination);
+    setIdx(boxIndex);
+    setResponse(null);
+  };
+
   return (
-    <>
-      <div className='wrappy'>
-        <Login /> {/* the select boxes */}
+    <div className="row">
+      <div className="col col-left">
         <div className={"map-container"}>
-          <div className=''>
-            <div className=''>
+          {/* <div className="">
+            <div className="">
               <input
-                id='DRIVING'
-                className=''
-                name='travelMode'
-                type='radio'
+                id="DRIVING"
+                className=""
+                name="travelMode"
+                type="radio"
                 checked={travelMode === "DRIVING"}
                 onChange={checkDriving}
               />
-              <label className='custom-control-label' htmlFor='DRIVING'>
+              <label className="custom-control-label" htmlFor="DRIVING">
                 Driving
               </label>
             </div>
 
-            <div className=''>
+            <div className="">
               <input
-                id='BICYCLING'
-                className=''
-                name='travelMode'
-                type='radio'
+                id="BICYCLING"
+                className=""
+                name="travelMode"
+                type="radio"
                 checked={travelMode === "BICYCLING"}
                 onChange={checkBicycling}
               />
-              <label className='' htmlFor='BICYCLING'>
+              <label className="" htmlFor="BICYCLING">
                 Bicycling
               </label>
             </div>
 
-            <div className=''>
+            <div className="">
               <input
                 disabled={currIdx === startingSearchIndex}
-                id='TRANSIT'
-                className=''
-                name='travelMode'
-                type='radio'
+                id="TRANSIT"
+                className=""
+                name="travelMode"
+                type="radio"
                 checked={travelMode === "TRANSIT"}
                 onChange={checkTransit}
               />
-              <label className='custom-control-label' htmlFor='TRANSIT'>
+              <label className="custom-control-label" htmlFor="TRANSIT">
                 Transit
               </label>
             </div>
 
-            <div className=''>
+            <div className="">
               <input
-                id='WALKING'
-                className='custom-control-input'
-                name='travelMode'
-                type='radio'
+                id="WALKING"
+                className="custom-control-input"
+                name="travelMode"
+                type="radio"
                 checked={travelMode === "WALKING"}
                 onChange={checkWalking}
               />
-              <label className='' htmlFor='WALKING'>
+              <label className="" htmlFor="WALKING">
                 Walking
               </label>
             </div>
-          </div>
+          </div> */}
 
-          <div className='map-card-controls'>
+          <div className="map-card-controls">
             <div style={{ display: "flex" }}>
               <button
-                className='map-controls'
+                className="map-controls"
                 style={
                   currIdx <= 0
                     ? {
@@ -339,7 +363,7 @@ const ModifiedDirections = ({ center, setCenter }) => {
                       }
                     : null
                 }
-                className='map-controls'
+                className="map-controls"
                 disabled={currIdx >= derivedData.length - 1 ? true : false}
                 onClick={() => nextDestination()}
               >
@@ -350,6 +374,24 @@ const ModifiedDirections = ({ center, setCenter }) => {
 
           <main className={"map-wrapper"}>
             <Map center={center}>
+              {/* {!distanceMatrixServiceResponse && (
+                <DistanceMatrixService
+                  options={{
+                    origins: [origin1],
+                    destinations: [destinationB],
+                    travelMode: "DRIVING",
+                  }}
+                  callback={(response) => {
+                    if (response !== null) {
+                      //console.log(response, "the resp from directions matrix")
+                      setDistanceMatrixServiceResponse(response);
+                    } else {
+                      //console.log("something else happened");
+                    }
+                  }}
+                />
+              )} */}
+
               {!response && !path && destination && origin && (
                 <DirectionsService
                   options={{
@@ -363,7 +405,7 @@ const ModifiedDirections = ({ center, setCenter }) => {
                       if (response.status === "OK") {
                         setResponse(response);
                         const leg = response.routes[0].legs[0];
-                        console.log(leg, "leg");
+                        //console.log(leg, "leg");
                       } else {
                         setPath([origin, destination]);
                       }
@@ -410,7 +452,7 @@ const ModifiedDirections = ({ center, setCenter }) => {
                 })}
               {/* {path && (
                 <Polyline
-                  onLoad={() => console.log("drawing polyline")}
+                  onLoad={() => //console.log("drawing polyline")}
                   path={path}
                   options={pathOptions}
                 />
@@ -419,7 +461,28 @@ const ModifiedDirections = ({ center, setCenter }) => {
           </main>
         </div>
       </div>
-    </>
+      <div className="col col-right">
+        {/* array.map((o, index, arr) => {
+   let previous = arr[index - 1]; // For index === 0, the previous object will be undefined.
+}); */}
+        {data.map((location, idx, arr) => {
+          let previous = arr[idx - 1];
+          // console.log({ previous });
+          return (
+            <div onClick={() => handleSelectBox(idx + 1)}>
+              <div>
+                <p>
+                  start: {previous ? previous.name : "your chosen location"}
+                </p>
+              </div>
+              <p>
+                <div>end: {location.name}</div>
+              </p>
+            </div>
+          );
+        })}
+      </div>
+    </div>
   );
 };
 

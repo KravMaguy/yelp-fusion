@@ -13,11 +13,11 @@ import MultiSelectAsync from "./MultiSelect";
 import Cal from "./Cal";
 import NavMap from "./NavMap";
 import BigCalendar from "./BigCalendar";
-// import Directions from "./Directions";
 import ModifiedDirections from "./ModifiedDirections";
 import Login from "./Login";
 import Navbar from "./Navbar";
 import GetComponent from "./get";
+
 function App() {
   const [initialReq, setInitialReq] = useState(false);
   const [data, setData] = useState([]);
@@ -101,12 +101,7 @@ function App() {
             path="/buisness/:id"
             element={<Buisness initialRequest={initialReq} />}
           />
-          {/* <Route
-            path='/directions'
-            element={
-              <Directions data={data} center={center} setCenter={setCenter} />
-            }
-          /> */}
+
           <Route
             path="/modified"
             element={

@@ -108,13 +108,15 @@ const NavMap = ({ BuisnessData: data, center }) => {
     <>
       <div className="header">
         {/* <h1>{format(defaultDate, "'Happenings on' eeee LLLL wo")}</h1> */}
-        <DayPickerInput
-          onDayChange={(start) => setDefaultDate(start)}
-          formatDate={formatDate}
-          format={FORMAT}
-          placeholder={`${dateFnsFormat(defaultDate, FORMAT)}`}
-          parseDate={parseDate}
-        />
+        <div className="left">
+          <DayPickerInput
+            onDayChange={(start) => setDefaultDate(start)}
+            formatDate={formatDate}
+            format={FORMAT}
+            placeholder={`${dateFnsFormat(defaultDate, FORMAT)}`}
+            parseDate={parseDate}
+          />
+        </div>
       </div>
       <div className="row">
         <div className="column side">
@@ -147,6 +149,10 @@ const NavMap = ({ BuisnessData: data, center }) => {
                         : location.name.length > 10
                         ? location.name.slice(0, 10) + ".."
                         : location.name}
+
+                      <span class="Badge">
+                        4 <span class="u-hiddenVisually">Unread Messages</span>
+                      </span>
                     </button>
                   </OverlayView>
                 ))}
