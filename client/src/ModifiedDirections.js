@@ -486,18 +486,37 @@ const ModifiedDirections = ({ center, setCenter }) => {
           let previous = arr[idx - 1];
           return (
             <div
+              class="card-shell"
               style={{ border: "2px solid", margin: "5px" }}
               key={location.id}
               onClick={() => handleSelectBox(idx + 1)}
             >
-              <div>
-                <p>
-                  start: {previous ? previous.name : "your chosen location"}
-                </p>
+              <div class="card">
+                <div class="points-container">
+                  <div class="numberCircle">
+                    {String.fromCharCode("A".charCodeAt(0) + idx)}
+                  </div>
+                  <div class="line"></div>
+                  <div class="numberCircle">
+                    {String.fromCharCode("B".charCodeAt(0) + idx)}
+                  </div>
+                </div>
+                <div class="locations">
+                  <div class="text top">
+                    <p>{previous ? previous.name : "Your location"}</p>
+                  </div>
+                  <div class="text">
+                    <p>{location.name}</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* <div>
+                <p>{previous ? previous.name : "your location"}</p>
               </div>
               <div>
-                <p>end: {location.name}</p>
-              </div>
+                <p>{location.name}</p>
+              </div> */}
               <div
                 className={idx + 1 === currIdx ? "none" : "hidden"}
                 id={`panel-${idx + 1}`}

@@ -140,7 +140,7 @@ body {
   background-color: rgba(0, 0, 0, 0.4);
 }
 
-.modal.cal-modal{
+.modal.cal-modal {
   text-align: left;
 }
 
@@ -206,11 +206,11 @@ body {
   padding-right: 3.65rem;
   box-sizing: border-box;
 }
-#root > div > div:nth-child(3) > form > div:nth-child(1) > input{
+#root > div > div:nth-child(3) > form > div:nth-child(1) > input {
   height: 3.2rem;
 }
 
-.submit-btn-container{
+.submit-btn-container {
   height: 3.2rem;
 }
 /* #root > div > div:nth-child(3) > form > div.search-inputs.shadow.center.p-10.mt-20{
@@ -290,11 +290,11 @@ div {
 }
 
 .selected-shift {
-  background: #00ff2a!important;
+  background: #00ff2a !important;
 }
 
-.greyed-shift{
-  background: #EBEBE4!important;
+.greyed-shift {
+  background: #ebebe4 !important;
 }
 
 /* .shifty{
@@ -307,7 +307,6 @@ div {
   border-bottom: "1px solid purple";
 } */
 
-
 input[type="number"] {
   width: 100px;
 }
@@ -316,22 +315,27 @@ input + span {
   padding-right: 30px;
 }
 
-input:invalid+span:after {
+input:invalid + span:after {
   position: absolute;
-  content: '✖';
+  content: "✖";
   padding-left: 5px;
 }
 
-input:valid+span:after {
+input:valid + span:after {
   position: absolute;
-  content: '✓';
+  content: "✓";
   padding-left: 5px;
 }
 
-#root > div > div:nth-child(2) > div > div > div.css-1n81ws8-ValueContainer > div {
-  width:max-content!important;
+#root
+  > div
+  > div:nth-child(2)
+  > div
+  > div
+  > div.css-1n81ws8-ValueContainer
+  > div {
+  width: max-content !important;
 }
-
 
 .rbc-allday-cell {
   display: none;
@@ -340,30 +344,27 @@ input:valid+span:after {
   border-bottom: none;
 }
 
-
 /* Map styles */
 
-.thumbnail{
+.thumbnail {
   /* border: 2px solid rgb(204, 204, 204); */
-
 }
 
-.window-btn{
+.window-btn {
   display: block;
   margin-top: 5px;
 }
 
-.window-overlay{
+.window-overlay {
   background: #ffffff;
-    border: 1px solid rgb(204, 204, 204);
-    display: flex;
-    padding: 10px;
-    flex-direction: column;
-    justify-content: center;
-    width: 160px;
-    box-shadow:  0.3em 0.3em 1em rgb(49 24 24 / 20%);
+  border: 1px solid rgb(204, 204, 204);
+  display: flex;
+  padding: 10px;
+  flex-direction: column;
+  justify-content: center;
+  width: 160px;
+  box-shadow: 0.3em 0.3em 1em rgb(49 24 24 / 20%);
 }
-
 
 .header {
   background-color: #f1f1f1;
@@ -409,7 +410,7 @@ input:valid+span:after {
   height: calc(100vh - 145px);
 }
 
-.tall-tester{
+.tall-tester {
   height: 400px;
   background: grey;
   border-radius: 2px;
@@ -417,8 +418,7 @@ input:valid+span:after {
   margin: 2px;
 }
 
-
-.column.side{
+.column.side {
   width: 30%;
   float: left;
   overflow-y: auto;
@@ -426,8 +426,7 @@ input:valid+span:after {
   background-color: #4a90e2;
 }
 
-
-.geo-pill-button{
+.geo-pill-button {
   background-color: #ddd;
   border: none;
   color: black;
@@ -440,13 +439,12 @@ input:valid+span:after {
   border-radius: 16px;
 }
 
-
-.button-component{
+.button-component {
   padding: 5px 10px;
   border-radius: 16px;
   border: 1px solid silver;
-  box-shadow:  0 4px 5px rgba(32, 9, 9, 0.4); 
-  transition: 0.2s all cubic-bezier(0,1.5,1,1.5);
+  box-shadow: 0 4px 5px rgba(32, 9, 9, 0.4);
+  transition: 0.2s all cubic-bezier(0, 1.5, 1, 1.5);
 }
 .button-component:active {
   transform: scale(1.2);
@@ -454,13 +452,11 @@ input:valid+span:after {
 
   box-shadow: 3px 2px 22px 1px rgba(89, 230, 136, 0.24);
   background-color: rgb(27, 34, 39);
-  color:white;
+  color: white;
   font-weight: bold;
 }
 
-
 /* cards styles on navmap */
-
 
 .container {
   margin-bottom: 20px;
@@ -488,7 +484,12 @@ input:valid+span:after {
 .card__primary-title {
   padding: 8px 16px;
 }
-.card__primary-title h1, .card__primary-title h2, .card__primary-title h3, .card__primary-title h4, .card__primary-title h5, .card__primary-title h6 {
+.card__primary-title h1,
+.card__primary-title h2,
+.card__primary-title h3,
+.card__primary-title h4,
+.card__primary-title h5,
+.card__primary-title h6 {
   margin: 0;
 }
 .card__supporting-text {
@@ -570,8 +571,6 @@ input:valid+span:after {
   box-shadow: 0 3px 12px rgba(0, 0, 0, 0.23), 0 3px 12px rgba(0, 0, 0, 0.16);
 }
 
-
-
 .Badge {
   align-items: center;
   background: #ce2c6c;
@@ -590,7 +589,6 @@ input:valid+span:after {
   top: -2px;
 }
 
-
 .u-hiddenVisually {
   border: 0 !important;
   clip: rect(1px, 1px, 1px, 1px) !important;
@@ -601,32 +599,30 @@ input:valid+span:after {
   width: 1px !important;
 }
 
-.DayPickerInput input{
+.DayPickerInput input {
   border: 0px;
-    padding: 0px 17px;
-    text-transform: none;
-    position: relative;
-    cursor: pointer;
-    user-select: none;
-    direction: ltr;
-    overflow: hidden;
-    height: 40px;
-    vertical-align: middle;
-    color: rgb(86, 86, 86);
-    font-family: Roboto, Arial, sans-serif;
-    font-size: 18px;
-     box-shadow: rgb(0 0 0 / 30%) 0px 1px 4px -1px;
-    min-width: 66px;
+  padding: 0px 17px;
+  text-transform: none;
+  position: relative;
+  cursor: pointer;
+  user-select: none;
+  direction: ltr;
+  overflow: hidden;
+  height: 40px;
+  vertical-align: middle;
+  color: rgb(86, 86, 86);
+  font-family: Roboto, Arial, sans-serif;
+  font-size: 18px;
+  box-shadow: rgb(0 0 0 / 30%) 0px 1px 4px -1px;
+  min-width: 66px;
 }
-
 
 input[type="date"]::-webkit-calendar-picker-indicator {
   color: yellow;
 }
 
-
 /* day plan page css start */
-.col{
+.col {
   /* padding: 10px; */
 }
 
@@ -675,8 +671,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   font-weight: 500;
 }
 
-
-.col-right{
+.col-right {
   width: 40%;
   float: right;
   /* overflow-y: auto; */
@@ -684,15 +679,14 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   background-color: #ffffff;
 }
 
-.col-left{
+.col-left {
   width: 60%;
   float: left;
 }
 
-.hidden{
-  display:none
+.hidden {
+  display: none;
 }
-
 
 /* 
 .column {
@@ -723,3 +717,98 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   }
 } */
 /* day plan page css end */
+
+img.adp-marker2 {
+  visibility: hidden;
+}
+
+html {
+  --points-distance: 18px;
+}
+.card {
+  /* border: 2px solid grey; */
+  display: flex;
+}
+.points-container {
+  text-align: -webkit-center;
+  position: relative;
+}
+.line {
+  border-left: 3px solid green;
+  /* height: var(--points-distance); */
+  height: 28px;
+
+  width: 0px;
+}
+.numberCircle {
+  border-radius: 50%;
+  width: 25px;
+  height: 25px;
+  padding: 2px;
+  background: #fff;
+  border: 2px solid #666;
+  color: #666;
+  text-align: center;
+  font: 16px Arial, sans-serif;
+}
+
+.text {
+  font: 18px Arial, sans-serif;
+  /* height: 16px; */
+  padding: 6px;
+  line-height: 0.8;
+}
+
+.spacer {
+  height: var(--points-distance);
+  width: 0px;
+}
+
+.text.top {
+  margin-bottom: 25px;
+}
+
+.card-shell {
+  padding: 10px;
+}
+
+table.adp-directions {
+  width: 100%;
+  transition: 3s all cubic-bezier(0, 1.5, 1, 1.5);
+}
+
+table.adp-directions {
+  border-collapse: collapse;
+  margin: 25px 0;
+  font-size: 0.9em;
+  /* min-width: 400px; */
+  border-radius: 5px 5px 0 0;
+  overflow: hidden;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+table.adp-directions th,
+table.adp-directions td {
+  padding: 12px 15px;
+}
+
+table.adp-directions tr:hover {
+  background: #eaeff1;
+}
+
+table.adp-directions tr:hover .adp-maneuver {
+  animation: directions-grow 0.4s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+}
+
+@keyframes directions-grow {
+  0% {
+    transform: scale(1);
+  }
+
+  45% {
+    transform: scale(1.4);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
