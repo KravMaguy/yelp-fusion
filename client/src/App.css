@@ -681,12 +681,16 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   float: right;
   /* overflow-y: auto; */
   /* height: calc(100vh - 135px); */
-  background-color: #4a90e2;
+  background-color: #ffffff;
 }
 
 .col-left{
   width: 60%;
   float: left;
+}
+
+.hidden{
+  display:none
 }
 
 

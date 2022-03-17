@@ -258,8 +258,24 @@ const ModifiedDirections = ({ center, setCenter }) => {
   const destinationA = "Stockholm, Sweden";
   const destinationB = { lat: 50.087, lng: 14.421 };
 
+  const [idecesClicked, setIndecesClicked] = useState([]);
+
+  useEffect(() => {
+    console.log("jakdhsflkjdhsflkasdhjf");
+    const curr = document.getElementById(`panel-${currIdx}`);
+    if (curr) {
+      curr.innerHTML = "";
+    }
+  }, [currIdx]);
+
   const handleSelectBox = (boxIndex) => {
     if (boxIndex === currIdx) return alert("already here");
+    // if (idecesClicked.includes(boxIndex)) {
+    //   return console.log("reached this case");
+    // }
+
+    // const clickedIndeces = [...idecesClicked, boxIndex];
+    // setIndecesClicked(clickedIndeces);
     const origin = {
       lat: derivedData[boxIndex - 1].coordinates.latitude,
       lng: derivedData[boxIndex - 1].coordinates.longitude,
@@ -268,12 +284,13 @@ const ModifiedDirections = ({ center, setCenter }) => {
       lat: derivedData[boxIndex].coordinates.latitude,
       lng: derivedData[boxIndex].coordinates.longitude,
     };
+    setIdx(boxIndex);
     setOrigin(origin);
     setDestination(destination);
-    setIdx(boxIndex);
     setResponse(null);
   };
 
+  console.log(idecesClicked, "clidked indexes");
   return (
     <div className="row">
       <div className="col col-left">
@@ -433,6 +450,8 @@ const ModifiedDirections = ({ center, setCenter }) => {
                           : null,
                     },
                   }}
+                  directions={response}
+                  panel={document.getElementById(`panel-${currIdx}`)}
                 />
               )}
               {!getWayPoints() &&
@@ -442,6 +461,7 @@ const ModifiedDirections = ({ center, setCenter }) => {
                   );
                   return (
                     <Marker
+                      key={letter}
                       position={{
                         lat: waypoint.lat,
                         lng: waypoint.lng,
@@ -462,22 +482,26 @@ const ModifiedDirections = ({ center, setCenter }) => {
         </div>
       </div>
       <div className="col col-right">
-        {/* array.map((o, index, arr) => {
-   let previous = arr[index - 1]; // For index === 0, the previous object will be undefined.
-}); */}
         {data.map((location, idx, arr) => {
           let previous = arr[idx - 1];
-          // console.log({ previous });
           return (
-            <div onClick={() => handleSelectBox(idx + 1)}>
+            <div
+              style={{ border: "2px solid", margin: "5px" }}
+              key={location.id}
+              onClick={() => handleSelectBox(idx + 1)}
+            >
               <div>
                 <p>
                   start: {previous ? previous.name : "your chosen location"}
                 </p>
               </div>
-              <p>
-                <div>end: {location.name}</div>
-              </p>
+              <div>
+                <p>end: {location.name}</p>
+              </div>
+              <div
+                className={idx + 1 === currIdx ? "none" : "hidden"}
+                id={`panel-${idx + 1}`}
+              />
             </div>
           );
         })}
