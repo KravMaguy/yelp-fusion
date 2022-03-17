@@ -1,0 +1,178 @@
+/* day plan page css start */
+
+.col {
+}
+
+.map-wrapper {
+  box-shadow: 0 0 0 2px rgb(255 255 255);
+  height: calc(75vh - 60px);
+}
+
+.plan-map-container {
+  margin: 0 auto;
+  box-shadow: inset 0 -3em 3em rgba(0, 0, 0, 0.1), 0 0 0 2px rgb(255, 255, 255),
+    0.3em 0.3em 1em rgba(49, 24, 24, 0.4);
+}
+
+.map-card-controls {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.8em;
+  background: #e8e8e8ab;
+}
+
+.map-controls {
+  background: none padding-box rgb(255, 255, 255);
+  display: table-cell;
+  border: 0px;
+  margin: 0px;
+  padding: 0px 23px;
+  text-transform: none;
+  appearance: none;
+  position: relative;
+  cursor: pointer;
+  user-select: none;
+  direction: ltr;
+  overflow: hidden;
+  text-align: center;
+  height: 40px;
+  vertical-align: middle;
+  color: rgb(0, 0, 0);
+  font-family: Roboto, Arial, sans-serif;
+  font-size: 18px;
+  border-bottom-left-radius: 2px;
+  border-top-left-radius: 2px;
+  box-shadow: rgb(0 0 0 / 30%) 0px 1px 4px -1px;
+  min-width: 36px;
+  font-weight: 500;
+}
+
+.plan-col-right {
+  width: 40%;
+  float: right;
+  background-color: #ffffff;
+}
+
+.plan-directions-container {
+  overflow-y: auto;
+  height: calc(100vh - 135px);
+}
+
+.fadedScroller_fade {
+  background: linear-gradient(
+    to top,
+    rgba(251, 251, 251, 1) 0%,
+    rgba(251, 251, 251, 0) 100%
+  );
+  position: relative;
+  width: 100%;
+  height: 25px;
+  bottom: 23px;
+}
+
+.col-left {
+  width: 60%;
+  float: left;
+}
+
+.side-p-10 {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.hidden {
+  display: none;
+}
+
+img.adp-marker2 {
+  visibility: hidden;
+}
+
+html {
+  --points-distance: 18px;
+}
+.card {
+  display: flex;
+}
+.points-container {
+  text-align: -webkit-center;
+  position: relative;
+}
+.line {
+  border-left: 3px solid green;
+  height: 28px;
+
+  width: 0px;
+}
+.numberCircle {
+  border-radius: 50%;
+  width: 25px;
+  height: 25px;
+  padding: 2px;
+  background: #fff;
+  border: 2px solid #666;
+  color: #666;
+  text-align: center;
+  font: 16px Arial, sans-serif;
+}
+
+.text {
+  font: 18px Arial, sans-serif;
+  padding: 6px;
+  line-height: 0.8;
+}
+
+.spacer {
+  height: var(--points-distance);
+  width: 0px;
+}
+
+.text.top {
+  margin-bottom: 25px;
+}
+
+.plan-card-shell {
+  padding: 10px;
+  border: 1px solid silver;
+  margin: 0;
+}
+
+table.adp-directions {
+  width: 100%;
+  transition: 3s all cubic-bezier(0, 1.5, 1, 1.5);
+}
+
+table.adp-directions {
+  border-collapse: collapse;
+  margin: 25px 0;
+  font-size: 0.9em;
+  border-radius: 5px 5px 0 0;
+  overflow: hidden;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+table.adp-directions th,
+table.adp-directions td {
+  padding: 12px 15px;
+}
+
+table.adp-directions tr:hover {
+  background: #eaeff1;
+}
+
+table.adp-directions tr:hover .adp-maneuver {
+  animation: directions-grow 0.4s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+}
+
+@keyframes directions-grow {
+  0% {
+    transform: scale(1);
+  }
+
+  45% {
+    transform: scale(1.4);
+  }
+  100% {
+    transform: scale(1);
+  }
+}

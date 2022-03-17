@@ -13,7 +13,7 @@ import MultiSelectAsync from "./MultiSelect";
 import Cal from "./Cal";
 import NavMap from "./NavMap";
 import BigCalendar from "./BigCalendar";
-import ModifiedDirections from "./ModifiedDirections";
+import PlanPage from "./PlanPage";
 import Login from "./Login";
 import Navbar from "./Navbar";
 import GetComponent from "./get";
@@ -103,9 +103,9 @@ function App() {
           />
 
           <Route
-            path="/modified"
+            path="/plan"
             element={
-              <ModifiedDirections
+              <PlanPage
                 // data={data}
                 center={center}
                 setCenter={setCenter}

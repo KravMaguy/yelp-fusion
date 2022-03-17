@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Marker } from "@react-google-maps/api";
-
+import "./PlanPage.css";
 import {
   DirectionsService,
   DirectionsRenderer,
@@ -8,128 +8,11 @@ import {
   DistanceMatrixService,
 } from "@react-google-maps/api";
 import Map from "./Map";
-
-const data = [
-  {
-    id: "h98ZbeAb8QO2wZ-dPMO6iw",
-    alias: "ekf-martial-arts-chicago-2",
-    name: "EKF Martial Arts",
-    image_url:
-      "https://s3-media3.fl.yelpcdn.com/bphoto/0ndV4m2JDqw6e33KNzNgCA/o.jpg",
-    is_closed: false,
-    url: "https://www.yelp.com/biz/ekf-martial-arts-chicago-2?adjust_creative=CbTAfRmoCY_s6Ex6jqjcQg&utm_campaign=yelp_api_v3&utm_medium=api_v3_business_search&utm_source=CbTAfRmoCY_s6Ex6jqjcQg",
-    review_count: 27,
-    categories: [
-      {
-        alias: "martialarts",
-        title: "Martial Arts",
-      },
-      {
-        alias: "boxing",
-        title: "Boxing",
-      },
-      {
-        alias: "taichi",
-        title: "Tai Chi",
-      },
-    ],
-    rating: 5,
-    coordinates: {
-      latitude: 41.9901150128242,
-      longitude: -87.6696621693116,
-    },
-    transactions: [],
-    location: {
-      address1: "5951 N Clark St",
-      address2: "",
-      address3: "",
-      city: "Chicago",
-      zip_code: "60660",
-      country: "US",
-      state: "IL",
-      display_address: ["5951 N Clark St", "Chicago, IL 60660"],
-    },
-    phone: "+17737196488",
-    display_phone: "(773) 719-6488",
-    distance: 3658.2790081952644,
-  },
-  {
-    id: "aGCUksjACc8-AYhpz_F7QA",
-    alias: "ultimate-martial-arts-lincolnwood",
-    name: "Ultimate Martial Arts",
-    image_url:
-      "https://s3-media2.fl.yelpcdn.com/bphoto/oR9SeKioxjdvPd5iO1Yj4A/o.jpg",
-    is_closed: false,
-    url: "https://www.yelp.com/biz/ultimate-martial-arts-lincolnwood?adjust_creative=CbTAfRmoCY_s6Ex6jqjcQg&utm_campaign=yelp_api_v3&utm_medium=api_v3_business_search&utm_source=CbTAfRmoCY_s6Ex6jqjcQg",
-    review_count: 52,
-    categories: [
-      {
-        alias: "martialarts",
-        title: "Martial Arts",
-      },
-    ],
-    rating: 4,
-    coordinates: {
-      latitude: 42.0118849,
-      longitude: -87.7271591,
-    },
-    transactions: [],
-    location: {
-      address1: "3922 W Touhy Ave",
-      address2: "",
-      address3: "",
-      city: "Lincolnwood",
-      zip_code: "60712",
-      country: "US",
-      state: "IL",
-      display_address: ["3922 W Touhy Ave", "Lincolnwood, IL 60712"],
-    },
-    phone: "+18476793330",
-    display_phone: "(847) 679-3330",
-    distance: 1689.1069758230785,
-  },
-  {
-    id: "8JPoLXa-9BKrim-7D-1jaQ",
-    alias: "redzovic-jiu-jitsu-lincoln-square-chicago",
-    name: "Redzovic Jiu Jitsu - Lincoln Square",
-    image_url:
-      "https://s3-media1.fl.yelpcdn.com/bphoto/zeC3G3U3mQiX0cy1Dfs_pQ/o.jpg",
-    is_closed: false,
-    url: "https://www.yelp.com/biz/redzovic-jiu-jitsu-lincoln-square-chicago?adjust_creative=CbTAfRmoCY_s6Ex6jqjcQg&utm_campaign=yelp_api_v3&utm_medium=api_v3_business_search&utm_source=CbTAfRmoCY_s6Ex6jqjcQg",
-    review_count: 27,
-    categories: [
-      {
-        alias: "martialarts",
-        title: "Martial Arts",
-      },
-    ],
-    rating: 4.5,
-    coordinates: {
-      latitude: 41.9709525257349,
-      longitude: -87.6901070773602,
-    },
-    transactions: [],
-    location: {
-      address1: "4900 N Lincoln Ave",
-      address2: "",
-      address3: "",
-      city: "Chicago",
-      zip_code: "60625",
-      country: "US",
-      state: "IL",
-      display_address: ["4900 N Lincoln Ave", "Chicago, IL 60625"],
-    },
-    phone: "+17733345189",
-    display_phone: "(773) 334-5189",
-    distance: 4158.91942816934,
-  },
-];
-
+import { restaurantObjects } from "./utils";
 const pathVisibilityDefaults = {
   strokeOpacity: 0.9,
   strokeWeight: 6,
 };
-
 const pathOptions = {
   strokeColor: "#FF0000",
   fillColor: "#FF0000",
@@ -141,10 +24,16 @@ const pathOptions = {
   zIndex: 1,
   ...pathVisibilityDefaults,
 };
-
+const dimStyle = {
+  color: "dimgrey",
+  background: "#6969695c",
+};
 const startingSearchIndex = 0;
 
-const ModifiedDirections = ({ center, setCenter }) => {
+const PlanPage = ({ center, setCenter, data }) => {
+  if (!data) {
+    data = restaurantObjects;
+  }
   const derivedData = data.map((x) => {
     return { name: x.name, coordinates: x.coordinates };
   });
@@ -258,10 +147,7 @@ const ModifiedDirections = ({ center, setCenter }) => {
   const destinationA = "Stockholm, Sweden";
   const destinationB = { lat: 50.087, lng: 14.421 };
 
-  const [idecesClicked, setIndecesClicked] = useState([]);
-
   useEffect(() => {
-    console.log("jakdhsflkjdhsflkasdhjf");
     const curr = document.getElementById(`panel-${currIdx}`);
     if (curr) {
       curr.innerHTML = "";
@@ -270,12 +156,6 @@ const ModifiedDirections = ({ center, setCenter }) => {
 
   const handleSelectBox = (boxIndex) => {
     if (boxIndex === currIdx) return alert("already here");
-    // if (idecesClicked.includes(boxIndex)) {
-    //   return console.log("reached this case");
-    // }
-
-    // const clickedIndeces = [...idecesClicked, boxIndex];
-    // setIndecesClicked(clickedIndeces);
     const origin = {
       lat: derivedData[boxIndex - 1].coordinates.latitude,
       lng: derivedData[boxIndex - 1].coordinates.longitude,
@@ -290,11 +170,10 @@ const ModifiedDirections = ({ center, setCenter }) => {
     setResponse(null);
   };
 
-  console.log(idecesClicked, "clidked indexes");
   return (
     <div className="row">
-      <div className="col col-left">
-        <div className={"map-container"}>
+      <div className="col col-left side-p-10">
+        <div className={"plan-map-container"}>
           {/* <div className="">
             <div className="">
               <input
@@ -358,28 +237,14 @@ const ModifiedDirections = ({ center, setCenter }) => {
             <div style={{ display: "flex" }}>
               <button
                 className="map-controls"
-                style={
-                  currIdx <= 0
-                    ? {
-                        color: "dimgrey",
-                        background: "#6969695c",
-                      }
-                    : null
-                }
+                style={currIdx <= 0 ? dimStyle : null}
                 disabled={currIdx <= 0 ? true : false}
                 onClick={() => prevDestination()}
               >
                 {currIdx === startingSearchIndex + 1 ? "Full Plan" : "Previous"}
               </button>
               <button
-                style={
-                  currIdx >= derivedData.length - 1
-                    ? {
-                        color: "dimgrey",
-                        background: "#6969695c",
-                      }
-                    : null
-                }
+                style={currIdx >= derivedData.length - 1 ? dimStyle : null}
                 className="map-controls"
                 disabled={currIdx >= derivedData.length - 1 ? true : false}
                 onClick={() => nextDestination()}
@@ -481,52 +346,49 @@ const ModifiedDirections = ({ center, setCenter }) => {
           </main>
         </div>
       </div>
-      <div className="col col-right">
-        {data.map((location, idx, arr) => {
-          let previous = arr[idx - 1];
-          return (
-            <div
-              class="card-shell"
-              style={{ border: "2px solid", margin: "5px" }}
-              key={location.id}
-              onClick={() => handleSelectBox(idx + 1)}
-            >
-              <div class="card">
-                <div class="points-container">
-                  <div class="numberCircle">
-                    {String.fromCharCode("A".charCodeAt(0) + idx)}
-                  </div>
-                  <div class="line"></div>
-                  <div class="numberCircle">
-                    {String.fromCharCode("B".charCodeAt(0) + idx)}
-                  </div>
-                </div>
-                <div class="locations">
-                  <div class="text top">
-                    <p>{previous ? previous.name : "Your location"}</p>
-                  </div>
-                  <div class="text">
-                    <p>{location.name}</p>
-                  </div>
-                </div>
-              </div>
 
-              {/* <div>
-                <p>{previous ? previous.name : "your location"}</p>
-              </div>
-              <div>
-                <p>{location.name}</p>
-              </div> */}
+      <div className="col plan-col-right">
+        <div className="plan-directions-container">
+          {data.map((location, idx, arr) => {
+            let previous = arr[idx - 1];
+            return (
               <div
-                className={idx + 1 === currIdx ? "none" : "hidden"}
-                id={`panel-${idx + 1}`}
-              />
-            </div>
-          );
-        })}
+                class="plan-card-shell"
+                key={location.id}
+                onClick={() => handleSelectBox(idx + 1)}
+              >
+                <div class="card">
+                  <div class="points-container">
+                    <div class="numberCircle">
+                      {String.fromCharCode("A".charCodeAt(0) + idx)}
+                    </div>
+                    <div class="line"></div>
+                    <div class="numberCircle">
+                      {String.fromCharCode("B".charCodeAt(0) + idx)}
+                    </div>
+                  </div>
+                  <div class="locations">
+                    <div class="text top">
+                      <p>{previous ? previous.name : "Your location"}</p>
+                    </div>
+                    <div class="text">
+                      <p>{location.name}</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div
+                  className={idx + 1 === currIdx ? "none" : "hidden"}
+                  id={`panel-${idx + 1}`}
+                />
+              </div>
+            );
+          })}
+        </div>
+        <div class="fadedScroller_fade"></div>
       </div>
     </div>
   );
 };
 
-export default ModifiedDirections;
+export default PlanPage;
