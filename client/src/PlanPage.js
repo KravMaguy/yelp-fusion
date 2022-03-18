@@ -149,7 +149,7 @@ const PlanPage = ({ center, setCenter, data }) => {
     if (curr) {
       curr.innerHTML = "";
     }
-  }, [currIdx]);
+  }, [currIdx, travelMode]);
 
   const handleSelectBox = (boxIndex) => {
     if (boxIndex === currIdx) return;
@@ -168,174 +168,186 @@ const PlanPage = ({ center, setCenter, data }) => {
   };
 
   return (
-    <div className="row">
-      <div className="col col-left side-p-10">
-        <div className={"plan-map-container"}>
-          {/* <div className="">
+    <>
+      <div className="row">
+        <div>
+          <label>
+            Travel Mode
+            <select></select>
+          </label>
+        </div>
+      </div>
+      <div className="row">
+        <div className="col col-left side-p-10">
+          <div className={"plan-map-container"}>
             <div className="">
-              <input
-                id="DRIVING"
-                className=""
-                name="travelMode"
-                type="radio"
-                checked={travelMode === "DRIVING"}
-                onChange={checkDriving}
-              />
-              <label className="custom-control-label" htmlFor="DRIVING">
-                Driving
-              </label>
+              <div className="">
+                <input
+                  id="DRIVING"
+                  className=""
+                  name="travelMode"
+                  type="radio"
+                  checked={travelMode === "DRIVING"}
+                  onChange={checkDriving}
+                />
+                <label className="custom-control-label" htmlFor="DRIVING">
+                  Driving
+                </label>
+              </div>
+
+              <div className="">
+                <input
+                  id="BICYCLING"
+                  className=""
+                  name="travelMode"
+                  type="radio"
+                  checked={travelMode === "BICYCLING"}
+                  onChange={checkBicycling}
+                />
+                <label className="" htmlFor="BICYCLING">
+                  Bicycling
+                </label>
+              </div>
+
+              <div className="">
+                <input
+                  disabled={currIdx === startingSearchIndex}
+                  id="TRANSIT"
+                  className=""
+                  name="travelMode"
+                  type="radio"
+                  checked={travelMode === "TRANSIT"}
+                  onChange={checkTransit}
+                />
+                <label className="custom-control-label" htmlFor="TRANSIT">
+                  Transit
+                </label>
+              </div>
+
+              <div className="">
+                <input
+                  id="WALKING"
+                  className="custom-control-input"
+                  name="travelMode"
+                  type="radio"
+                  checked={travelMode === "WALKING"}
+                  onChange={checkWalking}
+                />
+                <label className="" htmlFor="WALKING">
+                  Walking
+                </label>
+              </div>
             </div>
 
-            <div className="">
-              <input
-                id="BICYCLING"
-                className=""
-                name="travelMode"
-                type="radio"
-                checked={travelMode === "BICYCLING"}
-                onChange={checkBicycling}
-              />
-              <label className="" htmlFor="BICYCLING">
-                Bicycling
-              </label>
+            <div className="map-card-controls">
+              <div style={{ display: "flex" }}>
+                <button
+                  className="map-controls"
+                  style={currIdx <= 0 ? dimStyle : null}
+                  disabled={currIdx <= 0 ? true : false}
+                  onClick={() => prevDestination()}
+                >
+                  {currIdx === startingSearchIndex + 1
+                    ? "Full Plan"
+                    : "Previous"}
+                </button>
+                <button
+                  style={currIdx >= derivedData.length - 1 ? dimStyle : null}
+                  className="map-controls"
+                  disabled={currIdx >= derivedData.length - 1 ? true : false}
+                  onClick={() => nextDestination()}
+                >
+                  {currIdx === startingSearchIndex ? "Start" : "Next"}
+                </button>
+              </div>
             </div>
 
-            <div className="">
-              <input
-                disabled={currIdx === startingSearchIndex}
-                id="TRANSIT"
-                className=""
-                name="travelMode"
-                type="radio"
-                checked={travelMode === "TRANSIT"}
-                onChange={checkTransit}
-              />
-              <label className="custom-control-label" htmlFor="TRANSIT">
-                Transit
-              </label>
-            </div>
-
-            <div className="">
-              <input
-                id="WALKING"
-                className="custom-control-input"
-                name="travelMode"
-                type="radio"
-                checked={travelMode === "WALKING"}
-                onChange={checkWalking}
-              />
-              <label className="" htmlFor="WALKING">
-                Walking
-              </label>
-            </div>
-          </div> */}
-
-          <div className="map-card-controls">
-            <div style={{ display: "flex" }}>
-              <button
-                className="map-controls"
-                style={currIdx <= 0 ? dimStyle : null}
-                disabled={currIdx <= 0 ? true : false}
-                onClick={() => prevDestination()}
-              >
-                {currIdx === startingSearchIndex + 1 ? "Full Plan" : "Previous"}
-              </button>
-              <button
-                style={currIdx >= derivedData.length - 1 ? dimStyle : null}
-                className="map-controls"
-                disabled={currIdx >= derivedData.length - 1 ? true : false}
-                onClick={() => nextDestination()}
-              >
-                {currIdx === startingSearchIndex ? "Start" : "Next"}
-              </button>
-            </div>
-          </div>
-
-          <main className={"map-wrapper"}>
-            <Map center={center}>
-              {!response && !path && destination && origin && (
-                <DirectionsService
-                  options={{
-                    origin: origin,
-                    destination: destination,
-                    waypoints: getWayPoints(),
-                    travelMode: travelMode,
-                  }}
-                  callback={(response) => {
-                    if (response !== null) {
-                      if (response.status === "OK") {
-                        setResponse(response);
-                      } else {
-                        setPath([origin, destination]);
+            <main className={"map-wrapper"}>
+              <Map center={center}>
+                {!response && !path && destination && origin && (
+                  <DirectionsService
+                    options={{
+                      origin: origin,
+                      destination: destination,
+                      waypoints: getWayPoints(),
+                      travelMode: travelMode,
+                    }}
+                    callback={(response) => {
+                      if (response !== null) {
+                        if (response.status === "OK") {
+                          setResponse(response);
+                        } else {
+                          setPath([origin, destination]);
+                        }
                       }
-                    }
-                  }}
-                />
-              )}
+                    }}
+                  />
+                )}
 
-              {response !== null && (
-                <DirectionsRenderer
-                  options={{
-                    suppressMarkers: !getWayPoints() ? true : false,
+                {response !== null && (
+                  <DirectionsRenderer
+                    options={{
+                      suppressMarkers: !getWayPoints() ? true : false,
 
-                    directions: response,
-                    polylineOptions: {
-                      strokeColor:
-                        currIdx === startingSearchIndex ? "red" : "#604ca6c7",
-                      strokeOpacity:
-                        currIdx !== startingSearchIndex
-                          ? pathVisibilityDefaults.strokeOpacity
-                          : null,
-                      strokeWeight:
-                        currIdx !== startingSearchIndex
-                          ? pathVisibilityDefaults.strokeWeight
-                          : null,
-                    },
-                  }}
-                  directions={response}
-                  panel={document.getElementById(`panel-${currIdx}`)}
-                />
-              )}
-              {!getWayPoints() &&
-                wayPoints.map((waypoint, idx) => {
-                  const letter = String.fromCharCode(
-                    "A".charCodeAt(0) + currIdx + idx - 1
-                  );
-                  return (
-                    <Marker
-                      key={letter}
-                      position={{
-                        lat: waypoint.lat,
-                        lng: waypoint.lng,
-                      }}
-                      label={{ text: letter, color: "white" }}
-                    />
-                  );
-                })}
-              {/* {path && (
+                      directions: response,
+                      polylineOptions: {
+                        strokeColor:
+                          currIdx === startingSearchIndex ? "red" : "#604ca6c7",
+                        strokeOpacity:
+                          currIdx !== startingSearchIndex
+                            ? pathVisibilityDefaults.strokeOpacity
+                            : null,
+                        strokeWeight:
+                          currIdx !== startingSearchIndex
+                            ? pathVisibilityDefaults.strokeWeight
+                            : null,
+                      },
+                    }}
+                    directions={response}
+                    panel={document.getElementById(`panel-${currIdx}`)}
+                  />
+                )}
+                {!getWayPoints() &&
+                  wayPoints.map((waypoint, idx) => {
+                    const letter = String.fromCharCode(
+                      "A".charCodeAt(0) + currIdx + idx - 1
+                    );
+                    return (
+                      <Marker
+                        key={letter}
+                        position={{
+                          lat: waypoint.lat,
+                          lng: waypoint.lng,
+                        }}
+                        label={{ text: letter, color: "white" }}
+                      />
+                    );
+                  })}
+                {/* {path && (
                 <Polyline
                   onLoad={() => //console.log("drawing polyline")}
                   path={path}
                   options={pathOptions}
                 />
               )} */}
-            </Map>
-          </main>
+              </Map>
+            </main>
+          </div>
         </div>
-      </div>
 
-      <PlanDirections
-        data={data}
-        currIdx={currIdx}
-        handleSelectBox={handleSelectBox}
-        response={response}
-        setIdx={setIdx}
-        derivedData={derivedData}
-        setResponse={setResponse}
-        setOrigin={setOrigin}
-        setDestination={setDestination}
-      />
-    </div>
+        <PlanDirections
+          data={data}
+          currIdx={currIdx}
+          handleSelectBox={handleSelectBox}
+          response={response}
+          setIdx={setIdx}
+          derivedData={derivedData}
+          setResponse={setResponse}
+          setOrigin={setOrigin}
+          setDestination={setDestination}
+        />
+      </div>
+    </>
   );
 };
 

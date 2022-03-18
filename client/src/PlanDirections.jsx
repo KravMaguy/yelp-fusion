@@ -73,9 +73,7 @@ const PlanDirections = ({
               </div>
             </div>
             <div>
-              <div className="gmaplogo">
-                <GmapIcon />
-              </div>
+              <div className="gmaplogo">{/* <GmapIcon /> */}</div>
             </div>
           </div>
         </div>
@@ -123,7 +121,7 @@ const PlanDirections = ({
 
                 <div className="gmaplogo">
                   <a target="new" href={url}>
-                    <GmapIcon />
+                    {/* <GmapIcon /> */}
                   </a>
                 </div>
               </div>
