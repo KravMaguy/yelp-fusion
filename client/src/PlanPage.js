@@ -1,14 +1,15 @@
-import React, { useState, useEffect } from "react";
 import { Marker } from "@react-google-maps/api";
+import React, { useState, useEffect } from "react";
+
 import "./PlanPage.css";
 import {
   DirectionsService,
   DirectionsRenderer,
   Polyline,
-  DistanceMatrixService,
 } from "@react-google-maps/api";
 import Map from "./Map";
 import { restaurantObjects } from "./utils";
+import PlanDirections from "./PlanDirections";
 const pathVisibilityDefaults = {
   strokeOpacity: 0.9,
   strokeWeight: 6,
@@ -45,11 +46,8 @@ const PlanPage = ({ center, setCenter, data }) => {
   const [destination, setDestination] = useState(null);
   const [origin, setOrigin] = useState(center);
   const [response, setResponse] = useState(null);
-  const [distanceMatrixServiceResponse, setDistanceMatrixServiceResponse] =
-    useState(null);
   const [path, setPath] = useState(null);
   const [travelMode, setTravelMode] = useState("DRIVING");
-  //console.log(travelMode, "travelMode");
   useEffect(() => {
     const lastDestination = {
       lat: derivedData[derivedData.length - 1].coordinates.latitude,
@@ -141,7 +139,6 @@ const PlanPage = ({ center, setCenter, data }) => {
     setResponse(null);
   };
 
-  //console.log(origin, "origin");
   const origin1 = { lat: 55.93, lng: -3.118 };
   const origin2 = "Greenwich, England";
   const destinationA = "Stockholm, Sweden";
@@ -155,7 +152,7 @@ const PlanPage = ({ center, setCenter, data }) => {
   }, [currIdx]);
 
   const handleSelectBox = (boxIndex) => {
-    if (boxIndex === currIdx) return alert("already here");
+    if (boxIndex === currIdx) return;
     const origin = {
       lat: derivedData[boxIndex - 1].coordinates.latitude,
       lng: derivedData[boxIndex - 1].coordinates.longitude,
@@ -256,24 +253,6 @@ const PlanPage = ({ center, setCenter, data }) => {
 
           <main className={"map-wrapper"}>
             <Map center={center}>
-              {/* {!distanceMatrixServiceResponse && (
-                <DistanceMatrixService
-                  options={{
-                    origins: [origin1],
-                    destinations: [destinationB],
-                    travelMode: "DRIVING",
-                  }}
-                  callback={(response) => {
-                    if (response !== null) {
-                      //console.log(response, "the resp from directions matrix")
-                      setDistanceMatrixServiceResponse(response);
-                    } else {
-                      //console.log("something else happened");
-                    }
-                  }}
-                />
-              )} */}
-
               {!response && !path && destination && origin && (
                 <DirectionsService
                   options={{
@@ -286,8 +265,6 @@ const PlanPage = ({ center, setCenter, data }) => {
                     if (response !== null) {
                       if (response.status === "OK") {
                         setResponse(response);
-                        const leg = response.routes[0].legs[0];
-                        //console.log(leg, "leg");
                       } else {
                         setPath([origin, destination]);
                       }
@@ -347,46 +324,17 @@ const PlanPage = ({ center, setCenter, data }) => {
         </div>
       </div>
 
-      <div className="col plan-col-right">
-        <div className="plan-directions-container">
-          {data.map((location, idx, arr) => {
-            let previous = arr[idx - 1];
-            return (
-              <div
-                class="plan-card-shell"
-                key={location.id}
-                onClick={() => handleSelectBox(idx + 1)}
-              >
-                <div class="card">
-                  <div class="points-container">
-                    <div class="numberCircle">
-                      {String.fromCharCode("A".charCodeAt(0) + idx)}
-                    </div>
-                    <div class="line"></div>
-                    <div class="numberCircle">
-                      {String.fromCharCode("B".charCodeAt(0) + idx)}
-                    </div>
-                  </div>
-                  <div class="locations">
-                    <div class="text top">
-                      <p>{previous ? previous.name : "Your location"}</p>
-                    </div>
-                    <div class="text">
-                      <p>{location.name}</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div
-                  className={idx + 1 === currIdx ? "none" : "hidden"}
-                  id={`panel-${idx + 1}`}
-                />
-              </div>
-            );
-          })}
-        </div>
-        <div class="fadedScroller_fade"></div>
-      </div>
+      <PlanDirections
+        data={data}
+        currIdx={currIdx}
+        handleSelectBox={handleSelectBox}
+        response={response}
+        setIdx={setIdx}
+        derivedData={derivedData}
+        setResponse={setResponse}
+        setOrigin={setOrigin}
+        setDestination={setDestination}
+      />
     </div>
   );
 };

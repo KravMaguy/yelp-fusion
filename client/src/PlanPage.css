@@ -99,27 +99,41 @@ html {
   position: relative;
 }
 .line {
-  border-left: 3px solid green;
+  border-left: 3px dashed #34a853;
   height: 28px;
 
   width: 0px;
 }
+
 .numberCircle {
   border-radius: 50%;
   width: 25px;
   height: 25px;
   padding: 2px;
-  background: #fff;
-  border: 2px solid #666;
-  color: #666;
+  background: #34a853;
+  border: 2px solid #5c7863;
+  color: rgb(255, 255, 255);
   text-align: center;
   font: 16px Arial, sans-serif;
+  display: inline-block;
+}
+
+.red-color {
+  background: #ee675c;
+}
+
+.white-border {
+  border: 2px solid #fcfcfc;
 }
 
 .text {
   font: 18px Arial, sans-serif;
-  padding: 6px;
-  line-height: 0.8;
+  padding: 5px;
+  line-height: 0.9;
+}
+
+.align-left {
+  text-align: left;
 }
 
 .spacer {
@@ -135,6 +149,12 @@ html {
   padding: 10px;
   border: 1px solid silver;
   margin: 0;
+}
+
+.plan-top-card {
+  color: white;
+  text-shadow: 2px 2px 4px #000000;
+  background: #4f8cf0;
 }
 
 table.adp-directions {
