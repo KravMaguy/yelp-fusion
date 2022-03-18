@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import { formatDuration, intervalToDuration } from "date-fns";
+import GmapIcon from "./GmapIcon";
+import gmappng from "./img/gmappng.png";
 const PlanDirections = ({
   data,
   handleSelectBox,
@@ -54,27 +56,49 @@ const PlanDirections = ({
           className="plan-card-shell align-left plan-top-card"
           onClick={() => viewFullPlan()}
         >
-          <div className="mdc-card-wrapper__text-section">
-            <div className="demo-card__title">
-              <div className="numberCircle red-color white-border">
-                {data.length}
+          <div className="plan-flex-container">
+            <div className="mdc-card-wrapper__text-section">
+              <div className="demo-card__title">
+                <div className="numberCircle red-color white-border">
+                  {data.length}
+                </div>
+                <span class="text">Destinations</span>
               </div>
-              <span class="text">Destinations</span>
+              <div className="demo-card__subhead">
+                {distance && Math.round((distance / 1000 / 1.609) * 100) / 100}
+                mi
+              </div>
+              <div className="demo-card__subhead">
+                {time && humanDuration(time)}
+              </div>
             </div>
-            <div className="demo-card__subhead">
-              {distance && Math.round((distance / 1000 / 1.609) * 100) / 100} mi
-            </div>
-            <div className="demo-card__subhead">
-              {time && humanDuration(time)}
+            <div>
+              <div className="gmaplogo">
+                <GmapIcon />
+              </div>
             </div>
           </div>
         </div>
 
         {data.map((location, idx, arr) => {
           let previous = arr[idx - 1];
+
+          console.log(previous?.coordinates, "prev");
+          console.log(location?.coordinates, "curr");
+
+          // https://www.google.com/maps/dir/41.97025072526612,-87.69260402696997/42.02332221302064,-87.70771022843205/41.99891736625932,-87.81862186689798/
+          let url;
+          if (previous) {
+            url = `https://www.google.com/maps/dir/${previous.coordinates.latitude},${previous.coordinates.longitude}/${location.coordinates.latitude},${location.coordinates.longitude}`;
+          }
+
           return (
             <div
-              className="plan-card-shell"
+              className={
+                idx + 1 === currIdx
+                  ? "plan-card-shell selected-overwrite"
+                  : "plan-card-shell text-shadow"
+              }
               key={location.id}
               onClick={() => handleSelectBox(idx + 1)}
             >
@@ -95,6 +119,12 @@ const PlanDirections = ({
                   <div className="text">
                     <p>{location.name}</p>
                   </div>
+                </div>
+
+                <div className="gmaplogo">
+                  <a target="new" href={url}>
+                    <GmapIcon />
+                  </a>
                 </div>
               </div>
 

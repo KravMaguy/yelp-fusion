@@ -99,7 +99,7 @@ html {
   position: relative;
 }
 .line {
-  border-left: 3px dashed #34a853;
+  border-left: 3px dashed #59d37a;
   height: 28px;
 
   width: 0px;
@@ -110,7 +110,7 @@ html {
   width: 25px;
   height: 25px;
   padding: 2px;
-  background: #34a853;
+  background: #5491f5;
   border: 2px solid #5c7863;
   color: rgb(255, 255, 255);
   text-align: center;
@@ -149,6 +149,8 @@ html {
   padding: 10px;
   border: 1px solid silver;
   margin: 0;
+  background: grey;
+  color: white;
 }
 
 .plan-top-card {
@@ -195,4 +197,26 @@ table.adp-directions tr:hover .adp-maneuver {
   100% {
     transform: scale(1);
   }
+}
+
+.plan-flex-container {
+  position: relative;
+}
+
+.gmaplogo {
+  width: 25px;
+  position: absolute;
+  /* top: 0px; */
+  right: 3px;
+  bottom: 0px;
+  filter: drop-shadow(2px 3px 1px rgb(0 0 0 / 0.3));
+}
+
+.selected-overwrite {
+  color: black;
+  background-color: white;
+}
+
+.text-shadow {
+  text-shadow: 2px 2px 4px #000000;
 }

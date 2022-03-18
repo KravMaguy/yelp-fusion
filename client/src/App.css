@@ -467,10 +467,11 @@ input:valid + span:after {
 
 /* Card Styles */
 .card {
-  background-color: #ffffff;
+  /* background-color: #ffffff; */
   text-align: left;
   border-radius: 4px;
   overflow: hidden;
+  position: relative;
 }
 .card__body {
   padding: 16px 0;
