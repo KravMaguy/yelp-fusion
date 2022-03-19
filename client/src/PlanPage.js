@@ -170,75 +170,8 @@ const PlanPage = ({ center, setCenter, data }) => {
   return (
     <>
       <div className="row">
-        <div>
-          <label>
-            Travel Mode
-            <select></select>
-          </label>
-        </div>
-      </div>
-      <div className="row">
         <div className="col col-left side-p-10">
           <div className={"plan-map-container"}>
-            <div className="">
-              <div className="">
-                <input
-                  id="DRIVING"
-                  className=""
-                  name="travelMode"
-                  type="radio"
-                  checked={travelMode === "DRIVING"}
-                  onChange={checkDriving}
-                />
-                <label className="custom-control-label" htmlFor="DRIVING">
-                  Driving
-                </label>
-              </div>
-
-              <div className="">
-                <input
-                  id="BICYCLING"
-                  className=""
-                  name="travelMode"
-                  type="radio"
-                  checked={travelMode === "BICYCLING"}
-                  onChange={checkBicycling}
-                />
-                <label className="" htmlFor="BICYCLING">
-                  Bicycling
-                </label>
-              </div>
-
-              <div className="">
-                <input
-                  disabled={currIdx === startingSearchIndex}
-                  id="TRANSIT"
-                  className=""
-                  name="travelMode"
-                  type="radio"
-                  checked={travelMode === "TRANSIT"}
-                  onChange={checkTransit}
-                />
-                <label className="custom-control-label" htmlFor="TRANSIT">
-                  Transit
-                </label>
-              </div>
-
-              <div className="">
-                <input
-                  id="WALKING"
-                  className="custom-control-input"
-                  name="travelMode"
-                  type="radio"
-                  checked={travelMode === "WALKING"}
-                  onChange={checkWalking}
-                />
-                <label className="" htmlFor="WALKING">
-                  Walking
-                </label>
-              </div>
-            </div>
-
             <div className="map-card-controls">
               <div style={{ display: "flex" }}>
                 <button
@@ -347,6 +280,10 @@ const PlanPage = ({ center, setCenter, data }) => {
           setDestination={setDestination}
           travelMode={travelMode}
           setTravelMode={setTravelMode}
+          checkBicycling={checkBicycling}
+          checkWalking={checkWalking}
+          checkTransit={checkTransit}
+          checkDriving={checkDriving}
         />
       </div>
     </>

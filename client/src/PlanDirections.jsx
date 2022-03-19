@@ -14,6 +14,10 @@ const PlanDirections = ({
   derivedData,
   travelMode,
   setTravelMode,
+  checkBicycling,
+  checkWalking,
+  checkTransit,
+  checkDriving,
 }) => {
   const [distance, setDistance] = useState(null);
   const [time, setTime] = useState(null);
@@ -56,6 +60,65 @@ const PlanDirections = ({
   return (
     <div className="col plan-col-right">
       <div className="plan-directions-container">
+        <div className="plan-card-shell align-left">
+          <div class="parent">
+            {" "}
+            <div className="child">
+              <input
+                id="DRIVING"
+                className=""
+                name="travelMode"
+                type="radio"
+                checked={travelMode === "DRIVING"}
+                onChange={checkDriving}
+              />
+              <label className="custom-control-label" htmlFor="DRIVING">
+                Driving
+              </label>
+            </div>
+            <div className="child">
+              <input
+                id="BICYCLING"
+                className=""
+                name="travelMode"
+                type="radio"
+                checked={travelMode === "BICYCLING"}
+                onChange={checkBicycling}
+              />
+              <label className="" htmlFor="BICYCLING">
+                Bicycling
+              </label>
+            </div>
+            <div className="child">
+              <input
+                disabled={currIdx === 0}
+                id="TRANSIT"
+                className=""
+                name="travelMode"
+                type="radio"
+                checked={travelMode === "TRANSIT"}
+                onChange={checkTransit}
+              />
+              <label className="custom-control-label" htmlFor="TRANSIT">
+                Transit
+              </label>
+            </div>
+            <div className="child">
+              <input
+                id="WALKING"
+                className="custom-control-input"
+                name="travelMode"
+                type="radio"
+                checked={travelMode === "WALKING"}
+                onChange={checkWalking}
+              />
+              <label className="" htmlFor="WALKING">
+                Walking
+              </label>
+            </div>
+          </div>
+        </div>
+
         <div
           className="plan-card-shell align-left plan-top-card"
           onClick={() => viewFullPlan()}

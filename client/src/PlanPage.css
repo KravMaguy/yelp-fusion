@@ -220,3 +220,13 @@ table.adp-directions tr:hover .adp-maneuver {
 .text-shadow {
   text-shadow: 2px 2px 4px #000000;
 }
+
+.parent {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+}
+
+.child {
+  width: 40%;
+}
