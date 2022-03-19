@@ -12,6 +12,8 @@ const PlanDirections = ({
   setDestination,
   setIdx,
   derivedData,
+  travelMode,
+  setTravelMode,
 }) => {
   const [distance, setDistance] = useState(null);
   const [time, setTime] = useState(null);
@@ -31,6 +33,8 @@ const PlanDirections = ({
 
   const viewFullPlan = () => {
     if (currIdx === 0) return;
+    travelMode === "TRANSIT" && setTravelMode("DRIVING");
+
     setIdx(0);
     setResponse(null);
     const lastDestination = {

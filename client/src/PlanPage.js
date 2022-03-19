@@ -345,6 +345,8 @@ const PlanPage = ({ center, setCenter, data }) => {
           setResponse={setResponse}
           setOrigin={setOrigin}
           setDestination={setDestination}
+          travelMode={travelMode}
+          setTravelMode={setTravelMode}
         />
       </div>
     </>
