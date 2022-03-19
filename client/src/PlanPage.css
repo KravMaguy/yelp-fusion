@@ -156,10 +156,10 @@ html {
 .plan-top-card {
   color: white;
   text-shadow: 2px 2px 4px #000000;
-  background: #4f8cf0;
+  background: #323b49;
 }
 
-table.adp-directions {
+/* table.adp-directions {
   width: 100%;
   transition: 3s all cubic-bezier(0, 1.5, 1, 1.5);
 }
@@ -206,11 +206,10 @@ table.adp-directions tr:hover .adp-maneuver {
 .gmaplogo {
   width: 25px;
   position: absolute;
-  /* top: 0px; */
   right: 3px;
   bottom: 0px;
   filter: drop-shadow(2px 3px 1px rgb(0 0 0 / 0.3));
-}
+} */
 
 .selected-overwrite {
   color: black;

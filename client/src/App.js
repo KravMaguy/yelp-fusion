@@ -16,7 +16,8 @@ import BigCalendar from "./BigCalendar";
 import PlanPage from "./PlanPage";
 import Login from "./Login";
 import Navbar from "./Navbar";
-import GetComponent from "./get";
+import Sortable from "./Sortable";
+import DragPlan from "./DragPlan";
 
 function App() {
   const [initialReq, setInitialReq] = useState(false);
@@ -66,7 +67,7 @@ function App() {
   return (
     <div className="App">
       <Router>
-        <Navbar user={user} />
+        {/* <Navbar user={user} /> */}
         <Routes>
           <Route
             path="/bigCalendar/:id"
@@ -112,11 +113,24 @@ function App() {
               />
             }
           />
+
+          <Route
+            path="/dragplan"
+            element={
+              <DragPlan
+                // data={data}
+                center={center}
+                setCenter={setCenter}
+              />
+            }
+          />
           <Route path="/category" element={<MultiSelectAsync />} />
           <Route
             path="/map"
             element={<NavMap BuisnessData={BuisnessData} center={center} />}
           />
+          <Route path="/sort" element={<Sortable />} />
+
           {/* <Route path='*' element={<Navigate to='/' />} /> */}
         </Routes>
       </Router>

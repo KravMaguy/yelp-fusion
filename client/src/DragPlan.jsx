@@ -2,36 +2,22 @@ import { Marker } from "@react-google-maps/api";
 import React, { useState, useEffect } from "react";
 
 import "./PlanPage.css";
-import {
-  DirectionsService,
-  DirectionsRenderer,
-  Polyline,
-} from "@react-google-maps/api";
+import { DirectionsService, DirectionsRenderer } from "@react-google-maps/api";
 import Map from "./Map";
 import { restaurantObjects } from "./utils";
-import PlanDirections from "./PlanDirections";
+import DragPlanDirections from "./DragPlanDirections";
 const pathVisibilityDefaults = {
   strokeOpacity: 0.9,
   strokeWeight: 6,
 };
-const pathOptions = {
-  strokeColor: "#FF0000",
-  fillColor: "#FF0000",
-  clickable: true,
-  draggable: false,
-  editable: false,
-  visible: true,
-  radius: 30000,
-  zIndex: 1,
-  ...pathVisibilityDefaults,
-};
+
 const dimStyle = {
   color: "dimgrey",
   background: "#6969695c",
 };
 const startingSearchIndex = 0;
 
-const PlanPage = ({ center, setCenter, data }) => {
+const DragPlan = ({ center, setCenter, data }) => {
   if (!data) {
     data = restaurantObjects;
   }
@@ -251,19 +237,12 @@ const PlanPage = ({ center, setCenter, data }) => {
                       />
                     );
                   })}
-                {/* {path && (
-                <Polyline
-                  onLoad={() => //console.log("drawing polyline")}
-                  path={path}
-                  options={pathOptions}
-                />
-              )} */}
               </Map>
             </main>
           </div>
         </div>
 
-        <PlanDirections
+        <DragPlanDirections
           data={data}
           currIdx={currIdx}
           handleSelectBox={handleSelectBox}
@@ -285,4 +264,4 @@ const PlanPage = ({ center, setCenter, data }) => {
   );
 };
 
-export default PlanPage;
+export default DragPlan;
