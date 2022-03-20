@@ -44,7 +44,7 @@ const getListStyle = (isDraggingOver) => ({
 // dnd end
 
 const DragPlanDirections = ({
-  data,
+  //   data,
   handleSelectBox,
   currIdx,
   response,
@@ -62,29 +62,25 @@ const DragPlanDirections = ({
 }) => {
   const [distance, setDistance] = useState(null);
   const [time, setTime] = useState(null);
+  //   const [items, setItems] = useState(getItems(10));
+  const [shiftedLocations, setShiftedLocations] = useState([]);
 
-  //   dnd start
-
-  const [items, setItems] = useState(getItems(10));
+  useEffect(() => {
+    const shiftedLocations = derivedData.slice(1);
+    setShiftedLocations(shiftedLocations);
+  }, []);
 
   const onDragEnd = (result) => {
-    // dropped outside the list
     if (!result.destination) {
       return;
     }
-
     const newItems = reorder(
-      items,
+      shiftedLocations,
       result.source.index,
       result.destination.index
     );
-
-    // console.log("New items : ", newItems);
-
-    setItems(newItems);
+    setShiftedLocations(newItems);
   };
-
-  //   dnd end
 
   useEffect(() => {
     if (!response) return;
@@ -189,7 +185,7 @@ const DragPlanDirections = ({
             <div className="mdc-card-wrapper__text-section">
               <div className="demo-card__title">
                 <div className="numberCircle red-color white-border">
-                  {data.length}
+                  {shiftedLocations.length}
                 </div>
                 <span class="text">Destinations</span>
               </div>
@@ -211,32 +207,7 @@ const DragPlanDirections = ({
                 ref={provided.innerRef}
                 style={getListStyle(snapshot.isDraggingOver)}
               >
-                {/* {items.map((item, index) => {
-                  return (
-                    <Draggable
-                      key={item.id}
-                      draggableId={item.id}
-                      index={index}
-                    >
-                      {(provided, snapshot) => (
-                        <div
-                          onClick={() => console.log("was clicked")}
-                          ref={provided.innerRef}
-                          {...provided.draggableProps}
-                          {...provided.dragHandleProps}
-                          style={getItemStyle(
-                            snapshot.isDragging,
-                            provided.draggableProps.style
-                          )}
-                        >
-                          {item.content}
-                        </div>
-                      )}
-                    </Draggable>
-                  );
-                })} */}
-
-                {data.map((location, idx, arr) => {
+                {shiftedLocations.map((location, idx, arr) => {
                   let previous = arr[idx - 1];
                   return (
                     <Draggable
@@ -256,7 +227,13 @@ const DragPlanDirections = ({
                           )}
                         >
                           <div className="card">
-                            <div className="points-container">
+                            <div
+                              className={
+                                idx + 1 === currIdx
+                                  ? "points-container"
+                                  : "hidden"
+                              }
+                            >
                               <div className="numberCircle">
                                 {String.fromCharCode("A".charCodeAt(0) + idx)}
                               </div>
@@ -266,7 +243,11 @@ const DragPlanDirections = ({
                               </div>
                             </div>
                             <div className="locations">
-                              <div className="text top">
+                              <div
+                                className={
+                                  idx + 1 === currIdx ? "text top" : "hidden"
+                                }
+                              >
                                 <p>
                                   {previous ? previous.name : "Your location"}
                                 </p>

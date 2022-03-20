@@ -22,11 +22,15 @@ const DragPlan = ({ center, setCenter, data }) => {
     data = restaurantObjects;
   }
   const derivedData = data.map((x) => {
-    return { name: x.name, coordinates: x.coordinates };
+    return { id: x.id, name: x.name, coordinates: x.coordinates };
   });
   derivedData.unshift({
     name: "starting Location",
-    coordinates: { latitude: center.lat, longitude: center.lng },
+    coordinates: {
+      id: "starting id",
+      latitude: center.lat,
+      longitude: center.lng,
+    },
   });
   const [currIdx, setIdx] = useState(startingSearchIndex);
   const [destination, setDestination] = useState(null);
@@ -243,7 +247,7 @@ const DragPlan = ({ center, setCenter, data }) => {
         </div>
 
         <DragPlanDirections
-          data={data}
+          // data={data}
           currIdx={currIdx}
           handleSelectBox={handleSelectBox}
           response={response}
