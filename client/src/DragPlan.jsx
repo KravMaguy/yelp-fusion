@@ -17,21 +17,15 @@ const dimStyle = {
 };
 const startingSearchIndex = 0;
 
-const DragPlan = ({ center, setCenter, data }) => {
+const DragPlan = ({ center, data }) => {
   if (!data) {
     data = restaurantObjects;
   }
-  const derivedData = data.map((x) => {
-    return { id: x.id, name: x.name, coordinates: x.coordinates };
-  });
-  derivedData.unshift({
-    name: "starting Location",
-    coordinates: {
-      id: "starting id",
-      latitude: center.lat,
-      longitude: center.lng,
-    },
-  });
+
+  const [derivedData, setDerivedData] = useState([]);
+
+  useEffect(() => {}, []);
+
   const [currIdx, setIdx] = useState(startingSearchIndex);
   const [destination, setDestination] = useState(null);
   const [origin, setOrigin] = useState(center);
@@ -39,6 +33,18 @@ const DragPlan = ({ center, setCenter, data }) => {
   const [path, setPath] = useState(null);
   const [travelMode, setTravelMode] = useState("DRIVING");
   useEffect(() => {
+    const derivedData = data.map((x) => {
+      return { id: x.id, name: x.name, coordinates: x.coordinates };
+    });
+    derivedData.unshift({
+      name: "starting Location",
+      coordinates: {
+        id: "starting id",
+        latitude: center.lat,
+        longitude: center.lng,
+      },
+    });
+    setDerivedData(derivedData);
     const lastDestination = {
       lat: derivedData[derivedData.length - 1].coordinates.latitude,
       lng: derivedData[derivedData.length - 1].coordinates.longitude,
@@ -46,8 +52,12 @@ const DragPlan = ({ center, setCenter, data }) => {
     setDestination(lastDestination);
   }, []);
 
-  const getWayPoints = () => {
+  const getWayPoints = (param) => {
+    console.log("getWayPoints Ran");
+    console.log("in getWaypoints the curr idx ", currIdx);
+    console.log("the param ", param);
     if (currIdx === startingSearchIndex) {
+      console.log("reached the multiblock");
       const myPoints = derivedData.slice(
         startingSearchIndex + 1,
         derivedData.length - 1
@@ -61,11 +71,16 @@ const DragPlan = ({ center, setCenter, data }) => {
           stopover: true,
         };
       });
+
+      console.log(thepoints, "here are the final points $$$$$$");
       return thepoints;
     } else {
       return null;
     }
   };
+
+  console.log(origin, "origin");
+  console.log(destination, "destination");
 
   const nextDestination = () => {
     if (currIdx !== startingSearchIndex) {
@@ -247,11 +262,10 @@ const DragPlan = ({ center, setCenter, data }) => {
         </div>
 
         <DragPlanDirections
-          // data={data}
           currIdx={currIdx}
+          setIdx={setIdx}
           handleSelectBox={handleSelectBox}
           response={response}
-          setIdx={setIdx}
           derivedData={derivedData}
           setResponse={setResponse}
           setOrigin={setOrigin}
@@ -262,6 +276,7 @@ const DragPlan = ({ center, setCenter, data }) => {
           checkWalking={checkWalking}
           checkTransit={checkTransit}
           checkDriving={checkDriving}
+          setDerivedData={setDerivedData}
         />
       </div>
     </>

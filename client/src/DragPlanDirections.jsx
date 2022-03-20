@@ -2,15 +2,6 @@ import { useState, useEffect } from "react";
 import { formatDuration, intervalToDuration } from "date-fns";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
-// dnd init
-
-// fake data generator
-const getItems = (count) =>
-  Array.from({ length: count }, (v, k) => k).map((k) => ({
-    id: `item-${k}`,
-    content: `item ${k}`,
-  }));
-
 // a little function to help you with reordering the result
 const reorder = (list, startIndex, endIndex) => {
   const result = Array.from(list);
@@ -53,6 +44,7 @@ const DragPlanDirections = ({
   setDestination,
   setIdx,
   derivedData,
+  setDerivedData,
   travelMode,
   setTravelMode,
   checkBicycling,
@@ -62,24 +54,34 @@ const DragPlanDirections = ({
 }) => {
   const [distance, setDistance] = useState(null);
   const [time, setTime] = useState(null);
-  //   const [items, setItems] = useState(getItems(10));
-  const [shiftedLocations, setShiftedLocations] = useState([]);
-
-  useEffect(() => {
-    const shiftedLocations = derivedData.slice(1);
-    setShiftedLocations(shiftedLocations);
-  }, []);
 
   const onDragEnd = (result) => {
     if (!result.destination) {
       return;
     }
+    setIdx(0);
+
     const newItems = reorder(
-      shiftedLocations,
+      derivedData.slice(1),
       result.source.index,
       result.destination.index
     );
-    setShiftedLocations(newItems);
+
+    console.log(newItems, "newItems");
+    setDerivedData([derivedData[0], ...newItems]);
+
+    const origin = {
+      lat: derivedData[0].coordinates.latitude,
+      lng: derivedData[0].coordinates.longitude,
+    };
+    const destination = {
+      lat: newItems[newItems.length - 1].coordinates.latitude,
+      lng: newItems[newItems.length - 1].coordinates.longitude,
+    };
+
+    setOrigin(origin);
+    setDestination(destination);
+    setResponse(null);
   };
 
   useEffect(() => {
@@ -184,9 +186,7 @@ const DragPlanDirections = ({
           <div className="plan-flex-container">
             <div className="mdc-card-wrapper__text-section">
               <div className="demo-card__title">
-                <div className="numberCircle red-color white-border">
-                  {shiftedLocations.length}
-                </div>
+                <div className="numberCircle red-color white-border">10</div>
                 <span class="text">Destinations</span>
               </div>
               <div className="demo-card__subhead">
@@ -207,7 +207,7 @@ const DragPlanDirections = ({
                 ref={provided.innerRef}
                 style={getListStyle(snapshot.isDraggingOver)}
               >
-                {shiftedLocations.map((location, idx, arr) => {
+                {derivedData.slice(1).map((location, idx, arr) => {
                   let previous = arr[idx - 1];
                   return (
                     <Draggable
