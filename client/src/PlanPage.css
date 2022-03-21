@@ -301,3 +301,94 @@ input[class="transit"]:focus + svg {
   padding: 10px;
   display: flex;
 }
+
+/* top container contains links controls*/
+
+.map-destination-links-container {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding: 10px;
+  text-align: left;
+  display: flex;
+  flex: 1;
+  -webkit-box-flex-wrap: wrap;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  padding: 2px 8px;
+  -webkit-overflow-scrolling: touch;
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.css-g1d714-ValueContainer {
+  flex: 1 1;
+  flex-wrap: wrap;
+  padding: 2px 8px;
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.css-1s2u09g-control {
+  overflow: hidden;
+  white-space: nowrap;
+  /* width: 183.347px; */
+}
+
+.css-1rhbuit-multiValue {
+  background-color: hsl(0, 0%, 90%);
+  border-radius: 2px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  margin: 2px;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.css-12jo7m5 {
+  border-radius: 2px;
+  color: hsl(0, 0%, 20%);
+  font-size: 85%;
+  overflow: hidden;
+  padding: 3px;
+  padding-left: 6px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  box-sizing: border-box;
+}
+
+.css-xb97g8 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  border-radius: 2px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  padding-left: 4px;
+  padding-right: 4px;
+  box-sizing: border-box;
+}
+
+.css-tj5bde-Svg {
+  display: inline-block;
+  fill: currentColor;
+  line-height: 1;
+  stroke: currentColor;
+  stroke-width: 0;
+}
+
+div[role="button"] {
+  transition-duration: 0.4s;
+}
+
+div[role="button"]:hover {
+  background-color: #e7370a;
+  color: white;
+}

@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import "./PlanPage.css";
 import { DirectionsService, DirectionsRenderer } from "@react-google-maps/api";
 import Map from "./Map";
-import { restaurantObjects } from "./utils";
+import { restaurantObjects, maObjs } from "./utils";
 import DragPlanDirections from "./DragPlanDirections";
 const pathVisibilityDefaults = {
   strokeOpacity: 0.9,
@@ -19,13 +19,10 @@ const startingSearchIndex = 0;
 
 const DragPlan = ({ center, data }) => {
   if (!data) {
-    data = restaurantObjects;
+    data = maObjs;
   }
 
   const [derivedData, setDerivedData] = useState([]);
-
-  useEffect(() => {}, []);
-
   const [currIdx, setIdx] = useState(startingSearchIndex);
   const [destination, setDestination] = useState(null);
   const [origin, setOrigin] = useState(center);
@@ -167,11 +164,65 @@ const DragPlan = ({ center, data }) => {
     setResponse(null);
   };
 
+  const removeLocation = (id) => {
+    console.log(id);
+    const index = derivedData.findIndex((obj) => obj.id === id);
+    console.log("derived data", derivedData);
+    console.log({ index });
+    const origin = {
+      lat: derivedData[0].coordinates.latitude,
+      lng: derivedData[0].coordinates.longitude,
+    };
+    const filteredData = derivedData
+      .slice(0, index)
+      .concat(derivedData.slice(index + 1));
+    console.log(filteredData, "the filtered");
+    setDerivedData(filteredData);
+    setIdx(0);
+
+    const destination = {
+      lat: filteredData[filteredData.length - 1].coordinates.latitude,
+      lng: filteredData[filteredData.length - 1].coordinates.longitude,
+    };
+    setOrigin(origin);
+    setDestination(destination);
+    setResponse(null);
+  };
+
   return (
     <>
       <div className="row">
         <div className="col col-left side-p-10">
-          <div className={"plan-map-container"}>
+          <div className="plan-map-container map-destination-links-container">
+            {derivedData.map(
+              (x, idx) =>
+                idx > 0 && (
+                  <div
+                    className="css-1rhbuit-multiValue"
+                    onClick={() => removeLocation(x.id)}
+                  >
+                    <div className="css-12jo7m5">{x.name}</div>
+                    <div
+                      role="button"
+                      className="css-xb97g8"
+                      aria-label="Remove Car Rental"
+                    >
+                      <svg
+                        height={14}
+                        width={14}
+                        viewBox="0 0 20 20"
+                        aria-hidden="true"
+                        focusable="false"
+                        className="css-tj5bde-Svg"
+                      >
+                        <path d="M14.348 14.849c-0.469 0.469-1.229 0.469-1.697 0l-2.651-3.030-2.651 3.029c-0.469 0.469-1.229 0.469-1.697 0-0.469-0.469-0.469-1.229 0-1.697l2.758-3.15-2.759-3.152c-0.469-0.469-0.469-1.228 0-1.697s1.228-0.469 1.697 0l2.652 3.031 2.651-3.031c0.469-0.469 1.228-0.469 1.697 0s0.469 1.229 0 1.697l-2.758 3.152 2.758 3.15c0.469 0.469 0.469 1.229 0 1.698z" />
+                      </svg>
+                    </div>
+                  </div>
+                )
+            )}
+          </div>
+          <div className="plan-map-container">
             <div className="map-card-controls">
               <div style={{ display: "flex" }}>
                 <button
@@ -194,7 +245,6 @@ const DragPlan = ({ center, data }) => {
                 </button>
               </div>
             </div>
-
             <main className={"map-wrapper"}>
               <Map center={center}>
                 {!response && !path && destination && origin && (

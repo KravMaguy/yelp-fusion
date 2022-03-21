@@ -15,6 +15,157 @@ export const weekDays = [
   "Sunday",
 ];
 
+export const maObjs = [
+  {
+    id: "h98ZbeAb8QO2wZ-dPMO6iw",
+    alias: "ekf-martial-arts-chicago-2",
+    name: "EKF Martial Arts",
+    image_url:
+      "https://s3-media3.fl.yelpcdn.com/bphoto/0ndV4m2JDqw6e33KNzNgCA/o.jpg",
+    is_closed: false,
+    url: "https://www.yelp.com/biz/ekf-martial-arts-chicago-2?adjust_creative=CbTAfRmoCY_s6Ex6jqjcQg&utm_campaign=yelp_api_v3&utm_medium=api_v3_business_search&utm_source=CbTAfRmoCY_s6Ex6jqjcQg",
+    review_count: 27,
+    categories: [
+      {
+        alias: "martialarts",
+        title: "Martial Arts",
+      },
+      {
+        alias: "boxing",
+        title: "Boxing",
+      },
+      {
+        alias: "taichi",
+        title: "Tai Chi",
+      },
+    ],
+    rating: 5,
+    coordinates: {
+      latitude: 41.9901150128242,
+      longitude: -87.6696621693116,
+    },
+    transactions: [],
+    location: {
+      address1: "5951 N Clark St",
+      address2: "",
+      address3: "",
+      city: "Chicago",
+      zip_code: "60660",
+      country: "US",
+      state: "IL",
+      display_address: ["5951 N Clark St", "Chicago, IL 60660"],
+    },
+    phone: "+17737196488",
+    display_phone: "(773) 719-6488",
+    distance: 3689.2084660293776,
+  },
+  {
+    id: "QddR_H3xqZJdvB_BG89OnA",
+    alias: "degerberg-academy-of-martial-arts-chicago",
+    name: "Degerberg Academy of Martial Arts",
+    image_url:
+      "https://s3-media4.fl.yelpcdn.com/bphoto/whqTXU4FE_awexsD4p55sQ/o.jpg",
+    is_closed: false,
+    url: "https://www.yelp.com/biz/degerberg-academy-of-martial-arts-chicago?adjust_creative=CbTAfRmoCY_s6Ex6jqjcQg&utm_campaign=yelp_api_v3&utm_medium=api_v3_business_search&utm_source=CbTAfRmoCY_s6Ex6jqjcQg",
+    review_count: 62,
+    categories: [
+      {
+        alias: "martialarts",
+        title: "Martial Arts",
+      },
+    ],
+    rating: 4.5,
+    coordinates: {
+      latitude: 41.9673652648926,
+      longitude: -87.6873321533203,
+    },
+    transactions: [],
+    location: {
+      address1: "4717 N Lincoln Ave",
+      address2: "",
+      address3: "",
+      city: "Chicago",
+      zip_code: "60625",
+      country: "US",
+      state: "IL",
+      display_address: ["4717 N Lincoln Ave", "Chicago, IL 60625"],
+    },
+    phone: "+17737285300",
+    display_phone: "(773) 728-5300",
+    distance: 4634.187809691016,
+  },
+  {
+    id: "aGCUksjACc8-AYhpz_F7QA",
+    alias: "ultimate-martial-arts-lincolnwood",
+    name: "Ultimate Martial Arts",
+    image_url:
+      "https://s3-media2.fl.yelpcdn.com/bphoto/oR9SeKioxjdvPd5iO1Yj4A/o.jpg",
+    is_closed: false,
+    url: "https://www.yelp.com/biz/ultimate-martial-arts-lincolnwood?adjust_creative=CbTAfRmoCY_s6Ex6jqjcQg&utm_campaign=yelp_api_v3&utm_medium=api_v3_business_search&utm_source=CbTAfRmoCY_s6Ex6jqjcQg",
+    review_count: 54,
+    categories: [
+      {
+        alias: "martialarts",
+        title: "Martial Arts",
+      },
+    ],
+    rating: 4,
+    coordinates: {
+      latitude: 42.0118849,
+      longitude: -87.7271591,
+    },
+    transactions: [],
+    location: {
+      address1: "3922 W Touhy Ave",
+      address2: "",
+      address3: "",
+      city: "Lincolnwood",
+      zip_code: "60712",
+      country: "US",
+      state: "IL",
+      display_address: ["3922 W Touhy Ave", "Lincolnwood, IL 60712"],
+    },
+    phone: "+18476793330",
+    display_phone: "(847) 679-3330",
+    distance: 1656.674952110059,
+  },
+  {
+    id: "8JPoLXa-9BKrim-7D-1jaQ",
+    alias: "redzovic-jiu-jitsu-lincoln-square-chicago",
+    name: "Redzovic Jiu Jitsu - Lincoln Square",
+    image_url:
+      "https://s3-media1.fl.yelpcdn.com/bphoto/zeC3G3U3mQiX0cy1Dfs_pQ/o.jpg",
+    is_closed: false,
+    url: "https://www.yelp.com/biz/redzovic-jiu-jitsu-lincoln-square-chicago?adjust_creative=CbTAfRmoCY_s6Ex6jqjcQg&utm_campaign=yelp_api_v3&utm_medium=api_v3_business_search&utm_source=CbTAfRmoCY_s6Ex6jqjcQg",
+    review_count: 28,
+    categories: [
+      {
+        alias: "martialarts",
+        title: "Martial Arts",
+      },
+    ],
+    rating: 4.5,
+    coordinates: {
+      latitude: 41.9709525257349,
+      longitude: -87.6901070773602,
+    },
+    transactions: [],
+    location: {
+      address1: "4900 N Lincoln Ave",
+      address2: "",
+      address3: "",
+      city: "Chicago",
+      zip_code: "60625",
+      country: "US",
+      state: "IL",
+      display_address: ["4900 N Lincoln Ave", "Chicago, IL 60625"],
+    },
+    phone: "+17733345189",
+    display_phone: "(773) 334-5189",
+    distance: 4161.617650585135,
+  },
+];
+
 export const restaurantObjects = [
   {
     id: "9mhqcimD0CYvqxzfj_VXnQ",
