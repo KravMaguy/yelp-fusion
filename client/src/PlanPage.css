@@ -51,6 +51,7 @@
   width: 40%;
   float: right;
   background-color: #ffffff;
+  border-left: 1px solid white;
 }
 
 .plan-directions-container {
@@ -155,8 +156,8 @@ html {
 
 .plan-top-card {
   color: white;
-  text-shadow: 2px 2px 4px #000000;
-  background: #323b49;
+  text-shadow: 2px 2px 3px #000000;
+  background: grey;
 }
 
 /* table.adp-directions {
@@ -228,4 +229,83 @@ table.adp-directions tr:hover .adp-maneuver {
 
 .child {
   width: 40%;
+}
+
+.plan-card {
+  text-align: left;
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+}
+
+/* travel card */
+
+.travel-card {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin: auto;
+  -webkit-box-shadow: 0 0.5rem 1rem rgba(0, 0, 16, 0.19),
+    0 0.3rem 0.3rem rgba(0, 0, 16, 0.23);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 16, 0.19),
+    0 0.3rem 0.3rem rgba(0, 0, 16, 0.23);
+  background-color: rgb(255, 255, 255);
+  padding: 0.8rem;
+  width: 33rem;
+}
+
+svg {
+  fill: rgb(242, 242, 242);
+  height: 1.6rem;
+  width: 1.6rem;
+  margin: 0.2rem;
+}
+
+#radios label {
+  position: relative;
+}
+
+input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+}
+
+input[type="radio"] + svg {
+  -webkit-transition: all 0.2s;
+  transition: all 0.2s;
+}
+
+input + svg {
+  cursor: pointer;
+}
+
+input[class="walking"]:hover + svg,
+input[class="walking"]:checked + svg,
+input[class="walking"]:focus + svg {
+  fill: rgb(0, 109, 217);
+}
+
+input[class="driving"]:hover + svg,
+input[class="driving"]:checked + svg,
+input[class="driving"]:focus + svg {
+  fill: rgb(0, 204, 79);
+}
+
+input[class="bicycling"]:hover + svg,
+input[class="bicycling"]:checked + svg,
+input[class="bicycling"]:focus + svg {
+  fill: rgb(255, 0, 221);
+}
+
+input[class="transit"]:hover + svg,
+input[class="transit"]:checked + svg,
+input[class="transit"]:focus + svg {
+  fill: rgb(255, 0, 0);
+}
+
+.bg-grey-plan-controls {
+  background: grey;
+  padding: 10px;
+  display: flex;
 }

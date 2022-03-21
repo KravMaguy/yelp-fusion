@@ -1,6 +1,9 @@
 import { useState, useEffect } from "react";
 import { formatDuration, intervalToDuration } from "date-fns";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import { FaWalking, FaBicycle, FaBus, FaCar } from "react-icons/fa";
+
+import { IoIosBicycle, IoIosCar, IoIosBus, IoIosWalk } from "react-icons/io";
 
 // a little function to help you with reordering the result
 const reorder = (list, startIndex, endIndex) => {
@@ -66,10 +69,7 @@ const DragPlanDirections = ({
       result.source.index,
       result.destination.index
     );
-
-    console.log(newItems, "newItems");
     setDerivedData([derivedData[0], ...newItems]);
-
     const origin = {
       lat: derivedData[0].coordinates.latitude,
       lng: derivedData[0].coordinates.longitude,
@@ -78,7 +78,6 @@ const DragPlanDirections = ({
       lat: newItems[newItems.length - 1].coordinates.latitude,
       lng: newItems[newItems.length - 1].coordinates.longitude,
     };
-
     setOrigin(origin);
     setDestination(destination);
     setResponse(null);
@@ -119,66 +118,65 @@ const DragPlanDirections = ({
     return formatDuration(intervalToDuration({ start: 0, end: time * 1000 }));
   }
 
+  console.log(currIdx, "currIdx");
+
   return (
     <div className="col plan-col-right">
       <div className="plan-directions-container">
-        <div className="plan-card-shell align-left">
-          <div class="parent">
-            <div className="child">
-              <input
-                id="DRIVING"
-                className=""
-                name="travelMode"
-                type="radio"
-                checked={travelMode === "DRIVING"}
-                onChange={checkDriving}
-              />
-              <label className="custom-control-label" htmlFor="DRIVING">
-                Driving
-              </label>
-            </div>
-            <div className="child">
-              <input
-                id="BICYCLING"
-                className=""
-                name="travelMode"
-                type="radio"
-                checked={travelMode === "BICYCLING"}
-                onChange={checkBicycling}
-              />
-              <label className="" htmlFor="BICYCLING">
-                Bicycling
-              </label>
-            </div>
-            <div className="child">
-              <input
-                disabled={currIdx === 0}
-                id="TRANSIT"
-                className=""
-                name="travelMode"
-                type="radio"
-                checked={travelMode === "TRANSIT"}
-                onChange={checkTransit}
-              />
-              <label className="custom-control-label" htmlFor="TRANSIT">
-                Transit
-              </label>
-            </div>
-            <div className="child">
-              <input
-                id="WALKING"
-                className="custom-control-input"
-                name="travelMode"
-                type="radio"
-                checked={travelMode === "WALKING"}
-                onChange={checkWalking}
-              />
-              <label className="" htmlFor="WALKING">
-                Walking
-              </label>
-            </div>
-          </div>
-        </div>
+        <form class="bg-grey-plan-controls">
+          <label htmlFor="DRIVING">
+            <input
+              type="radio"
+              name="DRIVING"
+              id="DRIVING"
+              className="driving"
+              checked={travelMode === "DRIVING"}
+              onChange={checkDriving}
+              value="DRIVING"
+            />
+            <IoIosCar />
+          </label>
+
+          <label htmlFor="BICYCLING">
+            <input
+              type="radio"
+              name="BICYCLING"
+              className="bicycling"
+              id="BICYCLING"
+              checked={travelMode === "BICYCLING"}
+              onChange={checkBicycling}
+              value="BICYCLING"
+            />
+            <IoIosBicycle />
+          </label>
+
+          <label for="TRANSIT">
+            <input
+              disabled={currIdx === 0}
+              type="radio"
+              name="TRANSIT"
+              className="transit"
+              id="TRANSIT"
+              checked={travelMode === "TRANSIT"}
+              onChange={checkTransit}
+              value="TRANSIT"
+            />
+            <IoIosBus />
+          </label>
+
+          <label for="WALKING">
+            <input
+              type="radio"
+              name="WALKING"
+              className="walking"
+              id="WALKING"
+              checked={travelMode === "WALKING"}
+              onChange={checkWalking}
+              value="WALKING"
+            />
+            <IoIosWalk />
+          </label>
+        </form>
         <div
           className="plan-card-shell align-left plan-top-card"
           onClick={() => viewFullPlan()}
@@ -186,7 +184,9 @@ const DragPlanDirections = ({
           <div className="plan-flex-container">
             <div className="mdc-card-wrapper__text-section">
               <div className="demo-card__title">
-                <div className="numberCircle red-color white-border">10</div>
+                <div className="numberCircle red-color white-border">
+                  {derivedData.length - 1}
+                </div>
                 <span class="text">Destinations</span>
               </div>
               <div className="demo-card__subhead">
@@ -199,7 +199,6 @@ const DragPlanDirections = ({
             </div>
           </div>
         </div>
-        ----start
         <DragDropContext onDragEnd={onDragEnd}>
           <Droppable droppableId="droppable">
             {(provided, snapshot) => (
@@ -226,7 +225,7 @@ const DragPlanDirections = ({
                             provided.draggableProps.style
                           )}
                         >
-                          <div className="card">
+                          <div className="plan-card">
                             <div
                               className={
                                 idx + 1 === currIdx
@@ -262,7 +261,7 @@ const DragPlanDirections = ({
                               idx + 1 === currIdx ? "none mt-40" : "hidden"
                             }
                             id={`panel-${idx + 1}`}
-                          />{" "}
+                          />
                         </div>
                       )}
                     </Draggable>
@@ -274,7 +273,6 @@ const DragPlanDirections = ({
             )}
           </Droppable>
         </DragDropContext>
-        -------end
       </div>
       <div className="fadedScroller_fade"></div>
     </div>
