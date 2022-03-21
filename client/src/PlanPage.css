@@ -119,12 +119,15 @@ html {
   display: inline-block;
 }
 
-.red-color {
+.red-bg {
   background: #ee675c;
+}
+.greyish-bg {
+  background: #5491f5;
 }
 
 .white-border {
-  border: 2px solid #fcfcfc;
+  border: 1px solid #fcfcfc;
 }
 
 .text {
@@ -151,16 +154,13 @@ html {
   border: 1px solid silver;
   margin: 0;
   background: grey;
-  color: white;
 }
 
 .plan-top-card {
-  color: white;
-  text-shadow: 2px 2px 3px #000000;
   background: grey;
 }
 
-/* table.adp-directions {
+table.adp-directions {
   width: 100%;
   transition: 3s all cubic-bezier(0, 1.5, 1, 1.5);
 }
@@ -204,6 +204,7 @@ table.adp-directions tr:hover .adp-maneuver {
   position: relative;
 }
 
+/*
 .gmaplogo {
   width: 25px;
   position: absolute;
@@ -211,15 +212,6 @@ table.adp-directions tr:hover .adp-maneuver {
   bottom: 0px;
   filter: drop-shadow(2px 3px 1px rgb(0 0 0 / 0.3));
 } */
-
-.selected-overwrite {
-  color: black;
-  background-color: white;
-}
-
-.text-shadow {
-  text-shadow: 2px 2px 4px #000000;
-}
 
 .parent {
   display: flex;
@@ -283,25 +275,25 @@ input + svg {
 input[class="walking"]:hover + svg,
 input[class="walking"]:checked + svg,
 input[class="walking"]:focus + svg {
-  fill: rgb(0, 109, 217);
+  fill: rgb(53 91 154);
 }
 
 input[class="driving"]:hover + svg,
 input[class="driving"]:checked + svg,
 input[class="driving"]:focus + svg {
-  fill: rgb(0, 204, 79);
+  fill: rgb(79 208 113);
 }
 
 input[class="bicycling"]:hover + svg,
 input[class="bicycling"]:checked + svg,
 input[class="bicycling"]:focus + svg {
-  fill: rgb(255, 0, 221);
+  fill: rgb(252 189 45);
 }
 
 input[class="transit"]:hover + svg,
 input[class="transit"]:checked + svg,
 input[class="transit"]:focus + svg {
-  fill: rgb(255, 0, 0);
+  fill: rgb(212, 58, 58);
 }
 
 .bg-grey-plan-controls {

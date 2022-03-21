@@ -119,6 +119,12 @@ const DragPlanDirections = ({
   }
 
   console.log(currIdx, "currIdx");
+  const travelModeStrings = {
+    DRIVING: "Drive",
+    BICYCLING: "Bike",
+    WALKING: "Walk",
+    TRANSIT: "Commute",
+  };
 
   return (
     <div className="col plan-col-right">
@@ -178,19 +184,29 @@ const DragPlanDirections = ({
           </label>
         </form>
         <div
+          style={{
+            color: currIdx === 0 ? "white" : "black",
+            textShadow: currIdx === 0 ? "2px 2px 3px #000000" : "none",
+          }}
           className="plan-card-shell align-left plan-top-card"
           onClick={() => viewFullPlan()}
         >
           <div className="plan-flex-container">
             <div className="mdc-card-wrapper__text-section">
               <div className="demo-card__title">
-                <div className="numberCircle red-color white-border">
+                <div
+                  className={`numberCircle ${
+                    currIdx === 0 ? "greyish-bg" : "red-bg"
+                  } white-border`}
+                >
                   {derivedData.length - 1}
                 </div>
                 <span class="text">Destinations</span>
               </div>
               <div className="demo-card__subhead">
-                {distance && Math.round((distance / 1000 / 1.609) * 100) / 100}
+                {`${travelModeStrings[travelMode]} ${
+                  distance && Math.round((distance / 1000 / 1.609) * 100) / 100
+                }`}
                 mi
               </div>
               <div className="demo-card__subhead">
@@ -216,6 +232,7 @@ const DragPlanDirections = ({
                     >
                       {(provided, snapshot) => (
                         <div
+                          className=""
                           onClick={() => handleSelectBox(idx + 1)}
                           ref={provided.innerRef}
                           {...provided.draggableProps}
@@ -225,7 +242,16 @@ const DragPlanDirections = ({
                             provided.draggableProps.style
                           )}
                         >
-                          <div className="plan-card">
+                          <div
+                            style={{
+                              color: currIdx === idx + 1 ? "white" : "black",
+                              textShadow:
+                                currIdx === idx + 1
+                                  ? "2px 2px 3px #000000"
+                                  : "none",
+                            }}
+                            className="plan-card"
+                          >
                             <div
                               className={
                                 idx + 1 === currIdx
