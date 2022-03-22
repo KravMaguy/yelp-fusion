@@ -54,6 +54,8 @@ const DragPlanDirections = ({
   checkWalking,
   checkTransit,
   checkDriving,
+  data,
+  center,
 }) => {
   const [distance, setDistance] = useState(null);
   const [time, setTime] = useState(null);
@@ -126,67 +128,104 @@ const DragPlanDirections = ({
     TRANSIT: "Commute",
   };
 
+  const resetForm = (e) => {
+    e.preventDefault();
+    const derivedData = data.map((x) => {
+      return { id: x.id, name: x.name, coordinates: x.coordinates };
+    });
+    derivedData.unshift({
+      name: "starting Location",
+      coordinates: {
+        id: "starting id",
+        latitude: center.lat,
+        longitude: center.lng,
+      },
+    });
+    setDerivedData(derivedData);
+    const origin = {
+      lat: derivedData[0].coordinates.latitude,
+      lng: derivedData[0].coordinates.longitude,
+    };
+    const lastDestination = {
+      lat: derivedData[derivedData.length - 1].coordinates.latitude,
+      lng: derivedData[derivedData.length - 1].coordinates.longitude,
+    };
+
+    setDestination(lastDestination);
+    setOrigin(origin);
+    setIdx(0);
+    setResponse(null);
+  };
+
   return (
     <div className="col plan-col-right">
       <div className="plan-directions-container">
         <form class="bg-grey-plan-controls">
-          <label htmlFor="DRIVING">
-            <input
-              type="radio"
-              name="DRIVING"
-              id="DRIVING"
-              className="driving"
-              checked={travelMode === "DRIVING"}
-              onChange={checkDriving}
-              value="DRIVING"
-            />
-            <IoIosCar />
-          </label>
+          <div className="radio-wrapper">
+            <label htmlFor="DRIVING">
+              <input
+                type="radio"
+                name="DRIVING"
+                id="DRIVING"
+                className="driving"
+                checked={travelMode === "DRIVING"}
+                onChange={checkDriving}
+                value="DRIVING"
+              />
+              <IoIosCar />
+            </label>
 
-          <label htmlFor="BICYCLING">
-            <input
-              type="radio"
-              name="BICYCLING"
-              className="bicycling"
-              id="BICYCLING"
-              checked={travelMode === "BICYCLING"}
-              onChange={checkBicycling}
-              value="BICYCLING"
-            />
-            <IoIosBicycle />
-          </label>
+            <label htmlFor="BICYCLING">
+              <input
+                type="radio"
+                name="BICYCLING"
+                className="bicycling"
+                id="BICYCLING"
+                checked={travelMode === "BICYCLING"}
+                onChange={checkBicycling}
+                value="BICYCLING"
+              />
+              <IoIosBicycle />
+            </label>
 
-          <label for="TRANSIT">
-            <input
-              disabled={currIdx === 0}
-              type="radio"
-              name="TRANSIT"
-              className="transit"
-              id="TRANSIT"
-              checked={travelMode === "TRANSIT"}
-              onChange={checkTransit}
-              value="TRANSIT"
-            />
-            <IoIosBus />
-          </label>
+            <label for="TRANSIT">
+              <input
+                disabled={currIdx === 0}
+                type="radio"
+                name="TRANSIT"
+                className="transit"
+                id="TRANSIT"
+                checked={travelMode === "TRANSIT"}
+                onChange={checkTransit}
+                value="TRANSIT"
+              />
+              <IoIosBus />
+            </label>
 
-          <label for="WALKING">
-            <input
-              type="radio"
-              name="WALKING"
-              className="walking"
-              id="WALKING"
-              checked={travelMode === "WALKING"}
-              onChange={checkWalking}
-              value="WALKING"
-            />
-            <IoIosWalk />
-          </label>
+            <label for="WALKING">
+              <input
+                type="radio"
+                name="WALKING"
+                className="walking"
+                id="WALKING"
+                checked={travelMode === "WALKING"}
+                onChange={checkWalking}
+                value="WALKING"
+              />
+              <IoIosWalk />
+            </label>
+          </div>
+          <button
+            onClick={(e) => resetForm(e)}
+            class="pure-material-button-text"
+          >
+            Reset
+          </button>
         </form>
         <div
           style={{
             color: currIdx === 0 ? "white" : "black",
-            textShadow: currIdx === 0 ? "2px 2px 3px #000000" : "none",
+            textShadow: currIdx === 0 ? "1px 1px 2px #000000" : "none",
           }}
           className="plan-card-shell align-left plan-top-card"
           onClick={() => viewFullPlan()}
@@ -201,13 +240,13 @@ const DragPlanDirections = ({
                 >
                   {derivedData.length - 1}
                 </div>
-                <span class="text">Destinations</span>
+                <span class="text">Locations</span>
               </div>
               <div className="demo-card__subhead">
                 {`${travelModeStrings[travelMode]} ${
                   distance && Math.round((distance / 1000 / 1.609) * 100) / 100
-                }`}
-                mi
+                }`}{" "}
+                miles
               </div>
               <div className="demo-card__subhead">
                 {time && humanDuration(time)}
@@ -247,7 +286,7 @@ const DragPlanDirections = ({
                               color: currIdx === idx + 1 ? "white" : "black",
                               textShadow:
                                 currIdx === idx + 1
-                                  ? "2px 2px 3px #000000"
+                                  ? "1px 1px 2px #000000"
                                   : "none",
                             }}
                             className="plan-card"
@@ -298,9 +337,9 @@ const DragPlanDirections = ({
               </div>
             )}
           </Droppable>
+          <div className="fadedScroller_fade"></div>
         </DragDropContext>
       </div>
-      <div className="fadedScroller_fade"></div>
     </div>
   );
 };

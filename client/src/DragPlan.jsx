@@ -132,6 +132,7 @@ const DragPlan = ({ center, data }) => {
   };
 
   const checkTransit = ({ target: { checked } }) => {
+    console.log("transite cliecke");
     checked && setTravelMode("TRANSIT");
     setResponse(null);
   };
@@ -193,7 +194,7 @@ const DragPlan = ({ center, data }) => {
     <>
       <div className="row">
         <div className="col col-left side-p-10">
-          <div className="plan-map-container map-destination-links-container">
+          <div className="map-destination-links-container">
             {derivedData.map(
               (x, idx) =>
                 idx > 0 && (
@@ -275,7 +276,9 @@ const DragPlan = ({ center, data }) => {
                       directions: response,
                       polylineOptions: {
                         strokeColor:
-                          currIdx === startingSearchIndex ? "red" : "#604ca6c7",
+                          currIdx === startingSearchIndex
+                            ? "black"
+                            : "#604ca6c7",
                         strokeOpacity:
                           currIdx !== startingSearchIndex
                             ? pathVisibilityDefaults.strokeOpacity
@@ -327,6 +330,8 @@ const DragPlan = ({ center, data }) => {
           checkTransit={checkTransit}
           checkDriving={checkDriving}
           setDerivedData={setDerivedData}
+          data={data}
+          center={center}
         />
       </div>
     </>
