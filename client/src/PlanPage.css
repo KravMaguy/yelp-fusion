@@ -390,15 +390,6 @@ input[type="radio"]:disabled + svg {
   stroke-width: 0;
 }
 
-div[role="button"] {
-  transition-duration: 0.4s;
-}
-
-div[role="button"]:hover {
-  background-color: #e7370a;
-  color: white;
-}
-
 /* reset button */
 .pure-material-button-text {
   position: relative;
