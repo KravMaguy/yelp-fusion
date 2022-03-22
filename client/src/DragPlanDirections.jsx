@@ -1,8 +1,6 @@
 import { useState, useEffect } from "react";
 import { formatDuration, intervalToDuration } from "date-fns";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import { FaWalking, FaBicycle, FaBus, FaCar } from "react-icons/fa";
-
 import { IoIosBicycle, IoIosCar, IoIosBus, IoIosWalk } from "react-icons/io";
 
 // a little function to help you with reordering the result
@@ -240,7 +238,7 @@ const DragPlanDirections = ({
                 >
                   {derivedData.length - 1}
                 </div>
-                <span class="text">Locations</span>
+                <span class="text font-big">Total locations</span>
               </div>
               <div className="demo-card__subhead">
                 {`${travelModeStrings[travelMode]} ${

@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 
 import "./PlanPage.css";
 import { DirectionsService, DirectionsRenderer } from "@react-google-maps/api";
+import { MdLink } from "react-icons/md";
 import Map from "./Map";
 import { restaurantObjects, maObjs } from "./utils";
 import DragPlanDirections from "./DragPlanDirections";
@@ -202,11 +203,13 @@ const DragPlan = ({ center, data }) => {
                     className="css-1rhbuit-multiValue"
                     onClick={() => removeLocation(x.id)}
                   >
-                    <div className="css-12jo7m5">{x.name}</div>
+                    <div className="css-12jo7m5">
+                      <a href="#">{x.name}</a>
+                    </div>
                     <div
                       role="button"
                       className="css-xb97g8"
-                      aria-label="Remove Car Rental"
+                      aria-label={`remove ${x.name}`}
                     >
                       <svg
                         height={14}
@@ -238,13 +241,17 @@ const DragPlan = ({ center, data }) => {
                 </button>
                 <button
                   style={currIdx >= derivedData.length - 1 ? dimStyle : null}
-                  className="map-controls"
+                  className="map-controls plan-next-btn"
                   disabled={currIdx >= derivedData.length - 1 ? true : false}
                   onClick={() => nextDestination()}
                 >
                   {currIdx === startingSearchIndex ? "Start" : "Next"}
                 </button>
               </div>
+
+              <button class="pure-material-button-text">
+                See it on Google
+              </button>
             </div>
             <main className={"map-wrapper"}>
               <Map center={center}>
