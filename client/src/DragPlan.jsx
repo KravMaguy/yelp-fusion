@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 
 import "./PlanPage.css";
 import { DirectionsService, DirectionsRenderer } from "@react-google-maps/api";
-import { MdLink } from "react-icons/md";
+import gmappng from "./img/gmappng.png";
 import Map from "./Map";
 import { restaurantObjects, maObjs } from "./utils";
 import DragPlanDirections from "./DragPlanDirections";
@@ -23,6 +23,7 @@ const DragPlan = ({ center, data }) => {
     data = maObjs;
   }
 
+  const [zoom, setZoom] = useState(10);
   const [derivedData, setDerivedData] = useState([]);
   const [currIdx, setIdx] = useState(startingSearchIndex);
   const [destination, setDestination] = useState(null);
@@ -30,9 +31,10 @@ const DragPlan = ({ center, data }) => {
   const [response, setResponse] = useState(null);
   const [path, setPath] = useState(null);
   const [travelMode, setTravelMode] = useState("DRIVING");
+
   useEffect(() => {
     const derivedData = data.map((x) => {
-      return { id: x.id, name: x.name, coordinates: x.coordinates };
+      return { id: x.id, name: x.name, coordinates: x.coordinates, url: x.url };
     });
     derivedData.unshift({
       name: "starting Location",
@@ -51,11 +53,7 @@ const DragPlan = ({ center, data }) => {
   }, []);
 
   const getWayPoints = (param) => {
-    console.log("getWayPoints Ran");
-    console.log("in getWaypoints the curr idx ", currIdx);
-    console.log("the param ", param);
     if (currIdx === startingSearchIndex) {
-      console.log("reached the multiblock");
       const myPoints = derivedData.slice(
         startingSearchIndex + 1,
         derivedData.length - 1
@@ -70,15 +68,11 @@ const DragPlan = ({ center, data }) => {
         };
       });
 
-      console.log(thepoints, "here are the final points $$$$$$");
       return thepoints;
     } else {
       return null;
     }
   };
-
-  console.log(origin, "origin");
-  console.log(destination, "destination");
 
   const nextDestination = () => {
     if (currIdx !== startingSearchIndex) {
@@ -133,7 +127,6 @@ const DragPlan = ({ center, data }) => {
   };
 
   const checkTransit = ({ target: { checked } }) => {
-    console.log("transite cliecke");
     checked && setTravelMode("TRANSIT");
     setResponse(null);
   };
@@ -167,9 +160,7 @@ const DragPlan = ({ center, data }) => {
   };
 
   const removeLocation = (id) => {
-    console.log(id);
     const index = derivedData.findIndex((obj) => obj.id === id);
-    console.log("derived data", derivedData);
     console.log({ index });
     const origin = {
       lat: derivedData[0].coordinates.latitude,
@@ -178,7 +169,6 @@ const DragPlan = ({ center, data }) => {
     const filteredData = derivedData
       .slice(0, index)
       .concat(derivedData.slice(index + 1));
-    console.log(filteredData, "the filtered");
     setDerivedData(filteredData);
     setIdx(0);
 
@@ -191,46 +181,69 @@ const DragPlan = ({ center, data }) => {
     setResponse(null);
   };
 
+  const getLocStr = () => {
+    console.log(currIdx);
+
+    const latlongArr = data.map((x) => {
+      console.log(x.coordinates.latitude, x.coordinates.longitude);
+      return [x.coordinates.latitude, x.coordinates.longitude];
+    });
+    console.log(latlongArr, "latlongArr");
+
+    // 0: (2) [41.9901150128242, -87.6696621693116]
+    // 1: (2) [41.9673652648926, -87.6873321533203]
+    // 2: (2) [42.0118849, -87.7271591]
+    // 3: (2) [41.9709525257349, -87.6901070773602]
+
+    // https://www.google.com/maps/dir/42.0051924,-87.7086602/42.0277663,-87.7201616/42.0481652,-87.7344095/
+    if (currIdx === 0) {
+      const str = latlongArr.map((e) => e.join(",")).join("/");
+      return str;
+    } else {
+      return "#??";
+    }
+  };
+
   return (
     <>
-      <div className="row">
-        <div className="col col-left side-p-10">
-          <div className="map-destination-links-container">
+      <div className='row'>
+        <div className='col col-left side-p-10'>
+          <div className='map-destination-links-container'>
             {derivedData.map(
               (x, idx) =>
                 idx > 0 && (
-                  <div
-                    className="css-1rhbuit-multiValue"
-                    onClick={() => removeLocation(x.id)}
-                  >
-                    <div className="css-12jo7m5">
-                      <a href="#">{x.name}</a>
+                  <div className='css-1rhbuit-multiValue'>
+                    <div className='css-12jo7m5'>
+                      <a className='pill' target='_blank' href={x.url}>
+                        {x.name}
+                      </a>
                     </div>
                     <div
-                      role="button"
-                      className="css-xb97g8"
+                      onClick={() => removeLocation(x.id)}
+                      role='button'
+                      className='css-xb97g8'
                       aria-label={`remove ${x.name}`}
                     >
                       <svg
                         height={14}
                         width={14}
-                        viewBox="0 0 20 20"
-                        aria-hidden="true"
-                        focusable="false"
-                        className="css-tj5bde-Svg"
+                        viewBox='0 0 20 20'
+                        aria-hidden='true'
+                        focusable='false'
+                        className='css-tj5bde-Svg'
                       >
-                        <path d="M14.348 14.849c-0.469 0.469-1.229 0.469-1.697 0l-2.651-3.030-2.651 3.029c-0.469 0.469-1.229 0.469-1.697 0-0.469-0.469-0.469-1.229 0-1.697l2.758-3.15-2.759-3.152c-0.469-0.469-0.469-1.228 0-1.697s1.228-0.469 1.697 0l2.652 3.031 2.651-3.031c0.469-0.469 1.228-0.469 1.697 0s0.469 1.229 0 1.697l-2.758 3.152 2.758 3.15c0.469 0.469 0.469 1.229 0 1.698z" />
+                        <path d='M14.348 14.849c-0.469 0.469-1.229 0.469-1.697 0l-2.651-3.030-2.651 3.029c-0.469 0.469-1.229 0.469-1.697 0-0.469-0.469-0.469-1.229 0-1.697l2.758-3.15-2.759-3.152c-0.469-0.469-0.469-1.228 0-1.697s1.228-0.469 1.697 0l2.652 3.031 2.651-3.031c0.469-0.469 1.228-0.469 1.697 0s0.469 1.229 0 1.697l-2.758 3.152 2.758 3.15c0.469 0.469 0.469 1.229 0 1.698z' />
                       </svg>
                     </div>
                   </div>
                 )
             )}
           </div>
-          <div className="plan-map-container">
-            <div className="map-card-controls">
+          <div className='plan-map-container'>
+            <div className='map-card-controls'>
               <div style={{ display: "flex" }}>
                 <button
-                  className="map-controls"
+                  className='map-controls'
                   style={currIdx <= 0 ? dimStyle : null}
                   disabled={currIdx <= 0 ? true : false}
                   onClick={() => prevDestination()}
@@ -241,7 +254,7 @@ const DragPlan = ({ center, data }) => {
                 </button>
                 <button
                   style={currIdx >= derivedData.length - 1 ? dimStyle : null}
-                  className="map-controls plan-next-btn"
+                  className='map-controls plan-next-btn'
                   disabled={currIdx >= derivedData.length - 1 ? true : false}
                   onClick={() => nextDestination()}
                 >
@@ -249,12 +262,22 @@ const DragPlan = ({ center, data }) => {
                 </button>
               </div>
 
-              <button class="pure-material-button-text">
-                See it on Google
+              <button className='pure-material-button-text pink-bg'>
+                <a
+                  style={{ display: "flex" }}
+                  href={`https://www.google.com/maps/dir/${getLocStr()}`}
+                >
+                  on
+                  <img
+                    alt='google-directions-link'
+                    style={{ height: "31px" }}
+                    src={gmappng}
+                  />
+                </a>
               </button>
             </div>
             <main className={"map-wrapper"}>
-              <Map center={center}>
+              <Map center={center} zoom={zoom} setZoom={setZoom}>
                 {!response && !path && destination && origin && (
                   <DirectionsService
                     options={{

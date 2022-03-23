@@ -447,6 +447,10 @@ div[role="button"].css-xb97g8:hover {
   cursor: pointer;
 }
 
+.pure-material-button-text.pink-bg {
+  background-color: #6e407724;
+}
+
 .pure-material-button-text::-moz-focus-inner {
   border: none;
 }
@@ -515,31 +519,43 @@ div[role="button"].css-xb97g8:hover {
   opacity: 0;
 }
 
-a {
+a.pill {
   outline: none;
   text-decoration: none;
   padding: 2px 1px 0;
 }
 
-a:link {
+a.pill:link {
   color: #265301;
 }
 
-a:visited {
+a.pill:visited {
   color: #437a16;
 }
 
-a:focus {
+a.pill:focus {
   border-bottom: 1px solid;
   background: #bae498;
 }
 
-a:hover {
+a.pill:hover {
   border-bottom: 1px solid;
   background: #cdfeaa;
 }
 
-a:active {
+a.pill:active {
   background: #265301;
   color: #cdfeaa;
+}
+
+/* dnd text */
+.dnd-text {
+  background: grey;
+  font-size: 1.2em;
+  font-weight: bold;
+  padding: 10px;
+  color: white;
+  text-shadow: rgb(0 0 0) 1px 1px 2px;
+  text-align: left;
+  display: flex;
 }
