@@ -151,67 +151,67 @@ const DragPlanDirections = ({
   };
 
   return (
-    <div className='col plan-col-right'>
-      <div className='plan-directions-container'>
-        <div className='plan-inner-container'>
-          <form className='bg-grey-plan-controls'>
-            <div className='radio-wrapper'>
-              <label htmlFor='DRIVING'>
+    <div className="col plan-col-right">
+      <div className="plan-directions-container">
+        <div className="plan-inner-container">
+          <form className="bg-grey-plan-controls">
+            <div className="radio-wrapper">
+              <label htmlFor="DRIVING">
                 <input
-                  type='radio'
-                  name='DRIVING'
-                  id='DRIVING'
-                  className='driving'
+                  type="radio"
+                  name="DRIVING"
+                  id="DRIVING"
+                  className="driving"
                   checked={travelMode === "DRIVING"}
                   onChange={checkDriving}
-                  value='DRIVING'
+                  value="DRIVING"
                 />
                 <IoIosCar />
               </label>
 
-              <label htmlFor='BICYCLING'>
+              <label htmlFor="BICYCLING">
                 <input
-                  type='radio'
-                  name='BICYCLING'
-                  className='bicycling'
-                  id='BICYCLING'
+                  type="radio"
+                  name="BICYCLING"
+                  className="bicycling"
+                  id="BICYCLING"
                   checked={travelMode === "BICYCLING"}
                   onChange={checkBicycling}
-                  value='BICYCLING'
+                  value="BICYCLING"
                 />
                 <IoIosBicycle />
               </label>
 
-              <label htmlFor='TRANSIT'>
+              <label htmlFor="TRANSIT">
                 <input
                   disabled={currIdx === 0}
-                  type='radio'
-                  name='TRANSIT'
-                  className='transit'
-                  id='TRANSIT'
+                  type="radio"
+                  name="TRANSIT"
+                  className="transit"
+                  id="TRANSIT"
                   checked={travelMode === "TRANSIT"}
                   onChange={checkTransit}
-                  value='TRANSIT'
+                  value="TRANSIT"
                 />
                 <IoIosBus />
               </label>
 
-              <label htmlFor='WALKING'>
+              <label htmlFor="WALKING">
                 <input
-                  type='radio'
-                  name='WALKING'
-                  className='walking'
-                  id='WALKING'
+                  type="radio"
+                  name="WALKING"
+                  className="walking"
+                  id="WALKING"
                   checked={travelMode === "WALKING"}
                   onChange={checkWalking}
-                  value='WALKING'
+                  value="WALKING"
                 />
                 <IoIosWalk />
               </label>
             </div>
             <button
               onClick={(e) => resetForm(e)}
-              className='pure-material-button-text'
+              className="no-link pure-material-button-text"
             >
               Reset
             </button>
@@ -221,12 +221,12 @@ const DragPlanDirections = ({
               color: currIdx === 0 ? "white" : "black",
               textShadow: currIdx === 0 ? "1px 1px 2px #000000" : "none",
             }}
-            className='plan-card-shell align-left plan-top-card'
+            className="plan-card-shell align-left plan-top-card"
             onClick={() => viewFullPlan()}
           >
-            <div className='plan-flex-container'>
-              <div className='mdc-card-wrapper__text-section'>
-                <div className='demo-card__title'>
+            <div className="plan-flex-container">
+              <div className="mdc-card-wrapper__text-section">
+                <div className="demo-card__title">
                   <div
                     className={`numberCircle ${
                       currIdx === 0 ? "greyish-bg" : "red-bg"
@@ -234,28 +234,28 @@ const DragPlanDirections = ({
                   >
                     {derivedData.length - 1}
                   </div>
-                  <span className='text font-big'>Total locations</span>
+                  <span className="text font-big">Total locations</span>
                 </div>
-                <div className='demo-card__subhead'>
+                <div className="demo-card__subhead">
                   {`${travelModeStrings[travelMode]} ${
                     distance &&
                     Math.round((distance / 1000 / 1.609) * 100) / 100
                   }`}{" "}
                   miles
                 </div>
-                <div className='demo-card__subhead'>
+                <div className="demo-card__subhead">
                   {time && humanDuration(time)}
                 </div>
               </div>
             </div>
           </div>
-          <div className='dnd-text'>
+          <div className="dnd-text">
             <RiDragDropLine style={{ opacity: 0.9 }} />
             {`Drag and Drop`}
           </div>
         </div>
         <DragDropContext onDragEnd={onDragEnd}>
-          <Droppable droppableId='droppable'>
+          <Droppable droppableId="droppable">
             {(provided, snapshot) => (
               <div
                 ref={provided.innerRef}
@@ -271,7 +271,7 @@ const DragPlanDirections = ({
                     >
                       {(provided, snapshot) => (
                         <div
-                          className=''
+                          className=""
                           onClick={() => handleSelectBox(idx + 1)}
                           ref={provided.innerRef}
                           {...provided.draggableProps}
@@ -289,7 +289,7 @@ const DragPlanDirections = ({
                                   ? "1px 1px 2px #000000"
                                   : "none",
                             }}
-                            className='plan-card'
+                            className="plan-card"
                           >
                             <div
                               className={
@@ -298,15 +298,15 @@ const DragPlanDirections = ({
                                   : "hidden"
                               }
                             >
-                              <div className='numberCircle'>
+                              <div className="numberCircle">
                                 {String.fromCharCode("A".charCodeAt(0) + idx)}
                               </div>
-                              <div className='line'></div>
-                              <div className='numberCircle'>
+                              <div className="line"></div>
+                              <div className="numberCircle">
                                 {String.fromCharCode("B".charCodeAt(0) + idx)}
                               </div>
                             </div>
-                            <div className='locations'>
+                            <div className="locations">
                               <div
                                 className={
                                   idx + 1 === currIdx ? "text top" : "hidden"
@@ -316,7 +316,7 @@ const DragPlanDirections = ({
                                   {previous ? previous.name : "Your location"}
                                 </p>
                               </div>
-                              <div className='text'>
+                              <div className="text">
                                 <p>{location.name}</p>
                               </div>
                             </div>
@@ -337,7 +337,7 @@ const DragPlanDirections = ({
               </div>
             )}
           </Droppable>
-          <div className='fadedScroller_fade'></div>
+          <div className="fadedScroller_fade"></div>
         </DragDropContext>
       </div>
     </div>

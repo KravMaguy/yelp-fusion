@@ -456,7 +456,7 @@ div[role="button"].css-xb97g8:hover {
 }
 
 /* Overlay */
-.pure-material-button-text::before {
+.no-link.pure-material-button-text::before {
   content: "";
   position: absolute;
   left: 0;
@@ -469,7 +469,7 @@ div[role="button"].css-xb97g8:hover {
 }
 
 /* Ripple */
-.pure-material-button-text::after {
+.no-link.pure-material-button-text::after {
   content: "";
   position: absolute;
   left: 50%;
