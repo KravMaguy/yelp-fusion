@@ -5,7 +5,7 @@
 
 .map-wrapper {
   box-shadow: 0 0 0 2px rgb(255 255 255);
-  height: calc(100vh - 180px);
+  height: calc(100vh - 170px);
 }
 
 .plan-map-container {
@@ -61,7 +61,7 @@
 
 .plan-directions-container {
   overflow-y: auto;
-  height: calc(100vh - 5px);
+  height: calc(100vh - 95px);
 }
 
 .fadedScroller_fade {
@@ -82,6 +82,7 @@
 }
 
 .side-p-10 {
+  padding-top: 10px;
   padding-left: 10px;
   padding-right: 10px;
 }
@@ -166,6 +167,8 @@ html {
   cursor: pointer;
 }
 
+/* fix below table pushing out */
+
 table.adp-directions {
   width: 100%;
   transition: 3s all cubic-bezier(0, 1.5, 1, 1.5);
@@ -184,6 +187,8 @@ table.adp-directions th,
 table.adp-directions td {
   padding: 12px 15px;
 }
+
+/* end fix table pushing out */
 
 table.adp-directions tr:hover {
   background: #eaeff1;
@@ -324,7 +329,7 @@ button.map-controls:disabled {
 
 /* top container contains links controls*/
 
-.map-destination-links-container {
+/* .map-destination-links-container {
   margin-top: 10px;
   margin-bottom: 10px;
   padding: 10px;
@@ -340,6 +345,25 @@ button.map-controls:disabled {
   position: relative;
   overflow: hidden;
   box-sizing: border-box;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+} */
+
+.map-destination-links-container {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-left: 10px;
+  text-align: left;
+  display: flex;
+  flex: 1 1;
+  flex-wrap: wrap;
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+  position: absolute;
+  bottom: 0;
+  left: 0;
 }
 
 .css-g1d714-ValueContainer {
@@ -558,4 +582,15 @@ a.pill:active {
   text-shadow: rgb(0 0 0) 1px 1px 2px;
   text-align: left;
   display: flex;
+}
+
+.seconddiv.coolclass {
+  max-height: 100%;
+  overflow: visible;
+}
+
+.seconddiv {
+  max-height: 0%;
+  transition: 0.5s all;
+  overflow: hidden;
 }

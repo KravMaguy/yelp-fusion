@@ -1,10 +1,15 @@
 import { useState, useEffect } from "react";
 import { formatDuration, intervalToDuration } from "date-fns";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import { IoIosBicycle, IoIosCar, IoIosBus, IoIosWalk } from "react-icons/io";
-import { RiDragDropFill, RiDragDropLine } from "react-icons/ri";
-
-import { MdDragIndicator } from "react-icons/md";
+import {
+  IoIosBicycle,
+  IoIosCar,
+  IoIosBus,
+  IoIosWalk,
+  IoIosArrowDropdownCircle,
+  IoIosArrowDropupCircle,
+} from "react-icons/io";
+import { RiDragDropLine } from "react-icons/ri";
 
 // a little function to help you with reordering the result
 const reorder = (list, startIndex, endIndex) => {
@@ -269,8 +274,6 @@ const DragPlanDirections = ({
                     >
                       {(provided, snapshot) => (
                         <div
-                          className=""
-                          onClick={() => handleSelectBox(idx + 1)}
                           ref={provided.innerRef}
                           {...provided.draggableProps}
                           {...provided.dragHandleProps}
@@ -292,8 +295,8 @@ const DragPlanDirections = ({
                             <div
                               className={
                                 idx + 1 === currIdx && currIdx !== collapsed
-                                  ? "points-container"
-                                  : "hidden"
+                                  ? "points-container seconddiv coolclass"
+                                  : "seconddiv hidden"
                               }
                             >
                               <div className="numberCircle">
@@ -308,27 +311,59 @@ const DragPlanDirections = ({
                               <div
                                 className={
                                   idx + 1 === currIdx && currIdx !== collapsed
-                                    ? "text top"
-                                    : "hidden"
+                                    ? "text top seconddiv coolclass"
+                                    : "seconddiv"
                                 }
                               >
                                 <p>
                                   {previous ? previous.name : "Your location"}
                                 </p>
                               </div>
-                              <div className="text">
-                                <p>{location.name}</p>
-                              </div>
-                              <button
-                                className={
-                                  idx + 1 === currIdx && currIdx !== collapsed
-                                    ? ""
-                                    : "hidden"
-                                }
-                                onClick={() => setCollapsed(idx + 1)}
+                              <div
+                                className="someclass"
+                                style={{ display: "flex" }}
                               >
-                                X
-                              </button>
+                                <div className="text">
+                                  <p>
+                                    {location.name}
+                                    <br />
+                                    {location?.location?.address1}
+                                  </p>
+                                </div>
+
+                                {idx + 1 === currIdx &&
+                                currIdx !== collapsed ? (
+                                  <button
+                                    style={{
+                                      position: "absolute",
+                                      right: 0,
+                                      top: 0,
+                                      background: "inherit",
+                                      border: "0px",
+                                    }}
+                                    onClick={() => setCollapsed(idx + 1)}
+                                  >
+                                    <IoIosArrowDropupCircle
+                                      style={{ fill: "#ddddddbf" }}
+                                    />
+                                  </button>
+                                ) : (
+                                  <button
+                                    style={{
+                                      position: "absolute",
+                                      right: 0,
+                                      top: 0,
+                                      background: "inherit",
+                                      border: "0px",
+                                    }}
+                                    onClick={() => handleSelectBox(idx + 1)}
+                                  >
+                                    <IoIosArrowDropdownCircle
+                                      style={{ fill: "#ddddddbf" }}
+                                    />
+                                  </button>
+                                )}
+                              </div>
                             </div>
                           </div>
                           <div
