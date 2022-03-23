@@ -50,6 +50,8 @@ const DragPlanDirections = ({
   checkDriving,
   data,
   center,
+  collapsed,
+  setCollapsed,
 }) => {
   const [distance, setDistance] = useState(null);
   const [time, setTime] = useState(null);
@@ -149,7 +151,7 @@ const DragPlanDirections = ({
     setIdx(0);
     setResponse(null);
   };
-
+  console.log({ collapsed });
   return (
     <div className="col plan-col-right">
       <div className="plan-directions-container">
@@ -218,8 +220,8 @@ const DragPlanDirections = ({
           </form>
           <div
             style={{
-              color: currIdx === 0 ? "white" : "black",
-              textShadow: currIdx === 0 ? "1px 1px 2px #000000" : "none",
+              color: "white",
+              textShadow: "1px 1px 2px #000000",
             }}
             className="plan-card-shell align-left plan-top-card"
             onClick={() => viewFullPlan()}
@@ -228,24 +230,20 @@ const DragPlanDirections = ({
               <div className="mdc-card-wrapper__text-section">
                 <div className="demo-card__title">
                   <div
-                    className={`numberCircle ${
-                      currIdx === 0 ? "greyish-bg" : "red-bg"
-                    } white-border`}
+                    className={`numberCircle greyish-bg                 white-border`}
                   >
                     {derivedData.length - 1}
                   </div>
-                  <span className="text font-big">Total locations</span>
+                  <span className="text font-big">Locations</span>
                 </div>
-                <div className="demo-card__subhead">
+                <div className="">
                   {`${travelModeStrings[travelMode]} ${
                     distance &&
                     Math.round((distance / 1000 / 1.609) * 100) / 100
                   }`}{" "}
                   miles
                 </div>
-                <div className="demo-card__subhead">
-                  {time && humanDuration(time)}
-                </div>
+                <div className="">{time && humanDuration(time)}</div>
               </div>
             </div>
           </div>
@@ -285,7 +283,7 @@ const DragPlanDirections = ({
                             style={{
                               color: currIdx === idx + 1 ? "white" : "black",
                               textShadow:
-                                currIdx === idx + 1
+                                idx + 1 === currIdx
                                   ? "1px 1px 2px #000000"
                                   : "none",
                             }}
@@ -293,7 +291,7 @@ const DragPlanDirections = ({
                           >
                             <div
                               className={
-                                idx + 1 === currIdx
+                                idx + 1 === currIdx && currIdx !== collapsed
                                   ? "points-container"
                                   : "hidden"
                               }
@@ -309,7 +307,9 @@ const DragPlanDirections = ({
                             <div className="locations">
                               <div
                                 className={
-                                  idx + 1 === currIdx ? "text top" : "hidden"
+                                  idx + 1 === currIdx && currIdx !== collapsed
+                                    ? "text top"
+                                    : "hidden"
                                 }
                               >
                                 <p>
@@ -319,11 +319,23 @@ const DragPlanDirections = ({
                               <div className="text">
                                 <p>{location.name}</p>
                               </div>
+                              <button
+                                className={
+                                  idx + 1 === currIdx && currIdx !== collapsed
+                                    ? ""
+                                    : "hidden"
+                                }
+                                onClick={() => setCollapsed(idx + 1)}
+                              >
+                                X
+                              </button>
                             </div>
                           </div>
                           <div
                             className={
-                              idx + 1 === currIdx ? "none mt-40" : "hidden"
+                              idx + 1 === currIdx && collapsed !== currIdx
+                                ? "mt-40"
+                                : "hidden"
                             }
                             id={`panel-${idx + 1}`}
                           />
