@@ -182,20 +182,15 @@ const DragPlan = ({ center, data }) => {
   };
 
   const getLocStr = () => {
-    const latlongArr = data.map((x) => {
-      console.log(x.coordinates.latitude, x.coordinates.longitude);
+    const latlongArr = derivedData.map((x) => {
       return [x.coordinates.latitude, x.coordinates.longitude];
     });
-    // 0: (2) [41.9901150128242, -87.6696621693116]
-    // 1: (2) [41.9673652648926, -87.6873321533203]
-    // 2: (2) [42.0118849, -87.7271591]
-    // 3: (2) [41.9709525257349, -87.6901070773602]
     if (currIdx === 0) {
-      const str = latlongArr.map((e) => e.join(",")).join("/");
-      return str;
-    } else {
-      return "#??";
+      return latlongArr.map((e) => e.join(",")).join("/");
     }
+    return (
+      latlongArr[currIdx - 1].join(",") + "/" + latlongArr[currIdx].join(",")
+    );
   };
 
   return (

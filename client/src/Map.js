@@ -82,7 +82,7 @@ export default function Map(props) {
   return (
     <GoogleMap
       // options={options}
-      options={{ clickableIcons: false, styles: mapStyle }}
+      options={{ clickableIcons: true, styles: mapStyle }}
       mapContainerStyle={containerStyle}
       center={center}
       zoom={zoom}
