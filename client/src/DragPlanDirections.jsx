@@ -65,6 +65,7 @@ const DragPlanDirections = ({
 }) => {
   const [distance, setDistance] = useState(null);
   const [time, setTime] = useState(null);
+  const [open, setIsOpen] = useState(false);
   console.log(data, "data");
   const onDragEnd = (result) => {
     if (!result.destination) {
@@ -229,12 +230,23 @@ const DragPlanDirections = ({
                 <IoIosWalk />
               </label>
             </div>
-            <button
-              onClick={(e) => resetForm(e)}
-              className="no-link pure-material-button-text"
-            >
-              Reset
-            </button>
+            <div>
+              <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  setIsOpen(!open);
+                }}
+                className="no-link small-ui pure-material-button-text"
+              >
+                {!open ? "Close" : "Open"}
+              </button>
+              <button
+                onClick={(e) => resetForm(e)}
+                className="no-link pure-material-button-text"
+              >
+                Reset
+              </button>
+            </div>
           </form>
           <div
             style={{
@@ -266,163 +278,176 @@ const DragPlanDirections = ({
               </div>
             </div>
           </div>
-          <div className="dnd-text">
-            <RiDragDropLine style={{ opacity: 0.9 }} />
-            {`Drag and Drop`}
-          </div>
-        </div>
-        <DragDropContext onDragEnd={onDragEnd}>
-          <Droppable droppableId="droppable">
-            {(provided, snapshot) => (
-              <div
-                ref={provided.innerRef}
-                style={getListStyle(snapshot.isDraggingOver)}
-              >
-                {derivedData.slice(1).map((location, idx, arr) => {
-                  let previous = arr[idx - 1];
-                  console.log(location, "location");
-                  return (
-                    <Draggable
-                      className="draggable-element"
-                      key={location.id}
-                      draggableId={location.id}
-                      index={idx}
-                    >
-                      {(provided, snapshot) => (
-                        <div
-                          ref={provided.innerRef}
-                          {...provided.draggableProps}
-                          {...provided.dragHandleProps}
-                          style={getItemStyle(
-                            snapshot.isDragging,
-                            provided.draggableProps.style,
-                            currIdx,
-                            idx,
-                            collapsed
-                          )}
+          <div
+            className={open ? "show-messages" : "show-messages hidden-message"}
+          >
+            <div className="dnd-text">
+              <RiDragDropLine style={{ opacity: 0.9 }} />
+              {`Drag and Drop`}
+            </div>
+
+            <DragDropContext onDragEnd={onDragEnd}>
+              <Droppable droppableId="droppable">
+                {(provided, snapshot) => (
+                  <div
+                    ref={provided.innerRef}
+                    style={getListStyle(snapshot.isDraggingOver)}
+                  >
+                    {derivedData.slice(1).map((location, idx, arr) => {
+                      let previous = arr[idx - 1];
+                      console.log(location, "location");
+                      return (
+                        <Draggable
+                          className="draggable-element"
+                          key={location.id}
+                          draggableId={location.id}
+                          index={idx}
                         >
-                          <div
-                            style={{
-                              color: currIdx === idx + 1 ? "white" : "black",
-                              textShadow:
-                                idx + 1 === currIdx
-                                  ? "1px 1px 2px #000000"
-                                  : "none",
-                            }}
-                            className="plan-card"
-                          >
+                          {(provided, snapshot) => (
                             <div
-                              className={
-                                idx + 1 === currIdx && currIdx !== collapsed
-                                  ? "points-container seconddiv coolclass"
-                                  : "seconddiv hidden"
-                              }
+                              ref={provided.innerRef}
+                              {...provided.draggableProps}
+                              {...provided.dragHandleProps}
+                              style={getItemStyle(
+                                snapshot.isDragging,
+                                provided.draggableProps.style,
+                                currIdx,
+                                idx,
+                                collapsed
+                              )}
                             >
-                              <div className="numberCircle">
-                                {String.fromCharCode("A".charCodeAt(0) + idx)}
+                              <div
+                                style={{
+                                  color:
+                                    currIdx === idx + 1 ? "white" : "black",
+                                  textShadow:
+                                    idx + 1 === currIdx
+                                      ? "1px 1px 2px #000000"
+                                      : "none",
+                                }}
+                                className="plan-card"
+                              >
+                                <div
+                                  className={
+                                    idx + 1 === currIdx && currIdx !== collapsed
+                                      ? "points-container seconddiv coolclass"
+                                      : "seconddiv hidden"
+                                  }
+                                >
+                                  <div className="numberCircle">
+                                    {String.fromCharCode(
+                                      "A".charCodeAt(0) + idx
+                                    )}
+                                  </div>
+                                  <div className="line"></div>
+                                  <div className="numberCircle">
+                                    {String.fromCharCode(
+                                      "B".charCodeAt(0) + idx
+                                    )}
+                                  </div>
+                                </div>
+                                <div className="locations">
+                                  <div
+                                    className={
+                                      idx + 1 === currIdx &&
+                                      currIdx !== collapsed
+                                        ? "text top seconddiv coolclass"
+                                        : "seconddiv"
+                                    }
+                                  >
+                                    <p>
+                                      {previous
+                                        ? previous.name
+                                        : "Your location"}
+                                    </p>
+                                  </div>
+                                  <div style={{ display: "flex" }}>
+                                    <div className="text">
+                                      <p>{location.name} </p>
+                                      {}
+                                      <p class="drag-address">
+                                        {idx + 1 !== currIdx && (
+                                          <a
+                                            style={{ fontStyle: "italic" }}
+                                            className=""
+                                            href={`https://www.google.com/maps?q=${encodeURI(
+                                              `${location.name} ${location?.address1} ${location?.city} ${location?.zip}`
+                                            )}`}
+                                            target="_blank"
+                                          >
+                                            {location?.address1}
+                                          </a>
+                                        )}
+                                      </p>
+                                    </div>
+
+                                    {idx + 1 === currIdx &&
+                                    currIdx !== collapsed ? (
+                                      <button
+                                        style={{
+                                          position: "absolute",
+                                          right: 0,
+                                          top: 0,
+                                          background: "inherit",
+                                          border: "0px",
+                                        }}
+                                        onClick={() => setCollapsed(idx + 1)}
+                                      >
+                                        <IoIosArrowDropupCircle
+                                          style={{
+                                            fill: "#e4e8eb",
+                                            filter:
+                                              "drop-shadow(3px 3px 2px rgb(0 0 0 / 0.4))",
+                                          }}
+                                        />
+                                      </button>
+                                    ) : (
+                                      <button
+                                        style={{
+                                          position: "absolute",
+                                          right: 0,
+                                          top: 0,
+                                          background: "inherit",
+                                          border: "0px",
+                                          cursor: "pointer",
+                                        }}
+                                        onClick={() => handleSelectBox(idx + 1)}
+                                      >
+                                        <IoIosArrowDropdownCircle
+                                          style={{
+                                            fill: "#e4e8eb",
+                                            filter:
+                                              "drop-shadow(3px 3px 2px rgb(0 0 0 / 0.4))",
+                                          }}
+                                        />
+                                      </button>
+                                    )}
+                                  </div>
+                                </div>
                               </div>
-                              <div className="line"></div>
-                              <div className="numberCircle">
-                                {String.fromCharCode("B".charCodeAt(0) + idx)}
-                              </div>
-                            </div>
-                            <div className="locations">
                               <div
                                 className={
-                                  idx + 1 === currIdx && currIdx !== collapsed
-                                    ? "text top seconddiv coolclass"
-                                    : "seconddiv"
+                                  idx + 1 === currIdx && collapsed !== currIdx
+                                    ? "mt-40"
+                                    : "hidden"
                                 }
-                              >
-                                <p>
-                                  {previous ? previous.name : "Your location"}
-                                </p>
-                              </div>
-                              <div style={{ display: "flex" }}>
-                                <div className="text">
-                                  <p>{location.name} </p>
-                                  {}
-                                  <p class="drag-address">
-                                    {idx + 1 !== currIdx && (
-                                      <a
-                                        style={{ fontStyle: "italic" }}
-                                        className=""
-                                        href={`https://www.google.com/maps?q=${encodeURI(
-                                          `${location.name} ${location?.address1} ${location?.city} ${location?.zip}`
-                                        )}`}
-                                        target="_blank"
-                                      >
-                                        {location?.address1}
-                                      </a>
-                                    )}
-                                  </p>
-                                </div>
-
-                                {idx + 1 === currIdx &&
-                                currIdx !== collapsed ? (
-                                  <button
-                                    style={{
-                                      position: "absolute",
-                                      right: 0,
-                                      top: 0,
-                                      background: "inherit",
-                                      border: "0px",
-                                    }}
-                                    onClick={() => setCollapsed(idx + 1)}
-                                  >
-                                    <IoIosArrowDropupCircle
-                                      style={{
-                                        fill: "#e4e8eb",
-                                        filter:
-                                          "drop-shadow(3px 3px 2px rgb(0 0 0 / 0.4))",
-                                      }}
-                                    />
-                                  </button>
-                                ) : (
-                                  <button
-                                    style={{
-                                      position: "absolute",
-                                      right: 0,
-                                      top: 0,
-                                      background: "inherit",
-                                      border: "0px",
-                                      cursor: "pointer",
-                                    }}
-                                    onClick={() => handleSelectBox(idx + 1)}
-                                  >
-                                    <IoIosArrowDropdownCircle
-                                      style={{
-                                        fill: "#e4e8eb",
-                                        filter:
-                                          "drop-shadow(3px 3px 2px rgb(0 0 0 / 0.4))",
-                                      }}
-                                    />
-                                  </button>
-                                )}
-                              </div>
+                                id={`panel-${idx + 1}`}
+                              />
                             </div>
-                          </div>
-                          <div
-                            className={
-                              idx + 1 === currIdx && collapsed !== currIdx
-                                ? "mt-40"
-                                : "hidden"
-                            }
-                            id={`panel-${idx + 1}`}
-                          />
-                        </div>
-                      )}
-                    </Draggable>
-                  );
-                })}
+                          )}
+                        </Draggable>
+                      );
+                    })}
 
-                {provided.placeholder}
-              </div>
-            )}
-          </Droppable>
-        </DragDropContext>
+                    {provided.placeholder}
+                  </div>
+                )}
+              </Droppable>
+            </DragDropContext>
+          </div>
+        </div>
+        <div className="fadedScroller_fade"></div>
       </div>
-      <div className="fadedScroller_fade"></div>
     </div>
   );
 };
