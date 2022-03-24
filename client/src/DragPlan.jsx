@@ -40,7 +40,9 @@ const DragPlan = ({ center, data }) => {
         name: x.name,
         coordinates: x.coordinates,
         url: x.url,
-        location: x.location.address1,
+        address1: x.location?.address1,
+        city: x.location?.city,
+        zip: x.location?.zip,
       };
     });
     derivedData.unshift({
@@ -205,7 +207,7 @@ const DragPlan = ({ center, data }) => {
 
   return (
     <>
-      <div className="row">
+      <div className="row map-plan-row">
         <div className="col col-left side-p-10">
           <div className="plan-map-container">
             <div className="map-card-controls">
@@ -343,7 +345,9 @@ const DragPlan = ({ center, data }) => {
                 <div className="css-1rhbuit-multiValue">
                   <div className="css-12jo7m5">
                     <a className="pill" target="_blank" href={x.url}>
-                      {x.name}
+                      {x.name.length > 30
+                        ? x.name.slice(0, 29) + "..."
+                        : x.name}
                     </a>
                   </div>
                   <div

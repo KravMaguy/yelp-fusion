@@ -3,6 +3,22 @@
 .col {
 }
 
+.col-left {
+  width: 60%;
+  float: left;
+}
+
+.plan-col-right {
+  width: 40%;
+  float: right;
+}
+
+.side-p-10 {
+  padding-top: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
 .map-wrapper {
   box-shadow: 0 0 0 2px rgb(255 255 255);
   height: calc(100vh - 170px);
@@ -54,14 +70,10 @@
   border-top-right-radius: 2px;
   border-bottom-right-radius: 2px;
 }
-.plan-col-right {
-  width: 40%;
-  float: right;
-}
 
 .plan-directions-container {
   overflow-y: auto;
-  height: calc(100vh - 95px);
+  height: calc(100vh - 90px);
 }
 
 .fadedScroller_fade {
@@ -74,17 +86,6 @@
   width: 100%;
   height: 5px;
   bottom: 5px;
-}
-
-.col-left {
-  width: 60%;
-  float: left;
-}
-
-.side-p-10 {
-  padding-top: 10px;
-  padding-left: 10px;
-  padding-right: 10px;
 }
 
 .hidden {
@@ -139,7 +140,7 @@ html {
 .text {
   font: 18px Arial, sans-serif;
   padding: 5px;
-  line-height: 0.9;
+  /* line-height: 0.9; */
 }
 
 .align-left {
@@ -201,6 +202,12 @@ table.adp-directions td {
   }
 }
 
+@media screen and (max-width: 600px) and (min-width: 577px) {
+  table.adp-directions th,
+  table.adp-directions td {
+    padding: 3px 2px;
+  }
+}
 /* end fix table pushing out */
 
 table.adp-directions tr:hover {
@@ -607,3 +614,36 @@ a.pill:active {
   transition: 0.5s all;
   overflow: hidden;
 }
+
+/* drag styles */
+
+/* end drag styles */
+
+/* cellphone responsive layout 576 px and under */
+
+@media screen and (max-width: 576px) {
+  .col-left {
+    width: 100%;
+    float: none;
+  }
+  .plan-col-right {
+    width: 100%;
+    float: none;
+  }
+  .row.map-plan-row {
+    display: flex;
+    flex-direction: column-reverse;
+  }
+
+  .map-destination-links-container {
+    position: relative;
+  }
+  .plan-directions-container {
+    height: 100%;
+  }
+  .side-p-10 {
+    padding-bottom: 10px;
+  }
+}
+
+/* end cellphone responsive layout */

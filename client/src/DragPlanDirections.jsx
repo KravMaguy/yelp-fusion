@@ -21,15 +21,16 @@ const reorder = (list, startIndex, endIndex) => {
 };
 
 const grid = 8;
-
+const highlightedColor = "#8d7fbf";
 const getItemStyle = (isDragging, draggableStyle, currIdx, idx, collapsed) => ({
   userSelect: "none",
+  cursor: "move",
   padding: grid * 2,
   margin: `0 0 ${grid}px 0`,
   background: isDragging
     ? "lightgreen"
     : currIdx === idx + 1
-    ? "#8d7fbf"
+    ? highlightedColor
     : "grey",
 
   // styles we need to apply on draggables
@@ -140,7 +141,9 @@ const DragPlanDirections = ({
         name: x.name,
         coordinates: x.coordinates,
         url: x.url,
-        location: x.location.address1,
+        address1: x.location?.address1,
+        city: x.location?.city,
+        zip: x.location?.zip,
       };
     });
     derivedData.unshift({
@@ -237,7 +240,7 @@ const DragPlanDirections = ({
             style={{
               color: "white",
               textShadow: "1px 1px 2px #000000",
-              background: currIdx === 0 && "#8d7fbf",
+              background: currIdx === 0 && highlightedColor,
             }}
             className="plan-card-shell align-left plan-top-card"
             onClick={() => viewFullPlan()}
@@ -280,6 +283,7 @@ const DragPlanDirections = ({
                   console.log(location, "location");
                   return (
                     <Draggable
+                      className="draggable-element"
                       key={location.id}
                       draggableId={location.id}
                       index={idx}
@@ -337,8 +341,20 @@ const DragPlanDirections = ({
                               <div style={{ display: "flex" }}>
                                 <div className="text">
                                   <p>{location.name} </p>
+                                  {}
                                   <p class="drag-address">
-                                    {location?.location}
+                                    {idx + 1 !== currIdx && (
+                                      <a
+                                        style={{ fontStyle: "italic" }}
+                                        className=""
+                                        href={`https://www.google.com/maps?q=${encodeURI(
+                                          `${location.name} ${location?.address1} ${location?.city} ${location?.zip}`
+                                        )}`}
+                                        target="_blank"
+                                      >
+                                        {location?.address1}
+                                      </a>
+                                    )}
                                   </p>
                                 </div>
 
@@ -370,6 +386,7 @@ const DragPlanDirections = ({
                                       top: 0,
                                       background: "inherit",
                                       border: "0px",
+                                      cursor: "pointer",
                                     }}
                                     onClick={() => handleSelectBox(idx + 1)}
                                   >
@@ -403,9 +420,9 @@ const DragPlanDirections = ({
               </div>
             )}
           </Droppable>
-          <div className="fadedScroller_fade"></div>
         </DragDropContext>
       </div>
+      <div className="fadedScroller_fade"></div>
     </div>
   );
 };
