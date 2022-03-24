@@ -167,8 +167,6 @@ html {
   cursor: pointer;
 }
 
-/* fix below table pushing out */
-
 table.adp-directions {
   width: 100%;
   transition: 3s all cubic-bezier(0, 1.5, 1, 1.5);
@@ -186,6 +184,21 @@ table.adp-directions {
 table.adp-directions th,
 table.adp-directions td {
   padding: 12px 15px;
+}
+
+/* fix below table pushing out */
+@media screen and (max-width: 800px) and (min-width: 700px) {
+  table.adp-directions th,
+  table.adp-directions td {
+    padding: 8px 9px;
+  }
+}
+
+@media screen and (max-width: 700px) and (min-width: 600px) {
+  table.adp-directions th,
+  table.adp-directions td {
+    padding: 6px 5px;
+  }
 }
 
 /* end fix table pushing out */

@@ -22,11 +22,15 @@ const reorder = (list, startIndex, endIndex) => {
 
 const grid = 8;
 
-const getItemStyle = (isDragging, draggableStyle) => ({
+const getItemStyle = (isDragging, draggableStyle, currIdx, idx, collapsed) => ({
   userSelect: "none",
   padding: grid * 2,
   margin: `0 0 ${grid}px 0`,
-  background: isDragging ? "lightgreen" : "grey",
+  background: isDragging
+    ? "lightgreen"
+    : currIdx === idx + 1
+    ? "#8d7fbf"
+    : "grey",
 
   // styles we need to apply on draggables
   ...draggableStyle,
@@ -131,7 +135,13 @@ const DragPlanDirections = ({
   const resetForm = (e) => {
     e.preventDefault();
     const derivedData = data.map((x) => {
-      return { id: x.id, name: x.name, coordinates: x.coordinates, url: x.url };
+      return {
+        id: x.id,
+        name: x.name,
+        coordinates: x.coordinates,
+        url: x.url,
+        location: x.location.address1,
+      };
     });
     derivedData.unshift({
       name: "starting Location",
@@ -227,6 +237,7 @@ const DragPlanDirections = ({
             style={{
               color: "white",
               textShadow: "1px 1px 2px #000000",
+              background: currIdx === 0 && "#8d7fbf",
             }}
             className="plan-card-shell align-left plan-top-card"
             onClick={() => viewFullPlan()}
@@ -266,6 +277,7 @@ const DragPlanDirections = ({
               >
                 {derivedData.slice(1).map((location, idx, arr) => {
                   let previous = arr[idx - 1];
+                  console.log(location, "location");
                   return (
                     <Draggable
                       key={location.id}
@@ -279,7 +291,10 @@ const DragPlanDirections = ({
                           {...provided.dragHandleProps}
                           style={getItemStyle(
                             snapshot.isDragging,
-                            provided.draggableProps.style
+                            provided.draggableProps.style,
+                            currIdx,
+                            idx,
+                            collapsed
                           )}
                         >
                           <div
@@ -319,15 +334,11 @@ const DragPlanDirections = ({
                                   {previous ? previous.name : "Your location"}
                                 </p>
                               </div>
-                              <div
-                                className="someclass"
-                                style={{ display: "flex" }}
-                              >
+                              <div style={{ display: "flex" }}>
                                 <div className="text">
-                                  <p>
-                                    {location.name}
-                                    <br />
-                                    {location?.location?.address1}
+                                  <p>{location.name} </p>
+                                  <p class="drag-address">
+                                    {location?.location}
                                   </p>
                                 </div>
 
@@ -344,7 +355,11 @@ const DragPlanDirections = ({
                                     onClick={() => setCollapsed(idx + 1)}
                                   >
                                     <IoIosArrowDropupCircle
-                                      style={{ fill: "#ddddddbf" }}
+                                      style={{
+                                        fill: "#e4e8eb",
+                                        filter:
+                                          "drop-shadow(3px 3px 2px rgb(0 0 0 / 0.4))",
+                                      }}
                                     />
                                   </button>
                                 ) : (
@@ -359,7 +374,11 @@ const DragPlanDirections = ({
                                     onClick={() => handleSelectBox(idx + 1)}
                                   >
                                     <IoIosArrowDropdownCircle
-                                      style={{ fill: "#ddddddbf" }}
+                                      style={{
+                                        fill: "#e4e8eb",
+                                        filter:
+                                          "drop-shadow(3px 3px 2px rgb(0 0 0 / 0.4))",
+                                      }}
                                     />
                                   </button>
                                 )}

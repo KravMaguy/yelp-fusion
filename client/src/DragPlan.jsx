@@ -35,7 +35,13 @@ const DragPlan = ({ center, data }) => {
 
   useEffect(() => {
     const derivedData = data.map((x) => {
-      return { id: x.id, name: x.name, coordinates: x.coordinates, url: x.url };
+      return {
+        id: x.id,
+        name: x.name,
+        coordinates: x.coordinates,
+        url: x.url,
+        location: x.location.address1,
+      };
     });
     derivedData.unshift({
       name: "starting Location",
