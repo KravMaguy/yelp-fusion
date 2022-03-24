@@ -62,10 +62,11 @@ const DragPlanDirections = ({
   center,
   collapsed,
   setCollapsed,
+  open,
+  setIsOpen,
 }) => {
   const [distance, setDistance] = useState(null);
   const [time, setTime] = useState(null);
-  const [open, setIsOpen] = useState(false);
   console.log(data, "data");
   const onDragEnd = (result) => {
     if (!result.destination) {
@@ -173,7 +174,13 @@ const DragPlanDirections = ({
   console.log({ collapsed });
   return (
     <div className="col plan-col-right">
-      <div className="plan-directions-container">
+      <div
+        className={`${
+          !open
+            ? "plan-directions-container"
+            : "plan-directions-container no-bottom-pad"
+        }`}
+      >
         <div className="plan-inner-container">
           <form className="bg-grey-plan-controls">
             <div className="radio-wrapper">
@@ -265,7 +272,7 @@ const DragPlanDirections = ({
                   >
                     {derivedData.length - 1}
                   </div>
-                  <span className="text font-big">Locations</span>
+                  <span className="text font-big">Total Locations</span>
                 </div>
                 <div className="">
                   {`${travelModeStrings[travelMode]} ${
@@ -278,9 +285,7 @@ const DragPlanDirections = ({
               </div>
             </div>
           </div>
-          <div
-            className={open ? "show-messages" : "show-messages hidden-message"}
-          >
+          <div className={open && "hidden"}>
             <div className="dnd-text">
               <RiDragDropLine style={{ opacity: 0.9 }} />
               {`Drag and Drop`}
@@ -446,7 +451,7 @@ const DragPlanDirections = ({
             </DragDropContext>
           </div>
         </div>
-        <div className="fadedScroller_fade"></div>
+        {/* <div className="fadedScroller_fade"></div> */}
       </div>
     </div>
   );

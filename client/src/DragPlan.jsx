@@ -22,6 +22,7 @@ const DragPlan = ({ center, data }) => {
   if (!data) {
     data = maObjs;
   }
+  const [open, setIsOpen] = useState(false);
 
   const [zoom, setZoom] = useState(10);
   const [derivedData, setDerivedData] = useState([]);
@@ -234,11 +235,12 @@ const DragPlan = ({ center, data }) => {
 
               <button className="pure-material-button-text pink-bg">
                 <a
+                  alt="view this plan on google maps"
                   target="blank"
                   style={{ display: "flex" }}
                   href={`https://www.google.com/maps/dir/${getLocStr()}`}
                 >
-                  on
+                  <span class="map-link-text-hide">on</span>
                   <img
                     alt="google-directions-link"
                     style={{ height: "31px" }}
@@ -247,7 +249,11 @@ const DragPlan = ({ center, data }) => {
                 </a>
               </button>
             </div>
-            <main className={"map-wrapper"}>
+            <main
+              className={`map-wrapper ${
+                open ? "closed-map-control-size" : "open-map-control-size"
+              }`}
+            >
               <Map center={center} zoom={zoom} setZoom={setZoom}>
                 {!response && !path && destination && origin && (
                   <DirectionsService
@@ -316,6 +322,8 @@ const DragPlan = ({ center, data }) => {
         </div>
 
         <DragPlanDirections
+          open={open}
+          setIsOpen={setIsOpen}
           currIdx={currIdx}
           setIdx={setIdx}
           handleSelectBox={handleSelectBox}
@@ -337,7 +345,7 @@ const DragPlan = ({ center, data }) => {
           setCollapsed={setCollapsed}
         />
       </div>
-      <div>
+      {!open && (
         <div className="map-destination-links-container">
           {derivedData.map(
             (x, idx) =>
@@ -371,7 +379,7 @@ const DragPlan = ({ center, data }) => {
               )
           )}
         </div>
-      </div>
+      )}
     </>
   );
 };
