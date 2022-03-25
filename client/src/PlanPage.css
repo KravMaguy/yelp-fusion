@@ -78,9 +78,6 @@
   /* border-bottom: 10px solid lightgrey; */
 }
 
-.plan-inner-container {
-  box-shadow: 0 4px 2px -2px lightgrey;
-}
 /* .fadedScroller_fade {
   background: linear-gradient(
     to top,
@@ -677,7 +674,7 @@ a.pill:active {
   transform: rotate(-180deg);
 } */
 
-@media screen and (min-width: 800px) {
+@media screen and (min-width: 880px) {
   .map-destination-links-container {
     position: relative;
   }
