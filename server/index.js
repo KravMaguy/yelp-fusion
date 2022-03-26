@@ -12,12 +12,8 @@ const path = require("path");
 
 axios.defaults.headers.common["Authorization"] = `Bearer ${process.env.token}`;
 axios.defaults.baseURL = "https://api.yelp.com/v3/";
-
-app.use(express.static(path.join(__dirname, "build")));
-
-app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "build", "index.html"));
-});
+const publicPath = path.join(__dirname, "build");
+app.use(express.static(publicPath));
 
 app.use(
   cookieSession({
@@ -146,6 +142,8 @@ app.get("/autocomplete/:text", async (req, res) => {
     .then((response) => res.json(response.data))
     .catch((err) => res.status(err.response.status).send(err.message));
 });
+
+app.use("*", express.static(publicPath));
 
 app.listen("5000", () => {
   console.log("Server is running!");
