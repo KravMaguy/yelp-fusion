@@ -8,9 +8,17 @@ const passport = require("passport");
 const authRoute = require("./routes/auth");
 const app = express();
 const axios = require("axios");
+const path = require("path");
 
 axios.defaults.headers.common["Authorization"] = `Bearer ${process.env.token}`;
 axios.defaults.baseURL = "https://api.yelp.com/v3/";
+
+app.use(express.static(path.join(__dirname, "build")));
+
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "build", "index.html"));
+});
+
 app.use(
   cookieSession({
     name: "session",
